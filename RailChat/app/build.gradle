@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 22
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "hagenberg.fh_ooe.at.railchat"
-        minSdkVersion 16
-        targetSdkVersion 23
+        applicationId "at.fhooe.mc.android"
+        minSdkVersion 18
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -20,9 +20,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
-    compile 'com.android.support:design:24.0.0-alpha2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.firebase:firebase-client-android:2.3.1'
+    compile 'com.android.support:support-v4:22.2.1'
 }

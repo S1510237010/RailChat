@@ -1,4 +1,4 @@
-package hagenberg.fh_ooe.at.railchat;
+package at.fhooe.mc.android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
