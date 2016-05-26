@@ -8,6 +8,12 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="always"
         android:title="@string/action_settings" />
+
+    <item
+        android:id="@+id/add_button"
+        android:title="@string/add_button"
+        android:showAsAction="always"
+        />
 </menu>

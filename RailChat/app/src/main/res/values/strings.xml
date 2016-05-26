@@ -4,14 +4,19 @@
     <string name="title_travel_Settings">Your Travels</string>
     <string name="title_activity_main_menue">main_menue</string>
 
-    <string name="title_section1">Section 1</string>
+    <string name="title_section1">My Travels</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+
+    <string name="add_button">Add</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
     <string name="title_activity_railchat_main_menue">railchat_main_menue</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

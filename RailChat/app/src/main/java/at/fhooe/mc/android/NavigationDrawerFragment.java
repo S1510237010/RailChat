@@ -4,6 +4,8 @@ package at.fhooe.mc.android;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +31,9 @@ import android.widget.Toast;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+
+    private static final String TAG = "DrawerFragment";
 
     /**
      * Remember the position of the selected item.
@@ -94,7 +100,26 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+                ArrayAdapter<String> list = (ArrayAdapter<String>) parent.getAdapter();
+                String elem = list.getItem(position);
+
+                switch(elem) {
+                    case "My Travels" : {
+                        FragmentManager mgr = getFragmentManager();
+                        FragmentTransaction ft = mgr.beginTransaction();
+                        ft.replace(R.id.container, new railchat_my_travels_menue());
+                        ft.addToBackStack(null);
+                        getActionBar().setTitle("My Travels");
+                        //getActionBar().set
+                        ft.commit();
+                    } break;
+
+                    default : {
+                        Log.e(TAG, "unexpected Fragment id encountered!");
+                    }
+                }
+
+                mDrawerLayout.closeDrawers();
             }
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
@@ -263,7 +288,6 @@ public class NavigationDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
     }
 
     private ActionBar getActionBar() {
