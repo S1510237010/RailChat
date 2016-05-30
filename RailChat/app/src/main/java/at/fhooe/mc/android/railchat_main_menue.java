@@ -26,6 +26,9 @@ public class railchat_main_menue extends Activity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public String user = "anna.hausi@gmx.at";
+    public String psw = "1234";
+    public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.

@@ -12,12 +12,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 public class railchat_my_travels_menue extends Fragment {
     private static final String TAG = "Railchat:myTravels";
-    private Firebase database;
+    private FirebaseDatabase database;
+    public DatabaseReference myRef;
+    public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
 
 
     public railchat_my_travels_menue() {
@@ -28,7 +35,10 @@ public class railchat_my_travels_menue extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        database = new Firebase("https://railchat.firebaseio.com/");
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("User");
+        myRef.child(userID);
+
         super.onCreate(savedInstanceState);
     }
 
