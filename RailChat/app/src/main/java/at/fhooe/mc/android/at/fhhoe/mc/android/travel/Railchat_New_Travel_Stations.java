@@ -1,15 +1,11 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.DataSetObserver;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -19,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import at.fhooe.mc.android.R;
 
-public class railchat_new_travel_stations extends Fragment implements View.OnClickListener {
+
+public class Railchat_New_Travel_Stations extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Stations";
     private ArrayList<String> stations = new ArrayList<String>();
@@ -40,10 +37,12 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
     private FirebaseDatabase database;
     public DatabaseReference myRef_Station;
     private int keyFrom, keyTo;
+    private Bundle arguments;
+    static Boolean calledAlready = false;
 
 
 
-    public railchat_new_travel_stations() {
+    public Railchat_New_Travel_Stations() {
         // Required empty public constructor
     }
 
@@ -51,8 +50,10 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        database = FirebaseDatabase.getInstance();
-        new DownloadStations(getActivity()).execute();
+
+
+
+        arguments = getArguments();
 
         return inflater.inflate(R.layout.fragment_railchat_new_travel_stations, container, false);
     }
@@ -62,11 +63,15 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        database = FirebaseDatabase.getInstance();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        new DownloadStations(getActivity()).execute();
 
         EditText edit = (EditText)getView().findViewById(R.id.new_Travel_editText_stations_to);
         edit.setOnClickListener(this);
@@ -75,8 +80,6 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
         edit.setOnClickListener(this);
 
         Button b = (Button)getActivity().findViewById(R.id.new_travel_stations_button_next);
-        b.setOnClickListener(this);
-        b = (Button)getActivity().findViewById(R.id.new_travel_stations_button_back);
         b.setOnClickListener(this);
     }
 
@@ -138,22 +141,20 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
             case R.id.new_travel_stations_button_next:{
 
                 if (from.getText().toString().trim().length() != 0 && to.getText().toString().trim().length() != 0){
-                    Fragment fragment = new railchat_new_travel_train();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("from", from.getText().toString());
-                    bundle.putString("to", to.getText().toString());
-                    bundle.putInt("keyFrom", keyFrom);
-                    bundle.putInt("keyTo", keyTo);
-                    fragment.setArguments(bundle);
+
+                    arguments.putString("from", from.getText().toString());
+                    arguments.putString("to", to.getText().toString());
+                    arguments.putInt("keyFrom", keyFrom);
+                    arguments.putInt("keyTo", keyTo);
+
+                    Fragment fragment = new Railchat_New_Travel_Train();
+                    fragment.setArguments(arguments);
                     ft.replace(R.id.new_travel_frameLayout_fragment, fragment);
                     ft.commit();
                 }
                 else {
                     Toast.makeText(getActivity(), R.string.message_no_station_picked, Toast.LENGTH_LONG).show();
                 }
-            }break;
-            case R.id.new_travel_stations_button_back:{
-                getActivity().finish();
             }break;
             default:{
                 Log.e(TAG, "unexpected Id encountered");
@@ -178,16 +179,17 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
         @Override
         protected Boolean doInBackground(String... strings) {
             myRef_Station = database.getReference("Stations");
+            myRef_Station.keepSynced(true);
             myRef_Station.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> station = dataSnapshot.getChildren();
-                    Iterator<DataSnapshot> iterator = station.iterator();
+                    Iterable<DataSnapshot> stationsIterable = dataSnapshot.getChildren();
+                    Iterator<DataSnapshot> iterator = stationsIterable.iterator();
 
                     while(iterator.hasNext()){
-                        DataSnapshot child = iterator.next();
-                        stations.add(child.child("Name").getValue().toString());
-                        stationKeys.add(child.getKey());
+                        DataSnapshot station = iterator.next();
+                        stations.add(station.child("Name").getValue().toString());
+                        stationKeys.add(station.getKey());
                     }
 
                 }
@@ -202,7 +204,6 @@ public class railchat_new_travel_stations extends Fragment implements View.OnCli
 
 
     }
-
 
 
 }

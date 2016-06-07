@@ -5,21 +5,15 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-public class railchat_main_menue extends Activity
+public class Railchat_Main_Menu extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -115,7 +109,7 @@ public class railchat_main_menue extends Activity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((railchat_main_menue) activity).onSectionAttached(
+            ((Railchat_Main_Menu) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
 

@@ -1,8 +1,6 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
 
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -11,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import at.fhooe.mc.android.R;
 
-public class railchat_new_travel_date extends Fragment implements View.OnClickListener {
+
+public class Railchat_New_Travel_Date extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Date";
 
 
-    public railchat_new_travel_date() {
+    public Railchat_New_Travel_Date() {
         // Required empty public constructor
     }
 
@@ -39,10 +38,7 @@ public class railchat_new_travel_date extends Fragment implements View.OnClickLi
         EditText et = (EditText) getView().findViewById(R.id.new_travel_textEdit_date);
         et.setOnClickListener(this);
 
-        Button b = (Button) getView().findViewById(R.id.new_travel_date_button_back);
-        b.setOnClickListener(this);
-
-        b = (Button) getView().findViewById(R.id.new_travel_date_button_next);
+        Button b = (Button) getView().findViewById(R.id.new_travel_date_button_next);
         b.setOnClickListener(this);
 
     }
@@ -63,7 +59,12 @@ public class railchat_new_travel_date extends Fragment implements View.OnClickLi
                 EditText et = (EditText) getView().findViewById(R.id.new_travel_textEdit_date);
 
                 if (et.getText().toString().trim().length() != 0){
-                    Fragment fragment = new railchat_new_travel_stations();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", et.getText().toString());
+
+                    Fragment fragment = new Railchat_New_Travel_Stations();
+                    fragment.setArguments(bundle);
                     ft.replace(R.id.new_travel_frameLayout_fragment, fragment);
                     ft.commit();
                 }
@@ -71,9 +72,6 @@ public class railchat_new_travel_date extends Fragment implements View.OnClickLi
                     Toast.makeText(getActivity(), R.string.message_no_date_picked, Toast.LENGTH_LONG).show();
                 }
 
-            }break;
-            case R.id.new_travel_date_button_back: {
-               getActivity().finish();
             }break;
             default:{
                 Log.e(TAG, "unexpected ID encountered");

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="at.fhooe.mc.android.railchat_new_travel_date">
+    tools:context=".at.fhhoe.mc.android.travel.Railchat_New_Travel_Date">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -11,6 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right|center_vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/new_travel_date_title"
+                android:id="@+id/new_travel_date_title"
+                android:paddingBottom="@android:dimen/app_icon_size"
+                android:gravity="center"
+                android:paddingTop="@android:dimen/app_icon_size" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -66,11 +83,6 @@
                 android:layout_weight="1"
                 android:gravity="center" >
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/back_button"
-                    android:id="@+id/new_travel_date_button_back" />
             </LinearLayout>
 
             <LinearLayout

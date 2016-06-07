@@ -29,6 +29,13 @@
     <string name="station_from_hint">from which station</string>
     <string name="train_hint">pick train</string>
     <string name="train_text">Train</string>
+    <string name="new_travel_save">Save</string>
+    <string name="new_travel_date_title">When will you do your trip?</string>
+    <string name="new_travel_train_title">Which train do you want to take?</string>
+    <string name="new_travel_stations_title">Where do you want to go?</string>
+    <string name="new_travel_save_title">Do you want to save this travel?</string>
+    <string name="new_travel_listitem_persons_text">Persons</string>
+    <string name="travel_menue_message_no_travels">You dont have any travels saved. :(</string>
 
 
     <string name="message_no_date_picked">Please pick date</string>

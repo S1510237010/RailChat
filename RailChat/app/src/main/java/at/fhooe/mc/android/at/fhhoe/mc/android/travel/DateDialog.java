@@ -1,4 +1,4 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -11,6 +11,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
+
+import at.fhooe.mc.android.R;
 
 /**
  * Created by Anna on 29.05.2016.

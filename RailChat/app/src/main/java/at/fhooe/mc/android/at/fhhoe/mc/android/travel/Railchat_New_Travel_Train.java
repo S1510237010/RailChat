@@ -1,7 +1,8 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
 
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,11 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import at.fhooe.mc.android.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class railchat_new_travel_train extends Fragment implements View.OnClickListener {
+public class Railchat_New_Travel_Train extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Train";
     private final ArrayList<String> railjets = new ArrayList<String>();
@@ -34,8 +37,9 @@ public class railchat_new_travel_train extends Fragment implements View.OnClickL
     public DatabaseReference myRef_RJ;
     String to, from;
     int keyTo, keyFrom;
+    Bundle bundle;
 
-    public railchat_new_travel_train() {
+    public Railchat_New_Travel_Train() {
         // Required empty public constructor
     }
 
@@ -46,7 +50,7 @@ public class railchat_new_travel_train extends Fragment implements View.OnClickL
         database = FirebaseDatabase.getInstance();
         myRef_RJ = database.getReference("RailJets");
 
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         String from = bundle.getString("from");
         String to = bundle.getString("to");
         keyTo = bundle.getInt("keyTo");
@@ -65,10 +69,8 @@ public class railchat_new_travel_train extends Fragment implements View.OnClickL
         EditText et = (EditText) getActivity().findViewById(R.id.new_travel_editText_train);
         et.setOnClickListener(this);
 
-        Button b = (Button) getView().findViewById(R.id.new_travel_train_button_back);
-        b.setOnClickListener(this);
 
-        b = (Button) getView().findViewById(R.id.new_travel_train_button_next);
+        Button b = (Button) getView().findViewById(R.id.new_travel_train_button_next);
         b.setOnClickListener(this);
     }
 
@@ -81,9 +83,21 @@ public class railchat_new_travel_train extends Fragment implements View.OnClickL
 
             case R.id.new_travel_train_button_next:{
 
-            }break;
-            case R.id.new_travel_train_button_back:{
-                getActivity().finish();
+                EditText et = (EditText) getActivity().findViewById(R.id.new_travel_editText_train);
+
+                if (et.getText().toString().trim().length() == 0){
+                    Toast.makeText(getActivity(), "Please pick train", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    bundle.putString("train", et.getText().toString());
+
+                    Fragment fragment = new Railchat_New_Travel_Save();
+                    fragment.setArguments(bundle);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.new_travel_frameLayout_fragment, fragment);
+                    ft.commit();
+                }
+
             }break;
             case R.id.new_travel_editText_train:{
                 if (railjets.size() == 0){
@@ -110,6 +124,7 @@ public class railchat_new_travel_train extends Fragment implements View.OnClickL
 
         }
     }
+
 
     private class DownloadTrains extends AsyncTask<String, Integer, Boolean>{
         @Override

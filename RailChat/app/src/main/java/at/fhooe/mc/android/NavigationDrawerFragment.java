@@ -23,7 +23,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import at.fhooe.mc.android.at.fhhoe.mc.android.travel.Railchat_My_Travels_Menu;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -107,7 +108,7 @@ public class NavigationDrawerFragment extends Fragment {
                     case "My Travels" : {
                         FragmentManager mgr = getFragmentManager();
                         FragmentTransaction ft = mgr.beginTransaction();
-                        ft.replace(R.id.container, new railchat_my_travels_menue());
+                        ft.replace(R.id.container, new Railchat_My_Travels_Menu());
                         ft.addToBackStack(null);
                         getActionBar().setTitle("My Travels");
                         //getActionBar().set

@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppActionBarTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+
 </resources>
