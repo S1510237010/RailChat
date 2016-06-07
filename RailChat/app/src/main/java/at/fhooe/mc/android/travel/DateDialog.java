@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 

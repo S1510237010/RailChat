@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;

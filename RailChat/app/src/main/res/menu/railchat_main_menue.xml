@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Railchat_Main_Menu">
+    tools:context=".main_menu.Railchat_Main_Menu">
 
     <item
         android:id="@+id/action_settings"

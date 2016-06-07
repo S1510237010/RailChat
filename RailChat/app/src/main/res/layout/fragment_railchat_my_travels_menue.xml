@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".at.fhhoe.mc.android.travel.Railchat_My_Travels_Menu">
+    tools:context=".travel.Railchat_My_Travels_Menu">
 
     <!-- TODO: Update blank fragment layout -->
 

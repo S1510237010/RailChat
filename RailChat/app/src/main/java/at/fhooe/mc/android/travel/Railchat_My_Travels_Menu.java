@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,16 +17,16 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.InitializeDatabase;
+import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 public class Railchat_My_Travels_Menu extends Fragment {
     private static final String TAG = "Railchat:myTravels";
-    private FirebaseDatabase database;
     public DatabaseReference myRef;
     public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
     public TravelListArrayAdapter listAdapter;
@@ -40,8 +40,7 @@ public class Railchat_My_Travels_Menu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("User");
+        myRef = Railchat_Main_Menu.database.getDatabase().getReference("User");
         myRef.child(userID);
         listAdapter = new TravelListArrayAdapter(getActivity());
 

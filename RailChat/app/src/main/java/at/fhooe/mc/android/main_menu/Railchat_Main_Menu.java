@@ -1,4 +1,4 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.main_menu;
 
 import android.app.Activity;
 
@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.InitializeDatabase;
+
 public class Railchat_Main_Menu extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -23,6 +26,7 @@ public class Railchat_Main_Menu extends Activity
     public String user = "anna.hausi@gmx.at";
     public String psw = "1234";
     public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
+    public static InitializeDatabase database = new InitializeDatabase();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.

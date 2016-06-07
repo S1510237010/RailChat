@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,13 +20,14 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.InitializeDatabase;
+import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 
 public class Railchat_New_Travel_Stations extends Fragment implements View.OnClickListener {
@@ -34,7 +35,6 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     private static final String TAG = "newTravel:Stations";
     private ArrayList<String> stations = new ArrayList<String>();
     private ArrayList<String> stationKeys = new ArrayList<String>();
-    private FirebaseDatabase database;
     public DatabaseReference myRef_Station;
     private int keyFrom, keyTo;
     private Bundle arguments;
@@ -62,8 +62,6 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        database = FirebaseDatabase.getInstance();
 
     }
 
@@ -178,7 +176,8 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            myRef_Station = database.getReference("Stations");
+
+            myRef_Station = Railchat_Main_Menu.database.getDatabase().getReference("Stations");
             myRef_Station.keepSynced(true);
             myRef_Station.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

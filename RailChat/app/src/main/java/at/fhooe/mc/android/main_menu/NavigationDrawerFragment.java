@@ -1,4 +1,4 @@
-package at.fhooe.mc.android;
+package at.fhooe.mc.android.main_menu;
 
 
 import android.app.Activity;
@@ -24,7 +24,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import at.fhooe.mc.android.at.fhhoe.mc.android.travel.Railchat_My_Travels_Menu;
+import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.travel.Railchat_My_Travels_Menu;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

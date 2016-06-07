@@ -1,10 +1,8 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 import android.app.LauncherActivity;
 
-import java.sql.Time;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 /**
  * Created by Anna on 27.05.2016.

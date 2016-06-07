@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.at.fhhoe.mc.android.travel;
+package at.fhooe.mc.android.travel;
 
 
 import android.app.AlertDialog;
@@ -17,13 +17,14 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.InitializeDatabase;
+import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 
 /**
@@ -33,7 +34,6 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
 
     private static final String TAG = "newTravel:Train";
     private final ArrayList<String> railjets = new ArrayList<String>();
-    private FirebaseDatabase database;
     public DatabaseReference myRef_RJ;
     String to, from;
     int keyTo, keyFrom;
@@ -47,8 +47,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        database = FirebaseDatabase.getInstance();
-        myRef_RJ = database.getReference("RailJets");
+        myRef_RJ = Railchat_Main_Menu.database.getDatabase().getReference("RailJets");
 
         bundle = getArguments();
         String from = bundle.getString("from");
