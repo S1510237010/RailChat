@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion '22.0.1'
     defaultConfig {
         applicationId "at.fhooe.mc.android"
@@ -24,6 +24,10 @@ dependencies {
 
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.google.firebase:firebase-database:9.0.1'
+
+    compile 'com.google.firebase:firebase-auth:9.0.1'
+    compile 'com.firebaseui:firebase-ui-auth:0.4.1'
+
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
 }
