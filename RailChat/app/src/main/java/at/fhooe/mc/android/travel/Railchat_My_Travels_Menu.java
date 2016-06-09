@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -68,12 +69,8 @@ public class Railchat_My_Travels_Menu extends Fragment {
         listView.setAdapter(listAdapter);
         databaseTravel();
 
-        TextView message = (TextView) getView().findViewById(R.id.travel_menue_message_no_travels);
         if (listAdapter.isEmpty()){
-            message.setText(R.string.travel_menue_message_no_travels);
-        }
-        else {
-            message.setText("");
+            Toast.makeText(getActivity(), "You  dont have any Travels saved.. :(", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -212,12 +209,8 @@ public class Railchat_My_Travels_Menu extends Fragment {
 
     private void updateAdapter(){
 
-        TextView message = (TextView) getView().findViewById(R.id.travel_menue_message_no_travels);
         if (listAdapter.isEmpty()){
-            message.setText(R.string.travel_menue_message_no_travels);
-        }
-        else {
-            message.setText("");
+            Toast.makeText(getActivity(), "You  dont have any Travels saved.. :(", Toast.LENGTH_SHORT).show();
         }
 
         listAdapter.notifyDataSetChanged();

@@ -125,9 +125,10 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     }
 
 
-    private class DownloadTrains extends AsyncTask<String, Integer, Boolean>{
+    private class DownloadTrains extends AsyncTask<Void, Void, Void>{
+
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Void doInBackground(Void... voids) {
 
             System.out.println("doInBackground");
 
@@ -256,7 +257,10 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                 }
 
             });
-            return true;
+
+            return null;
         }
+
+
     }
 }

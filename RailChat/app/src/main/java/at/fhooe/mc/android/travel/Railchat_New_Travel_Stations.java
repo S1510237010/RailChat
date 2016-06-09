@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -162,7 +163,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     }
 
 
-    private class DownloadStations extends AsyncTask<String, Integer, Boolean> {
+    private class DownloadStations extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog dialog;
         Activity activity;
@@ -174,8 +175,9 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
             dialog = new ProgressDialog(context);
         }
 
+
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Void doInBackground(Void... voids) {
 
             myRef_Station = Railchat_Main_Menu.database.getDatabase().getReference("Stations");
             myRef_Station.keepSynced(true);
@@ -184,24 +186,25 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> stationsIterable = dataSnapshot.getChildren();
                     Iterator<DataSnapshot> iterator = stationsIterable.iterator();
+                    stations.clear();
 
                     while(iterator.hasNext()){
                         DataSnapshot station = iterator.next();
-                        stations.add(station.child("Name").getValue().toString());
-                        stationKeys.add(station.getKey());
+                        if (station != null){
+                            stations.add(station.child("Name").getValue().toString());
+                            stationKeys.add(station.getKey());
+                        }
                     }
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+
                 }
             });
-            return true;
+
+            return null;
         }
-
-
-
     }
 
 
