@@ -4,7 +4,7 @@
     <string name="title_travel_Settings">Your Travels</string>
     <string name="title_activity_main_menue">main_menue</string>
 
-    <string name="title_section1">My Travels</string>
+    <string name="myTravels">My Travels</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
@@ -42,6 +42,11 @@
     <string name="message_no_station_picked">Please pick a station</string>
 
     <string name="facebook_application_id" translatable="false">920790128018530</string>
+    <string name="title_activity_railchat__my__travels__menu__test">Railchat_My_Travels_Menu_Test
+    </string>
+    <string name="title_activity_railchat__new__travel">Railchat_New_Travel</string>
+    <string name="title_activity_my__travels">My_Travels</string>
+    <string name="title_activity_main">MainActivity</string>
 
 
 </resources>

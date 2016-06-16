@@ -2,11 +2,11 @@ package at.fhooe.mc.android.travel;
 
 
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,9 +125,10 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     }
 
 
-    private class DownloadTrains extends AsyncTask<String, Integer, Boolean>{
+    private class DownloadTrains extends AsyncTask<Void, Void, Void>{
+
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Void doInBackground(Void... voids) {
 
             System.out.println("doInBackground");
 
@@ -256,7 +257,10 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                 }
 
             });
-            return true;
+
+            return null;
         }
+
+
     }
 }

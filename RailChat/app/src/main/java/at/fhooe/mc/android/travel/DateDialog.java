@@ -3,7 +3,7 @@ package at.fhooe.mc.android.travel;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
