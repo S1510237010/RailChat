@@ -10,9 +10,27 @@
     tools:context=".login.login_hello"
     android:background="@color/accent_material_light">
 
-    <ViewFlipper
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/login_hello_viewflipper"
-        android:layout_gravity="center" />
+        android:layout_height="match_parent">
+
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/login_hello_viewflipper"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+        </ViewFlipper>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="OK, VERSTANDEN!"
+            android:id="@+id/login_hello_button"
+            android:layout_gravity="bottom"
+            android:layout_weight="9" />
+    </LinearLayout>
+
 </FrameLayout>
