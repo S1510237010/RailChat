@@ -74,6 +74,10 @@ public class Railchat_My_Travels_Menu extends Fragment implements View.OnClickLi
 
         ImageButton b = (ImageButton)getView().findViewById(R.id.my_travels_menu_edit_button);
         b.setOnClickListener(this);
+        b = (ImageButton)getView().findViewById(R.id.my_travels_menu_add_button);
+        b.setOnClickListener(this);
+        b = (ImageButton)getView().findViewById(R.id.my_travels_menu_delete_button);
+        b.setOnClickListener(this);
 
 
     }
@@ -234,18 +238,26 @@ public class Railchat_My_Travels_Menu extends Fragment implements View.OnClickLi
 
                 if (add.getVisibility() == View.INVISIBLE && delete.getVisibility() == View.INVISIBLE){
                     add.setVisibility(View.VISIBLE);
-                    add.setOnClickListener(this);
+                    add.setClickable(true);
                     delete.setVisibility(View.VISIBLE);
-                    delete.setOnClickListener(this);
+                    delete.setClickable(true);
                     b.setImageResource(R.drawable.ic_clear_black_24dp);
                 }
                 else {
                     add.setVisibility(View.INVISIBLE);
-                    add.setOnClickListener(this);
+                    add.setClickable(false);
                     delete.setVisibility(View.INVISIBLE);
-                    delete.setOnClickListener(this);
+                    delete.setClickable(false);
                     b.setImageResource(R.drawable.ic_create_black_24dp);
                 }
+
+            }
+
+            case R.id.my_travels_menu_add_button:{
+                Intent i = new Intent(getContext(), Railchat_New_Travel.class);
+                startActivity(i);
+            }
+            case R.id.my_travels_menu_delete_button:{
 
             }
 
