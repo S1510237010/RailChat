@@ -2,9 +2,12 @@ package at.fhooe.mc.android.login;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
@@ -59,6 +62,17 @@ public class login_hello extends Activity {
         //Set Animations
         mViewFlipper.setInAnimation(this, android.R.anim.fade_in);
         mViewFlipper.setOutAnimation(this, android.R.anim.fade_out);
+
+        Button b = (Button) findViewById(R.id.login_hello_button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.login_hello_button) {
+                    startActivity(new Intent(login_hello.this, login_auth.class));
+                    finish();
+                }
+            }
+        });
 
     }
 
