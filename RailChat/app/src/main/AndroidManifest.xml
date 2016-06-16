@@ -12,17 +12,20 @@
         <activity
         android:name=".login.login_hello"
         android:theme="@android:style/Theme.NoTitleBar">
-        </activity>
-
-        <activity android:name=".main_menu.Railchat_Main_Menu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".main_menu.Railchat_Main_Menu">
+
+        </activity>
     
         <activity android:name=".login.login_auth">
+        </activity>
+
 
         <activity
             android:name=".travel.Railchat_New_Travel"
