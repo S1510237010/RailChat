@@ -9,26 +9,33 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".login.login_hello"
-            ><intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".main_menu.Railchat_Main_Menu">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <!-- <activity -->
+        <!-- android:name=".main_menu.Railchat_Main_Menu" -->
+        <!-- android:label="@string/title_activity_railchat_main_menue"> -->
+
+
+        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt; -->
+
+
+        <!-- &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
+        <!-- </activity> -->
         <activity
-            android:name=".main_menu.Railchat_Main_Menu"
-            android:label="@string/title_activity_railchat_main_menue">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            android:name=".travel.Railchat_New_Travel"
+            android:label="@string/title_activity_railchat__new__travel"
+            android:parentActivityName=".main_menu.Railchat_Main_Menu">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
         </activity>
-        <activity android:name=".travel.Railchat_New_Travel" />
-
     </application>
 
 </manifest>

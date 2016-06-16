@@ -2,13 +2,13 @@ package at.fhooe.mc.android.travel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +87,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pick Station");
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         final EditText to = (EditText)getActivity().findViewById(R.id.new_Travel_editText_stations_to);
         final EditText from = (EditText)getActivity().findViewById(R.id.new_travel_editText_stations_from);
 

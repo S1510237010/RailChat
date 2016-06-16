@@ -1,8 +1,10 @@
 package at.fhooe.mc.android.travel;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,9 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,10 +27,9 @@ import java.util.Date;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
-public class Railchat_My_Travels_Menu extends Fragment {
+public class Railchat_My_Travels_Menu extends Fragment implements View.OnClickListener {
     private static final String TAG = "Railchat:myTravels";
     public DatabaseReference myRef;
     public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
@@ -69,9 +72,9 @@ public class Railchat_My_Travels_Menu extends Fragment {
         listView.setAdapter(listAdapter);
         databaseTravel();
 
-        if (listAdapter.isEmpty()){
-            Toast.makeText(getActivity(), "You  dont have any Travels saved.. :(", Toast.LENGTH_SHORT).show();
-        }
+        ImageButton b = (ImageButton)getView().findViewById(R.id.my_travels_menu_edit_button);
+        b.setOnClickListener(this);
+
 
     }
 
@@ -217,4 +220,38 @@ public class Railchat_My_Travels_Menu extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.my_travels_menu_edit_button:{
+
+                ImageButton b = (ImageButton)getView().findViewById(R.id.my_travels_menu_edit_button);
+
+                ImageButton add = (ImageButton)getView().findViewById(R.id.my_travels_menu_add_button);
+                ImageButton delete = (ImageButton)getView().findViewById(R.id.my_travels_menu_delete_button);
+
+                if (add.getVisibility() == View.INVISIBLE && delete.getVisibility() == View.INVISIBLE){
+                    add.setVisibility(View.VISIBLE);
+                    add.setOnClickListener(this);
+                    delete.setVisibility(View.VISIBLE);
+                    delete.setOnClickListener(this);
+                    b.setImageResource(R.drawable.ic_clear_black_24dp);
+                }
+                else {
+                    add.setVisibility(View.INVISIBLE);
+                    add.setOnClickListener(this);
+                    delete.setVisibility(View.INVISIBLE);
+                    delete.setOnClickListener(this);
+                    b.setImageResource(R.drawable.ic_create_black_24dp);
+                }
+
+            }
+
+
+        }
+
+
+    }
 }

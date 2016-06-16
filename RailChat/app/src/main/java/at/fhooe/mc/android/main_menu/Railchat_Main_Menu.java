@@ -2,9 +2,8 @@ package at.fhooe.mc.android.main_menu;
 
 import android.app.Activity;
 
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.InitializeDatabase;
 
-public class Railchat_Main_Menu extends Activity
+public class Railchat_Main_Menu extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -29,9 +28,7 @@ public class Railchat_Main_Menu extends Activity
     public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
     public static InitializeDatabase database = new InitializeDatabase();
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+
     private CharSequence mTitle;
 
     @Override
@@ -40,7 +37,7 @@ public class Railchat_Main_Menu extends Activity
         setContentView(R.layout.activity_railchat_main_menue);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -51,7 +48,7 @@ public class Railchat_Main_Menu extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
@@ -61,7 +58,7 @@ public class Railchat_Main_Menu extends Activity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.myTravels);
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
@@ -72,12 +69,6 @@ public class Railchat_Main_Menu extends Activity
         }
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
 
     /**
      * A placeholder fragment containing a simple view.

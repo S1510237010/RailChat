@@ -1,10 +1,11 @@
 package at.fhooe.mc.android.travel;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 
 import at.fhooe.mc.android.R;
 
-public class Railchat_New_Travel extends Activity {
+public class Railchat_New_Travel extends AppCompatActivity {
 
     private static final String TAG = "new Travel";
     private String userID;
@@ -28,9 +29,7 @@ public class Railchat_New_Travel extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_railchat_new_travel);
 
-
-        getActionBar().setDisplayShowTitleEnabled(false);
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragment = new Railchat_New_Travel_Date();
         fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
@@ -49,9 +48,6 @@ public class Railchat_New_Travel extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.back_button:{
-                this.finish();
-            }break;
             default: {
                 Log.e(TAG, "Unexpected id encountered");
             }break;
@@ -59,4 +55,5 @@ public class Railchat_New_Travel extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -1,8 +1,9 @@
 package at.fhooe.mc.android.travel;
 
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class Railchat_New_Travel_Date extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         switch (view.getId()){
 
             case R.id.new_travel_textEdit_date:{
