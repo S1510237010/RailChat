@@ -50,7 +50,7 @@ public class Railchat_Main_Menu extends AppCompatActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .add(R.id.container, new TrainLogIn())
                 .commit();
         mTitle = getTitle();
     }
