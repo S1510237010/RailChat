@@ -1,108 +1,133 @@
 package at.fhooe.mc.android.travel;
 
-import android.app.ActionBar;
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.view.animation.LinearInterpolator;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.Date;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
-public class Railchat_My_Travels_Menu extends Fragment implements View.OnClickListener {
-    private static final String TAG = "Railchat:myTravels";
-    public DatabaseReference myRef;
-    public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
+
+public class MyTravelsMenu_ListFragment extends Fragment {
+
     public TravelListArrayAdapter listAdapter;
+    static TravelListItem toDelete;
+    public FloatingActionButton fabBut;
 
 
-    public Railchat_My_Travels_Menu() {
-        // Required empty public constructor
-    }
+    public MyTravelsMenu_ListFragment(){
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        myRef = Railchat_Main_Menu.database.getDatabase().getReference("User");
-        myRef.child(userID);
-        listAdapter = new TravelListArrayAdapter(getActivity());
-
-
-        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_railchat_my_travels_menue, container, false);
+        return inflater.inflate(R.layout.fragment_my_travels_menu__list, container, false);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_and_settings, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        fabBut = MyTravelsMenu.fab;
+
+        listAdapter = new TravelListArrayAdapter(getActivity());
+
         ListView listView = (ListView)getView().findViewById(R.id.travel_list);
         listView.setAdapter(listAdapter);
         databaseTravel();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                toDelete = (TravelListItem)parent.getItemAtPosition(position);
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.myTravels_frameLayout, new TravelOverview());
+                fragmentTransaction.commit();
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-        ImageButton b = (ImageButton)getView().findViewById(R.id.my_travels_menu_edit_button);
-        b.setOnClickListener(this);
-        b = (ImageButton)getView().findViewById(R.id.my_travels_menu_add_button);
-        b.setOnClickListener(this);
-        b = (ImageButton)getView().findViewById(R.id.my_travels_menu_delete_button);
-        b.setOnClickListener(this);
+            private int oldTop;
+            private int oldVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if (scrollUp(view, firstVisibleItem, visibleItemCount, totalItemCount)){
+                    fabBut.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+                }
+                else {
+                    CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fabBut.getLayoutParams();
+                    int fab_bottomMargin = layoutParams.bottomMargin;
+                    MyTravelsMenu.fab.animate().translationY(fabBut.getHeight() + fab_bottomMargin).setInterpolator(new LinearInterpolator()).start();
+                }
+
+            }
 
 
-    }
+            public boolean scrollUp(AbsListView absView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i = null;
-        switch (item.getItemId()){
-            case R.id.add_button:{
-                i = new Intent(getActivity(), Railchat_New_Travel.class);
-            }break;
-            default: {
-                Log.e(TAG, "unexpected option item");} break;
-        }
+                View view = absView.getChildAt(0);
+                int top = (view == null) ? 0 : view.getTop();
+                boolean up = false;
 
-        if (i != null){
-            startActivity(i);
-        }
+                if (firstVisibleItem == oldVisibleItem) {
+                    if (top > oldTop) {
+                        //UP
+                        up = true;
+                    } else if (top < oldTop) {
+                        //DOWN
+                        up = false;
+                    }
+                    else {
+                        up = true;
+                    }
+                } else {
+                    if (firstVisibleItem < oldVisibleItem) {
+                        //UP
+                        up = true;
+                    } else {
+                        //DOWN
+                        up = false;
+                    }
+                }
 
-        return super.onOptionsItemSelected(item);
+                oldTop = top;
+                oldVisibleItem = firstVisibleItem;
+                return up;
+            }
+
+        });
+
     }
 
     public void databaseTravel(){
 
-        myRef.addChildEventListener(new ChildEventListener() {
+        MyTravelsMenu.myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -224,46 +249,5 @@ public class Railchat_My_Travels_Menu extends Fragment implements View.OnClickLi
     }
 
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()){
-
-            case R.id.my_travels_menu_edit_button:{
-
-                ImageButton b = (ImageButton)getView().findViewById(R.id.my_travels_menu_edit_button);
-
-                ImageButton add = (ImageButton)getView().findViewById(R.id.my_travels_menu_add_button);
-                ImageButton delete = (ImageButton)getView().findViewById(R.id.my_travels_menu_delete_button);
-
-                if (add.getVisibility() == View.INVISIBLE && delete.getVisibility() == View.INVISIBLE){
-                    add.setVisibility(View.VISIBLE);
-                    add.setClickable(true);
-                    delete.setVisibility(View.VISIBLE);
-                    delete.setClickable(true);
-                    b.setImageResource(R.drawable.ic_clear_black_24dp);
-                }
-                else {
-                    add.setVisibility(View.INVISIBLE);
-                    add.setClickable(false);
-                    delete.setVisibility(View.INVISIBLE);
-                    delete.setClickable(false);
-                    b.setImageResource(R.drawable.ic_create_black_24dp);
-                }
-
-            }
-
-            case R.id.my_travels_menu_add_button:{
-                Intent i = new Intent(getContext(), Railchat_New_Travel.class);
-                startActivity(i);
-            }
-            case R.id.my_travels_menu_delete_button:{
-
-            }
-
-
-        }
-
-
-    }
 }

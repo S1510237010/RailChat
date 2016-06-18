@@ -1,6 +1,10 @@
 package at.fhooe.mc.android.travel;
 
 import android.app.LauncherActivity;
+import android.util.Log;
+import android.util.StringBuilderPrinter;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.Date;
 
@@ -10,14 +14,16 @@ import java.util.Date;
 public class TravelListItem extends LauncherActivity.ListItem {
 
 
+    private static final String TAG = "TravelListItem";
     private Date date;
     private int trainNumber;
     private String to, from;
     private String time;
     private int persons;
+    float historicX = Float.NaN, historicY = Float.NaN;
+    static final int DELTA = 50;
 
     public TravelListItem(){
-
     }
 
 
@@ -53,6 +59,44 @@ public class TravelListItem extends LauncherActivity.ListItem {
 
     public int getPersons(){
         return persons;
+    }
+
+
+    public boolean equals(TravelListItem other){
+
+        if (!this.date.equals(other.date)){
+            return false;
+        }
+
+        if (this.trainNumber != other.trainNumber){
+            return false;
+        }
+
+        if (!this.to.equals(other.to)){
+            return false;
+        }
+
+        if (!this.from.equals(other.from)){
+            return false;
+        }
+
+        if (!this.time.equals(other.time)){
+            return false;
+        }
+        return true;
+    }
+
+    public String dateToString(){
+
+        StringBuffer s = new StringBuffer();
+
+        s.append(this.date.getDay());
+        s.append(". ");
+        s.append(this.date.getMonth());
+        s.append(". ");
+        s.append(this.date.getYear());
+
+        return s.toString();
     }
 
 

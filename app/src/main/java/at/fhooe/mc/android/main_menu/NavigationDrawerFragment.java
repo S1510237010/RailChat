@@ -3,8 +3,8 @@ package at.fhooe.mc.android.main_menu;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.travel.Railchat_My_Travels_Menu;
+import at.fhooe.mc.android.settings.SettingsActivity;
+import at.fhooe.mc.android.travel.MyTravelsMenu;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -106,12 +107,13 @@ public class NavigationDrawerFragment extends Fragment {
 
                 switch(elem) {
                     case "My Travels" : {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.container, new Railchat_My_Travels_Menu())
-                                .commit();
+                        Intent i = new Intent(getContext(), MyTravelsMenu.class);
+                        startActivity(i);
                     } break;
-
+                    case "Settings" : {
+                        Intent i = new Intent(getContext(), SettingsActivity.class);
+                        startActivity(i);
+                    } break;
                     default : {
                         Log.e(TAG, "unexpected Fragment id encountered!");
                     }
@@ -126,7 +128,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.myTravels),
-                        getString(R.string.title_section2),
+                        getString(R.string.settings),
                         getString(R.string.title_section3),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
