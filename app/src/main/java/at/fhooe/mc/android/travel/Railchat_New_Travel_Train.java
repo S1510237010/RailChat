@@ -36,7 +36,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     private final ArrayList<String> railjets = new ArrayList<String>();
     public DatabaseReference myRef_RJ;
     String to, from;
-    int keyTo, keyFrom;
+    String keyTo, keyFrom;
     Bundle bundle;
 
     public Railchat_New_Travel_Train() {
@@ -52,8 +52,8 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
         bundle = getArguments();
         String from = bundle.getString("from");
         String to = bundle.getString("to");
-        keyTo = bundle.getInt("keyTo");
-        keyFrom = bundle.getInt("keyFrom");
+        keyTo = bundle.getString("keyTo");
+        keyFrom = bundle.getString("keyFrom");
 
         new DownloadTrains().execute();
 
@@ -89,6 +89,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                 }
                 else {
                     bundle.putString("train", et.getText().toString());
+                    bundle.putString("time", "00:00");
 
                     Fragment fragment = new Railchat_New_Travel_Save();
                     fragment.setArguments(bundle);
@@ -132,9 +133,9 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
 
             System.out.println("doInBackground");
 
-            final int finalEven = keyFrom - keyTo;
-            final int finalIndex_from = keyFrom;
-            final int finalIndex_to = keyTo;
+            final int finalEven = Integer.parseInt(keyFrom) - Integer.parseInt(keyTo);
+            final String finalIndex_from = keyFrom;
+            final String finalIndex_to = keyTo;
 
             myRef_RJ.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -162,13 +163,13 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                                     DataSnapshot trainstation = iterator_station.next();
 
                                     if (trainstation != null){
-                                        int stationNumber = Integer.parseInt(trainstation.getValue().toString());
+                                        String stationNumber = trainstation.getValue().toString();
 
-                                        if (stationNumber == finalIndex_from){
+                                        if (stationNumber.equals(finalIndex_from)){
                                             from = true;
                                         }
 
-                                        if (stationNumber == finalIndex_to){
+                                        if (stationNumber.equals(finalIndex_to)){
                                             to = true;
                                         }
                                     }
@@ -191,13 +192,13 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                                     DataSnapshot childTrain = iterator_station.next();
 
                                     if (childTrain != null){
-                                        int stationNumber = Integer.parseInt(childTrain.getValue().toString());
+                                        String stationNumber = childTrain.getValue().toString();
 
-                                        if (stationNumber == finalIndex_from){
+                                        if (stationNumber.equals(finalIndex_from)){
                                             from = true;
                                         }
 
-                                        if (stationNumber == finalIndex_to){
+                                        if (stationNumber.equals(finalIndex_to)){
                                             to = true;
                                         }
                                     }
@@ -216,10 +217,10 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
 
                                 boolean to = false, from = false;
 
-                                if (finalIndex_from == -1){
+                                if (finalIndex_from.equals("-1")){
                                     from = true;
                                 }
-                                if (finalIndex_to == -1){
+                                if (finalIndex_to.equals("-1")){
                                     to = true;
                                 }
 
@@ -227,13 +228,13 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                                     DataSnapshot childTrain = iterator_station.next();
 
                                     if (childTrain != null){
-                                        int stationNumber = Integer.parseInt(childTrain.getValue().toString());
+                                        String stationNumber = childTrain.getValue().toString();
 
-                                        if (stationNumber == finalIndex_from){
+                                        if (stationNumber.equals(finalIndex_from)){
                                             from = true;
                                         }
 
-                                        if (stationNumber == finalIndex_to){
+                                        if (stationNumber.equals(finalIndex_to)){
                                             to = true;
                                         }
                                     }

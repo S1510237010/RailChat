@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetStations;
 
 public class Railchat_New_Travel extends AppCompatActivity {
 
@@ -22,6 +23,7 @@ public class Railchat_New_Travel extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
+    protected static GetStations stations;
 
 
 
@@ -35,6 +37,7 @@ public class Railchat_New_Travel extends AppCompatActivity {
         fragment = new Railchat_New_Travel_Date();
         fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
         fragmentTransaction.commit();
+        stations = new GetStations(this);
 
     }
 

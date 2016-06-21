@@ -15,7 +15,7 @@ public class TravelListItem extends LauncherActivity.ListItem {
 
 
     private static final String TAG = "TravelListItem";
-    private Date date;
+    private String date;
     private int trainNumber;
     private String to, from;
     private String time;
@@ -27,7 +27,7 @@ public class TravelListItem extends LauncherActivity.ListItem {
     }
 
 
-    public TravelListItem(String _to, String _from, int _trainnumber, int _persons, Date _date, String _time){
+    public TravelListItem(String _to, String _from, int _trainnumber, int _persons, String _date, String _time){
         date = _date;
         trainNumber = _trainnumber;
         to = _to;
@@ -37,7 +37,7 @@ public class TravelListItem extends LauncherActivity.ListItem {
     }
 
 
-    public Date getDate(){
+    public String getDate(){
         return date;
     }
 
@@ -84,19 +84,6 @@ public class TravelListItem extends LauncherActivity.ListItem {
             return false;
         }
         return true;
-    }
-
-    public String dateToString(){
-
-        StringBuffer s = new StringBuffer();
-
-        s.append(this.date.getDay());
-        s.append(". ");
-        s.append(this.date.getMonth());
-        s.append(". ");
-        s.append(this.date.getYear());
-
-        return s.toString();
     }
 
 

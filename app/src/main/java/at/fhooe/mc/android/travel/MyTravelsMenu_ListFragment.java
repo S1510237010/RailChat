@@ -1,5 +1,9 @@
 package at.fhooe.mc.android.travel;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +56,18 @@ public class MyTravelsMenu_ListFragment extends Fragment {
 
         listAdapter = new TravelListArrayAdapter(getActivity());
 
+
+        MyTravelsMenu.fragment = "List";
+
+        fabBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), Railchat_New_Travel.class);
+                startActivity(i);
+            }
+        });
+        fabBut.setImageResource(R.drawable.ic_add_black_24dp);
+
         ListView listView = (ListView)getView().findViewById(R.id.travel_list);
         listView.setAdapter(listAdapter);
         databaseTravel();
@@ -64,6 +80,32 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.travel_delete_title)
+                        .setMessage(R.string.travel_delete_message)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(R.drawable.ic_delete_black_24dp)
+                        .show();
+
+                return true;
+            }
+        });
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             private int oldTop;
@@ -142,16 +184,10 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                     String to = travel.child("To").getValue().toString();
                     String from = travel.child("From").getValue().toString();
                     String train = travel.child("Train").getValue().toString();
-                    String dateString = travel.child("Date").getValue().toString();
-                    String time = "00:00";
+                    String date = travel.child("Date").getValue().toString();
+                    String time = travel.child("Time").getValue().toString();
                     int persons = 0;
                     int trainNumber = Integer.parseInt(train);
-
-                    String[] dateData = dateString.split("-");
-                    int day = Integer.parseInt(dateData[0]);
-                    int month = Integer.parseInt(dateData[1]);
-                    int year = Integer.parseInt(dateData[2]);
-                    Date date = new Date(year, month, day);
 
                     TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
                     listAdapter.add(item);
@@ -174,16 +210,10 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                     String to = travel.child("To").getValue().toString();
                     String from = travel.child("From").getValue().toString();
                     String train = travel.child("Train").getValue().toString();
-                    String dateString = travel.child("Date").getValue().toString();
-                    String time = "00:00";
+                    String date = travel.child("Date").getValue().toString();
+                    String time = travel.child("Time").getValue().toString();
                     int persons = 0;
                     int trainNumber = Integer.parseInt(train);
-
-                    String[] dateData = dateString.split("-");
-                    int day = Integer.parseInt(dateData[0]);
-                    int month = Integer.parseInt(dateData[1]);
-                    int year = Integer.parseInt(dateData[2]);
-                    Date date = new Date(year, month, day);
 
                     TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
                     listAdapter.add(item);
@@ -206,16 +236,10 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                     String to = travel.child("To").getValue().toString();
                     String from = travel.child("From").getValue().toString();
                     String train = travel.child("Train").getValue().toString();
-                    String dateString = travel.child("Date").getValue().toString();
-                    String time = "00:00";
+                    String date = travel.child("Date").getValue().toString();
+                    String time = travel.child("Time").getValue().toString();
                     int persons = 0;
                     int trainNumber = Integer.parseInt(train);
-
-                    String[] dateData = dateString.split("-");
-                    int day = Integer.parseInt(dateData[0]);
-                    int month = Integer.parseInt(dateData[1]);
-                    int year = Integer.parseInt(dateData[2]);
-                    Date date = new Date(year, month, day);
 
                     TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
                     listAdapter.add(item);

@@ -54,6 +54,8 @@ public class TravelOverview extends Fragment {
             }
         });
 
+        MyTravelsMenu.fragment = "Overview";
+
 
         if (item != null){
 
@@ -64,7 +66,7 @@ public class TravelOverview extends Fragment {
             tv.setText(item.getFrom());
 
             tv = (TextView)getView().findViewById(R.id.overview_date);
-            tv.setText(item.dateToString());
+            tv.setText(item.getDate());
 
             tv = (TextView)getView().findViewById(R.id.overview_time);
             tv.setText(item.getTime());
@@ -84,5 +86,7 @@ public class TravelOverview extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
 
 }

@@ -39,6 +39,7 @@ public class MyTravelsMenu extends AppCompatActivity {
     public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
     public static boolean deleteAction;
     public static FloatingActionButton fab;
+    public static String fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +47,8 @@ public class MyTravelsMenu extends AppCompatActivity {
         setContentView(R.layout.activity_my_travels_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         fab = (FloatingActionButton) findViewById(R.id.myTravels_FloatingButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Railchat_New_Travel.class);
-                startActivity(i);
-            }
-        });
+
 
 
         myRef = Railchat_Main_Menu.database.getDatabase().getReference("User");
@@ -68,5 +61,27 @@ public class MyTravelsMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        switch (fragment){
 
+            case "Overview":{
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.myTravels_frameLayout, new MyTravelsMenu_ListFragment());
+                fragmentTransaction.commit();
+            }break;
+            case "Edit":{
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.myTravels_frameLayout, new TravelOverview());
+                fragmentTransaction.commit();
+            }break;
+            case "List":{
+                this.finish();
+            }break;
+            default:{
+                this.finish();
+            }
+        }
+
+    }
 }

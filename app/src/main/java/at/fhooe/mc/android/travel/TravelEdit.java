@@ -1,6 +1,8 @@
 package at.fhooe.mc.android.travel;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -45,10 +47,14 @@ public class TravelEdit extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new DeleteTravel(item);
+                Intent i = new Intent(getContext(), MyTravelsMenu.class);
+                startActivity(i);
             }
         });
 
+
+        MyTravelsMenu.fragment = "Edit";
 
         if (item != null){
 
@@ -59,7 +65,7 @@ public class TravelEdit extends Fragment {
             et.setText(item.getFrom());
 
             et = (EditText) getView().findViewById(R.id.travel_edit_date);
-            et.setText(item.dateToString());
+            et.setText(item.getDate());
 
             et = (EditText) getView().findViewById(R.id.travel_edit_time);
             et.setText(item.getTime());

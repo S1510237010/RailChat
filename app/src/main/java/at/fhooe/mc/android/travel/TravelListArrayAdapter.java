@@ -39,7 +39,7 @@ public class TravelListArrayAdapter extends ArrayAdapter<TravelListItem> {
             tv.setText(tl.getFrom());
 
             tv = (TextView) convertView.findViewById(R.id.travel_list_item_date);
-            tv.setText(tl.dateToString());
+            tv.setText(tl.getDate());
 
             tv = (TextView) convertView.findViewById(R.id.travel_list_item_time);
             tv.setText(tl.getTime());

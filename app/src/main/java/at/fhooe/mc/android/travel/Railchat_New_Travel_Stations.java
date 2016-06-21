@@ -9,10 +9,14 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,12 +38,11 @@ import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 public class Railchat_New_Travel_Stations extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Stations";
-    private ArrayList<String> stations = new ArrayList<String>();
-    private ArrayList<String> stationKeys = new ArrayList<String>();
-    public DatabaseReference myRef_Station;
-    private int keyFrom, keyTo;
+    private ArrayAdapter<String> adapter;
+
     private Bundle arguments;
     static Boolean calledAlready = false;
+    AutoCompleteTextView to, from;
 
 
 
@@ -70,16 +73,55 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     public void onStart() {
         super.onStart();
 
-        new DownloadStations(getActivity()).execute();
 
-        EditText edit = (EditText)getView().findViewById(R.id.new_Travel_editText_stations_to);
-        edit.setOnClickListener(this);
-
-        edit = (EditText)getView().findViewById(R.id.new_travel_editText_stations_from);
-        edit.setOnClickListener(this);
-
-        Button b = (Button)getActivity().findViewById(R.id.new_travel_stations_button_next);
+        Button b = (Button) getActivity().findViewById(R.id.new_travel_stations_button_next);
         b.setOnClickListener(this);
+
+        adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, Railchat_New_Travel.stations.stations);
+        adapter.setNotifyOnChange(true);
+
+        to = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_from);
+        to.setOnClickListener(this);
+        to.setThreshold(2);
+        to.setAdapter(adapter);
+        to.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                stationsEntered();
+            }
+        });
+
+        from = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_to);
+        from.setOnClickListener(this);
+        from.setThreshold(2);
+        from.setAdapter(adapter);
+        from.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                stationsEntered();
+            }
+        });
     }
 
     @Override
@@ -88,63 +130,26 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pick Station");
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        final EditText to = (EditText)getActivity().findViewById(R.id.new_Travel_editText_stations_to);
-        final EditText from = (EditText)getActivity().findViewById(R.id.new_travel_editText_stations_from);
-
+        final AutoCompleteTextView to = (AutoCompleteTextView)getView().findViewById(R.id.new_travel_auto_textview_to);
+        final AutoCompleteTextView from = (AutoCompleteTextView)getView().findViewById(R.id.new_travel_auto_textview_from);
 
         switch (view.getId()){
 
-            case R.id.new_travel_editText_stations_from:{
-
-                if (stations.size() != 0) {
-
-                    AlertDialog dialog;
-                    final CharSequence[] items = stations.toArray(new CharSequence[stations.size()]);
-                    final CharSequence[] itemKeys = stationKeys.toArray(new CharSequence[stationKeys.size()]);
-
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int pos) {
-                            from.setText(items[pos]);
-                            keyFrom = Integer.parseInt(itemKeys[pos].toString());
-                        }
-                    });
-                    dialog = builder.create();
-                    dialog.show();
-                }
-                else {
-                    Toast.makeText(getActivity(), "Loading.. please wait", Toast.LENGTH_SHORT).show();
-                }
-
-            }break;
-            case R.id.new_Travel_editText_stations_to:{
-                if (stations.size() == 0){
-                    Toast.makeText(getActivity(), "Loading.. please wait", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    AlertDialog dialog;
-                    final CharSequence[] items = stations.toArray(new CharSequence[stations.size()]);
-                    final CharSequence[] itemKeys = stationKeys.toArray(new CharSequence[stationKeys.size()]);
-
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int pos) {
-                            to.setText(items[pos]);
-                            keyTo = Integer.parseInt(itemKeys[pos].toString());
-                        }
-                    });
-                    dialog = builder.create();
-                    dialog.show();
-                }
-            }break;
             case R.id.new_travel_stations_button_next:{
 
-                if (from.getText().toString().trim().length() != 0 && to.getText().toString().trim().length() != 0){
+                if (stationsEntered() && from.getText().toString().trim().length() != 0 && to.getText().toString().trim().length() != 0){
 
-                    arguments.putString("from", from.getText().toString());
-                    arguments.putString("to", to.getText().toString());
-                    arguments.putInt("keyFrom", keyFrom);
-                    arguments.putInt("keyTo", keyTo);
+                    String f = from.getText().toString();
+                    String t = to.getText().toString();
+
+                    arguments.putString("from", f);
+                    arguments.putString("to", t);
+
+                    String keyFrom = Railchat_New_Travel.stations.getKey(f);
+                    String keyTo = Railchat_New_Travel.stations.getKey(t);
+
+                    arguments.putString("keyFrom", keyFrom);
+                    arguments.putString("keyTo", keyTo);
 
                     Fragment fragment = new Railchat_New_Travel_Train();
                     fragment.setArguments(arguments);
@@ -163,49 +168,35 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     }
 
 
-    private class DownloadStations extends AsyncTask<Void, Void, Void> {
+    private boolean stationsEntered(){
 
-        ProgressDialog dialog;
-        Activity activity;
-        Context context;
+        boolean right = true;
 
-        public DownloadStations(Activity activity){
-            this.activity = activity;
-            this.context = activity;
-            dialog = new ProgressDialog(context);
+        if(to.getText().length() != 0){
+
+            if (Railchat_New_Travel.stations.contains(to.getText().toString())){
+                to.setTextColor(getResources().getColor(R.color.right_black));
+            }
+            else {
+                to.setTextColor(getResources().getColor(R.color.false_red));
+                right = false;
+            }
+
         }
 
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            myRef_Station = Railchat_Main_Menu.database.getDatabase().getReference("Stations");
-            myRef_Station.keepSynced(true);
-            myRef_Station.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> stationsIterable = dataSnapshot.getChildren();
-                    Iterator<DataSnapshot> iterator = stationsIterable.iterator();
-                    stations.clear();
-
-                    while(iterator.hasNext()){
-                        DataSnapshot station = iterator.next();
-                        if (station != null){
-                            stations.add(station.child("Name").getValue().toString());
-                            stationKeys.add(station.getKey());
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            return null;
+        if (from.getText().length() != 0){
+            if (Railchat_New_Travel.stations.contains(from.getText().toString())){
+                from.setTextColor(getResources().getColor(R.color.right_black));
+            }
+            else {
+                from.setTextColor(getResources().getColor(R.color.false_red));
+                right =  false;
+            }
         }
+
+        return right;
     }
+
 
 
 }

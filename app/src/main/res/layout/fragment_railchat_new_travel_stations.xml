@@ -55,17 +55,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 
-                <EditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/new_travel_editText_stations_from"
-                    android:hint="@string/station_from_hint"
-                    android:editable="false"
-                    android:elegantTextHeight="false"
-                    android:enabled="true"
-                    android:singleLine="true"
-                    android:clickable="true"
-                    android:focusable="false" />
+                    android:id="@+id/new_travel_auto_textview_from"
+                    android:hint="@string/station_from_hint" />
             </LinearLayout>
         </LinearLayout>
 
@@ -95,17 +89,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 
-                <EditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/new_Travel_editText_stations_to"
-                    android:hint="@string/station_to_hint"
-                    android:editable="false"
-                    android:elegantTextHeight="false"
-                    android:enabled="true"
-                    android:singleLine="true"
-                    android:clickable="true"
-                    android:focusable="false" />
+                    android:id="@+id/new_travel_auto_textview_to"
+                    android:hint="@string/station_to_hint" />
             </LinearLayout>
         </LinearLayout>
 
