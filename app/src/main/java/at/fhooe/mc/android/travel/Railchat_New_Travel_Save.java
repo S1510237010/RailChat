@@ -24,7 +24,7 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
     Bundle data;
     String date, to, from, train, time;
     public DatabaseReference myRef_Travel;
-    String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
+    String userID;
 
     public Railchat_New_Travel_Save() {
         // Required empty public constructor
@@ -34,6 +34,7 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        userID = MyTravelsMenu.userID;
         data = getArguments();
         myRef_Travel = Railchat_Main_Menu.database.getDatabase().getReference();
 

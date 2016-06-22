@@ -23,7 +23,7 @@ public class DeleteTravel {
     public DeleteTravel(TravelListItem item){
         toDelete = item;
         myRef = Railchat_Main_Menu.database.getDatabase().getReference("Stations");
-        userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
+        userID = MyTravelsMenu.userID;
 
         new DeleteAsyn().execute();
     }

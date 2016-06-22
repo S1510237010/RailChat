@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import com.google.firebase.database.DatabaseReference;
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetUser;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 /**
@@ -24,7 +25,7 @@ public class MyTravelsMenu extends AppCompatActivity {
 
     private static final String TAG = "Railchat:myTravels";
     public static DatabaseReference myRef;
-    public String userID = "8c03c4dd-17b1-42aa-af94-e7846cb5049c";
+    public static String userID;
     public static boolean deleteAction;
     public static FloatingActionButton fab;
     public static String fragment;
@@ -32,6 +33,7 @@ public class MyTravelsMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userID = new GetUser().getUserID();
         setContentView(R.layout.activity_my_travels_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
