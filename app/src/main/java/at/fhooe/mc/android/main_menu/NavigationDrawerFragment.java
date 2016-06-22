@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import at.fhooe.mc.android.R;
@@ -137,6 +139,22 @@ public class NavigationDrawerFragment extends Fragment {
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+
+    public void changeState(){
+        if (this.isDrawerOpen()){
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
+        else {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
     }
 
     /**

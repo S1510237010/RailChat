@@ -83,14 +83,14 @@ public class MyTravelsMenu_ListFragment extends Fragment {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.travel_delete_title)
                         .setMessage(R.string.travel_delete_message)
                         .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                new DeleteTravel((TravelListItem) parent.getItemAtPosition(position));
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {

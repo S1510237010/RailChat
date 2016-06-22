@@ -14,7 +14,8 @@ import java.util.Calendar;
 import at.fhooe.mc.android.R;
 
 /**
- * Created by Anna on 29.05.2016.
+ * This class sets up a DialogFragment to pick a date and when a date is picked, the picked Date will
+ * be written in a certain Textview.
  */
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 

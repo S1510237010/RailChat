@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 /**
- * Created by Anna on 19.06.2016.
+ * This class deletes a certain Travel in the Database, which is set, when this class is created.
  */
 public class DeleteTravel {
 
@@ -29,6 +29,9 @@ public class DeleteTravel {
     }
 
 
+    /**
+     * Deletes a certain Travel - Entry in the Database in the background.
+     */
     private class DeleteAsyn extends AsyncTask<Void, Void, Void>{
 
         public DeleteAsyn(){

@@ -1,37 +1,25 @@
 package at.fhooe.mc.android.travel;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Date;
-import java.util.Iterator;
-
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.main_menu.NavigationDrawerFragment;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
+/**
+ * This class is the MainActivity for the TravelsMenu, which is called, when in the Drawer the Option
+ * "My Travels" is selected.
+ * It has certain Fragments, which are inflated to a certain action from the user.
+ * Fragments:
+ *  - MyTravelsMenu_ListFragment
+ *  - TravelEdit
+ *  - TravelOverview
+ * And one Activity, which is started, when the user clicks on the FloatingActionButton:
+ *  - Raichat_New_Travel
+ */
 public class MyTravelsMenu extends AppCompatActivity {
 
     private static final String TAG = "Railchat:myTravels";

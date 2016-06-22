@@ -22,22 +22,24 @@ import java.util.List;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 /**
- * Created by Anna on 21.06.2016.
+ * This class reads from our Firebase - Database and saves in the background (AsynTask) all stations names in
+ * a ArrayList(String) and all Keys of the stations in another ArrayList.
  */
 public class GetStations {
 
     private ArrayList<String> stationKeys = new ArrayList<String>();
     public DatabaseReference myRef_Station;
-    private int keyFrom, keyTo;
     public ArrayList<String> stations = new ArrayList<String>();
     Activity activity;
-    AutoCompleteTextView to, from;
 
     public GetStations(Activity activity) {
         this.activity = activity;
         new DownloadStations(activity).execute();
     }
 
+    /**
+     * Returns the name of a Station to a certain Station name or null, if the name is not a name of a station.
+     */
     public String getKey(String s){
 
         Iterator<String> stationIt = stations.iterator();
@@ -56,6 +58,12 @@ public class GetStations {
         return null;
     }
 
+    /**
+     * Controlls if a certain String name is saved as a station name, so if a certain name is contained
+     * as a station name.
+     * @param s         String which should be checked if it is a station.
+     * @return          true if found, false if not found.
+     */
     public boolean contains(String s){
 
         Iterator<String> stationIt = stations.iterator();
@@ -72,6 +80,10 @@ public class GetStations {
     }
 
 
+    /**
+     * This class performs the background task to get all the stations from the database and
+     * save them in an ArrayList.
+     */
     private class DownloadStations extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog dialog;

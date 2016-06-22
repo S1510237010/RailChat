@@ -3,22 +3,26 @@ package at.fhooe.mc.android.travel;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.GetStations;
 
+/**
+ * This class is an Activity. It is started, when in the MyTravelsMenu_Listfragment the FloatingButton
+ * is clicked.
+ * It consists of a Fragmentcontainer, which is filled of one of this Fragments:
+ *  - Railchat_New_Travel_Date
+ *  - Rail
+ */
 public class Railchat_New_Travel extends AppCompatActivity {
 
     private static final String TAG = "new Travel";
-    private String userID;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
