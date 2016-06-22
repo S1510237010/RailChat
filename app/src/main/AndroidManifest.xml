@@ -9,17 +9,21 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".login.login_hello"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".main_menu.Railchat_Main_Menu">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".login.LoginSplash"
+            android:theme="@android:style/Theme.NoTitleBar"
+            >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name=".login.login_auth" />
+        <activity android:name=".main_menu.Railchat_Main_Menu">
+
+        </activity>
+
         <activity
             android:name=".travel.Railchat_New_Travel"
             android:label="@string/title_activity_railchat__new__travel"
@@ -28,6 +32,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.travel.MyTravelsMenu" />
         </activity>
+
         <activity
             android:name=".travel.MyTravelsMenu"
             android:label="@string/title_activity_my_travels_menu"
@@ -36,6 +41,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
         </activity>
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -44,6 +50,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
         </activity>
+
     </application>
 
 </manifest>
