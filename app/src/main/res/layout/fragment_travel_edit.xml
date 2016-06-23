@@ -88,7 +88,10 @@
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/travel_edit_date" />
+                        android:id="@+id/travel_edit_date"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:editable="false" />
 
                 </LinearLayout>
 
