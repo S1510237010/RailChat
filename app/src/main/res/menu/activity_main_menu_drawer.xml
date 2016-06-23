@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/drawer_top"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_travels"
             android:icon="@drawable/ic_menu_travels"
@@ -16,8 +18,9 @@
             android:title="Chats" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
+    <group
+        android:id="@+id/drawer_bottom"
+        android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_settings"
@@ -26,7 +29,6 @@
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_menu_signout"
                 android:title="Sign Out" />
-        </menu>
-    </item>
+    </group>
 
 </menu>
