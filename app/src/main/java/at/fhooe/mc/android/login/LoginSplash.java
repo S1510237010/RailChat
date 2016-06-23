@@ -11,6 +11,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.main_menu.MainMenu;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 public class LoginSplash extends Activity {
@@ -29,7 +30,7 @@ public class LoginSplash extends Activity {
             Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
             Log.i("Login", "User != null, launching main menu");
 
-            Intent i = new Intent(this, Railchat_Main_Menu.class);
+            Intent i = new Intent(this, MainMenu.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
@@ -55,7 +56,7 @@ public class LoginSplash extends Activity {
                 Toast.makeText(LoginSplash.this, "User Loggid In", Toast.LENGTH_SHORT).show();
 
                 // user is signed in!
-                Intent i = new Intent(this, Railchat_Main_Menu.class);
+                Intent i = new Intent(this, MainMenu.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
