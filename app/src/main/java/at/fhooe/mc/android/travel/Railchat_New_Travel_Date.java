@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import at.fhooe.mc.android.R;
@@ -50,7 +51,8 @@ public class Railchat_New_Travel_Date extends Fragment implements View.OnClickLi
         switch (view.getId()){
 
             case R.id.new_travel_textEdit_date:{
-                DateDialog dialog = new DateDialog(view);
+                EditText text = (EditText) view.findViewById(R.id.new_travel_textEdit_date);
+                DateDialog dialog = new DateDialog(text);
                 dialog.show(ft, "DatePicker");
                 Button b = (Button)getView().findViewById(R.id.new_travel_date_button_next);
 
