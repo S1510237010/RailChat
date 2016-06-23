@@ -26,8 +26,8 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
     }
 
     @SuppressLint("ValidFragment")
-    public DateDialog(View view){
-        textDate = (EditText) view.findViewById(R.id.new_travel_textEdit_date);
+    public DateDialog(EditText text){
+        textDate = text;
     }
 
 

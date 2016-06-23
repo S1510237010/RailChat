@@ -17,7 +17,7 @@ import android.widget.TextView;
 import at.fhooe.mc.android.R;
 
 
-public class TravelEdit extends Fragment {
+public class TravelEdit extends Fragment implements View.OnClickListener{
 
 
 
@@ -60,15 +60,19 @@ public class TravelEdit extends Fragment {
 
             EditText et = (EditText)getView().findViewById(R.id.travel_edit_to);
             et.setText(item.getTo());
+            et.setOnClickListener(this);
 
             et = (EditText) getView().findViewById(R.id.travel_edit_from);
             et.setText(item.getFrom());
+            et.setOnClickListener(this);
 
             et = (EditText) getView().findViewById(R.id.travel_edit_date);
             et.setText(item.getDate());
+            et.setOnClickListener(this);
 
             et = (EditText) getView().findViewById(R.id.travel_edit_time);
             et.setText(item.getTime());
+            et.setOnClickListener(this);
 
             TextView tv = (TextView)getView().findViewById(R.id.travel_edit_personNumber);
             tv.setText(String.valueOf(item.getPersons()));
@@ -91,5 +95,20 @@ public class TravelEdit extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
 
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+
+        switch (v.getId()){
+            case R.id.travel_edit_date:{
+                EditText text = (EditText) v.findViewById(R.id.travel_edit_date);
+                DateDialog dialog = new DateDialog(text);
+                dialog.show(ft, "DatePicker");
+            }break;
+
+
+
+        }
+    }
 }
