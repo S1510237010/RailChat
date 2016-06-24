@@ -23,30 +23,6 @@ public class LoginSplash extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_splash);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        Log.i("Login", "got auth Object");
-
-        if (auth.getCurrentUser() != null) {
-            Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User != null, launching main menu");
-
-            Intent i = new Intent(this, MainMenu.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
-            finish();
-        } else {
-            Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User == null, launching Firebase UI");
-
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setProviders(
-                                    AuthUI.EMAIL_PROVIDER,
-                                    AuthUI.FACEBOOK_PROVIDER)
-                            .build(),
-                    RC_SIGN_IN);
-        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -71,4 +47,43 @@ public class LoginSplash extends Activity {
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        Log.i("Login", "got auth Object");
+        synchronized (this){
+            try {
+                wait(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        if (auth.getCurrentUser() != null) {
+            Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
+            Log.i("Login", "User != null, launching main menu");
+
+            Intent i = new Intent(this, MainMenu.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        } else {
+            Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
+            Log.i("Login", "User == null, launching Firebase UI");
+
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setProviders(
+                                    AuthUI.EMAIL_PROVIDER,
+                                    AuthUI.FACEBOOK_PROVIDER)
+                            .build(),
+                    RC_SIGN_IN);
+        }
+
+    }
 }

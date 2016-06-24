@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.login.LoginSplash;
+import at.fhooe.mc.android.settings.SettingsActivity;
+import at.fhooe.mc.android.travel.MyTravelsMenu;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -122,29 +124,38 @@ public class MainMenu extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_timeline) {
+        Intent i;
+
+        switch(item.getItemId()){
+
+            case R.id.nav_timeline:{
+
+            }break;
             // Handle the camera action
-        } else if (id == R.id.nav_travels) {
+            case R.id.nav_travels:{
+                i = new Intent(getApplicationContext(), MyTravelsMenu.class);
+                startActivity(i);
+            }break;
+            case R.id.nav_chats:{
 
-        } else if (id == R.id.nav_timeline) {
-
-        } else if (id == R.id.nav_chats) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_signout) {
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // user is now signed out
-                            Intent i = new Intent(MainMenu.this, LoginSplash.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    });
+            }break;
+            case R.id.nav_settings:{
+                i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+            }break;
+            case R.id.nav_signout:{
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // user is now signed out
+                                Intent i = new Intent(MainMenu.this, LoginSplash.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
