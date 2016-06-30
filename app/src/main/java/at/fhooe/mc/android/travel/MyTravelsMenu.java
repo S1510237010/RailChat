@@ -24,7 +24,7 @@ import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 public class MyTravelsMenu extends AppCompatActivity {
 
     private static final String TAG = "Railchat:myTravels";
-    public static DatabaseReference myRef;
+    public static DatabaseReference myRef, trainRef;
     public static String userID;
     public static boolean deleteAction;
     public static FloatingActionButton fab;
@@ -41,8 +41,9 @@ public class MyTravelsMenu extends AppCompatActivity {
 
 
 
-        myRef = Railchat_Main_Menu.database.getDatabase().getReference("User");
-        myRef.child(userID);
+        myRef = Railchat_Main_Menu.database.getDatabase().getReference("Users");
+
+        trainRef = Railchat_Main_Menu.database.getDatabase().getReference("Travels");
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.myTravels_frameLayout, new MyTravelsMenu_ListFragment());

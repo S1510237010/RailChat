@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -169,89 +170,46 @@ public class MyTravelsMenu_ListFragment extends Fragment {
 
     public void databaseTravel(){
 
-        MyTravelsMenu.myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        System.out.println("HALLO");
 
+        MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 listAdapter.clear();
+
+                System.out.println(dataSnapshot.getKey());
 
                 Iterable<DataSnapshot> travels = dataSnapshot.getChildren();
                 Iterator<DataSnapshot> iterator = travels.iterator();
 
                 while (iterator.hasNext()) {
 
-                    DataSnapshot travel = iterator.next();
-                    String to = travel.child("To").getValue().toString();
-                    String from = travel.child("From").getValue().toString();
-                    String train = travel.child("Train").getValue().toString();
-                    String date = travel.child("Date").getValue().toString();
-                    String time = travel.child("Time").getValue().toString();
-                    int persons = 0;
-                    int trainNumber = Integer.parseInt(train);
+                    String travel = iterator.next().getValue().toString();
+                    System.out.println(travel);
+                    MyTravelsMenu.trainRef.child(travel).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String to       = dataSnapshot.child("To").getValue().toString();
+                            String from     = dataSnapshot.child("From").getValue().toString();
+                            String train    = dataSnapshot.child("Train").getValue().toString();
+                            String date     = dataSnapshot.child("Date").getValue().toString();
+                            String time     = dataSnapshot.child("Time").getValue().toString();
+//                            int persons     = Integer.parseInt(dataSnapshot.child("Persons").getValue().toString());
+                            int trainNumber = Integer.parseInt(train);
 
-                    TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
-                    listAdapter.add(item);
+                            TravelListItem item = new TravelListItem(to, from, trainNumber, 0, date, time);
+                            listAdapter.add(item);
+                        }
 
-                }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                updateAdapter();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                listAdapter.clear();
-
-                Iterable<DataSnapshot> travels = dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterator = travels.iterator();
-
-                while (iterator.hasNext()) {
-
-                    DataSnapshot travel = iterator.next();
-                    String to = travel.child("To").getValue().toString();
-                    String from = travel.child("From").getValue().toString();
-                    String train = travel.child("Train").getValue().toString();
-                    String date = travel.child("Date").getValue().toString();
-                    String time = travel.child("Time").getValue().toString();
-                    int persons = 0;
-                    int trainNumber = Integer.parseInt(train);
-
-                    TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
-                    listAdapter.add(item);
+                        }
+                    });
 
                 }
 
                 updateAdapter();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                listAdapter.clear();
-
-                Iterable<DataSnapshot> travels = dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterator = travels.iterator();
-
-                while (iterator.hasNext()) {
-
-                    DataSnapshot travel = iterator.next();
-                    String to = travel.child("To").getValue().toString();
-                    String from = travel.child("From").getValue().toString();
-                    String train = travel.child("Train").getValue().toString();
-                    String date = travel.child("Date").getValue().toString();
-                    String time = travel.child("Time").getValue().toString();
-                    int persons = 0;
-                    int trainNumber = Integer.parseInt(train);
-
-                    TravelListItem item = new TravelListItem(to, from, trainNumber, persons, date, time);
-                    listAdapter.add(item);
-
-                }
-
-                updateAdapter();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override

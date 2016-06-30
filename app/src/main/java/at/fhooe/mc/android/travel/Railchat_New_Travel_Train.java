@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetTrains;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
@@ -33,7 +34,7 @@ import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 public class Railchat_New_Travel_Train extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Train";
-    private final ArrayList<String> railjets = new ArrayList<String>();
+    private ArrayList<String> railjets = new ArrayList<String>();
     public DatabaseReference myRef_RJ;
     String to, from;
     String keyTo, keyFrom;
@@ -42,6 +43,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     public Railchat_New_Travel_Train() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +57,8 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
         keyTo = bundle.getString("keyTo");
         keyFrom = bundle.getString("keyFrom");
 
-        new DownloadTrains().execute();
+
+        railjets = new GetTrains(keyFrom, keyTo, bundle.getString("date")).getTrains();
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_railchat_new_travel_train, container, false);
@@ -126,142 +129,5 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     }
 
 
-    private class DownloadTrains extends AsyncTask<Void, Void, Void>{
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            System.out.println("doInBackground");
-
-            final int finalEven = Integer.parseInt(keyFrom) - Integer.parseInt(keyTo);
-            final String finalIndex_from = keyFrom;
-            final String finalIndex_to = keyTo;
-
-            myRef_RJ.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> snapshot_Train = dataSnapshot.getChildren();
-                    Iterator<DataSnapshot> iterator = snapshot_Train.iterator();
-
-                    while (iterator.hasNext()) {
-                        DataSnapshot child = iterator.next();
-
-                        if (child != null) {
-
-                            boolean hasStation = false;
-                            int trainNumber = Integer.parseInt(child.getKey());
-
-                            if (finalEven > 0 && trainNumber % 2 == 0){
-
-                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-
-                                boolean to = false, from = false;
-
-                                while(iterator_station.hasNext()){
-
-                                    DataSnapshot trainstation = iterator_station.next();
-
-                                    if (trainstation != null){
-                                        String stationNumber = trainstation.getValue().toString();
-
-                                        if (stationNumber.equals(finalIndex_from)){
-                                            from = true;
-                                        }
-
-                                        if (stationNumber.equals(finalIndex_to)){
-                                            to = true;
-                                        }
-                                    }
-
-                                }
-
-                                if (from && to){
-                                    hasStation = true;
-                                }
-
-                            }
-                            else if (finalEven < 0 && trainNumber % 2 == 1){
-
-                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-
-                                boolean to = false, from = false;
-
-                                while(iterator_station.hasNext()){
-                                    DataSnapshot childTrain = iterator_station.next();
-
-                                    if (childTrain != null){
-                                        String stationNumber = childTrain.getValue().toString();
-
-                                        if (stationNumber.equals(finalIndex_from)){
-                                            from = true;
-                                        }
-
-                                        if (stationNumber.equals(finalIndex_to)){
-                                            to = true;
-                                        }
-                                    }
-                                }
-
-                                if (from && to){
-                                    hasStation = true;
-                                }
-                            }
-                            else if (finalEven == 0){
-
-                                System.out.println(trainNumber);
-
-                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-
-                                boolean to = false, from = false;
-
-                                if (finalIndex_from.equals("-1")){
-                                    from = true;
-                                }
-                                if (finalIndex_to.equals("-1")){
-                                    to = true;
-                                }
-
-                                while(iterator_station.hasNext()){
-                                    DataSnapshot childTrain = iterator_station.next();
-
-                                    if (childTrain != null){
-                                        String stationNumber = childTrain.getValue().toString();
-
-                                        if (stationNumber.equals(finalIndex_from)){
-                                            from = true;
-                                        }
-
-                                        if (stationNumber.equals(finalIndex_to)){
-                                            to = true;
-                                        }
-                                    }
-                                }
-
-                                if (from && to){
-                                    hasStation = true;
-                                }
-                            }
-
-                            if (hasStation){
-                                railjets.add(child.getKey());
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-
-            });
-
-            return null;
-        }
-
-
-    }
 }

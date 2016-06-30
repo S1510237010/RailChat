@@ -22,7 +22,7 @@ import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 public class Railchat_New_Travel_Save extends Fragment implements View.OnClickListener {
 
     Bundle data;
-    String date, to, from, train, time;
+    String date, to, from, train, time, persons;
     public DatabaseReference myRef_Travel;
     String userID;
 
@@ -74,16 +74,17 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
         switch (view.getId()){
             case R.id.new_travel_save_button_save:{
 
-                String key = myRef_Travel.push().getKey();
+                String key = myRef_Travel.child("Travels").push().getKey();
 
-                Travel myTravel = new Travel(to, from, train, date, time);
+                Travel myTravel = new Travel(to, from, train, date, time, persons);
                 Map<String, Object> travelValues = myTravel.toMap();
                 Map<String, Object> traveler = new HashMap<>();
                 traveler.put(key, userID);
 
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/User/" + userID + "/" + key, travelValues);
-                childUpdates.put("/RailJets/" + train + "/Traveler/" + date + "/", traveler);
+                childUpdates.put("/Users/" + userID + "/Travels/" + key, key);
+                childUpdates.put("/Travels/" + key, travelValues);
+                childUpdates.put("/RailjetTraveler/" + date + "/" + train + "/", traveler);
 
                 myRef_Travel.updateChildren(childUpdates);
                 Toast.makeText(getActivity(), "Travel was successfully added", Toast.LENGTH_SHORT).show();
@@ -102,16 +103,15 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
         public String train;
         public String date;
         public String time;
+        public String persons;
 
-        public Travel(){
-
-        }
-        public Travel(String to, String from, String train, String date, String time){
+        public Travel(String to, String from, String train, String date, String time, String persons){
             this.to = to;
             this.from = from;
             this.train = train;
             this.date = date;
             this.time = time;
+            this.persons = persons;
         }
 
 
@@ -123,6 +123,7 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
             result.put("Train", train);
             result.put("Date", date);
             result.put("Time", time);
+            result.put("Persons", persons);
 
             return result;
         }
