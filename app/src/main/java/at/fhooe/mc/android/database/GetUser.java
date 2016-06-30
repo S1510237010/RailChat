@@ -17,6 +17,8 @@ public class GetUser {
     public String getUserID(){
         return user.getUid();
     }
+    public String getUserName() { return user.getDisplayName();}
+    public String getUserEMail(){return user.getEmail();}
 
 
 }

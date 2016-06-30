@@ -1,15 +1,20 @@
 package at.fhooe.mc.android.chat;
 
-import android.support.annotation.NonNull;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.view.View;
+import android.widget.Button;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.adapter.FirebaseRecyclerAdapter;
@@ -21,6 +26,9 @@ public class ChatListActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
+    private FirebaseUser myUser;
+    private DatabaseReference mChatsRef;
+    private Button newChatButton;
     private Query mChatRef;
     private RecyclerView mChats;
     private LinearLayoutManager mManager;
@@ -32,8 +40,19 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         mRef = FirebaseDatabase.getInstance().getReference();
-        mChatRef = mRef.limitToLast(50);
+        mAuth = FirebaseAuth.getInstance();
+        myUser = mAuth.getCurrentUser();
+        mChatsRef = mRef.child("Chats").child(myUser.getUid());
+        mChatRef = mRef.child("Chats").child(myUser.getUid()).limitToLast(50);
         mChats = (RecyclerView) findViewById(R.id.chatsRecyclerView);
+        newChatButton = (Button)findViewById(R.id.new_chat);
+        newChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newChat();
+            }
+        });
+
 
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(false);
@@ -84,6 +103,14 @@ public class ChatListActivity extends AppCompatActivity {
 
     public boolean isSignedIn() {
         return (mAuth.getCurrentUser() != null);
+    }
+    private void newChat(){
+
+
+        ChatItemModel ch = new ChatItemModel("Martin", "Blablabla");
+
+        mChatsRef.push().setValue(ch);
+
     }
 
 
