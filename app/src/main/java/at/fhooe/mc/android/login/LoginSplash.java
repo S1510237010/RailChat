@@ -80,7 +80,10 @@ public class LoginSplash extends Activity {
                             .createSignInIntentBuilder()
                             .setProviders(
                                     AuthUI.EMAIL_PROVIDER,
-                                    AuthUI.FACEBOOK_PROVIDER)
+                                    AuthUI.FACEBOOK_PROVIDER
+                                    )
+                            .setTheme(R.style.CustomFirebaseUITheme)
+                            .setLogo(R.drawable.logo2_cropped)
                             .build(),
                     RC_SIGN_IN);
         }

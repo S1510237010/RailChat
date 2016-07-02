@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.google.firebase.database.DatabaseReference;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.GetUser;
+import at.fhooe.mc.android.main_menu.MainMenu;
 import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 /**
@@ -21,7 +22,7 @@ import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
  * And one Activity, which is started, when the user clicks on the FloatingActionButton:
  *  - Raichat_New_Travel
  */
-public class MyTravelsMenu extends AppCompatActivity {
+public class MyTravelsMenu extends MainMenu {
 
     private static final String TAG = "Railchat:myTravels";
     public static DatabaseReference myRef, trainRef;

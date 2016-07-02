@@ -132,7 +132,6 @@ public class MainMenu extends AppCompatActivity
             case R.id.nav_timeline:{
 
             }break;
-            // Handle the camera action
             case R.id.nav_travels:{
                 i = new Intent(getApplicationContext(), MyTravelsMenu.class);
                 startActivity(i);
