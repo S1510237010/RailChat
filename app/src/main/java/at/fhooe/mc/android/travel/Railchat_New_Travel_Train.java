@@ -25,8 +25,7 @@ import java.util.Iterator;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.GetTrains;
 import at.fhooe.mc.android.database.InitializeDatabase;
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
-
+import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +48,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        myRef_RJ = Railchat_Main_Menu.database.getDatabase().getReference("RailJets");
+        myRef_RJ = MainMenu.database.getDatabase().getReference("RailJets");
 
         bundle = getArguments();
         String from = bundle.getString("from");

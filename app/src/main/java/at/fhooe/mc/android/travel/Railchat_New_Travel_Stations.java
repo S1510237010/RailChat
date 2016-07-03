@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.database.InitializeDatabase;
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 
 public class Railchat_New_Travel_Stations extends Fragment implements View.OnClickListener {

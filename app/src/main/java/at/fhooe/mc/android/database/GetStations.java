@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
+import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
  * This class reads from our Firebase - Database and saves in the background (AsynTask) all stations names in
@@ -103,7 +103,7 @@ public class GetStations {
 
             final List list = Collections.synchronizedList(stations);
 
-            myRef_Station = Railchat_Main_Menu.database.getDatabase().getReference("Stations");
+            myRef_Station = MainMenu.database.getDatabase().getReference("Stations");
             myRef_Station.keepSynced(true);
             myRef_Station.addChildEventListener(new ChildEventListener() {
                 @Override

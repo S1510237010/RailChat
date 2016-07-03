@@ -31,12 +31,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
 import at.fhooe.mc.android.travel.MyTravelsMenu;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static InitializeDatabase database = new InitializeDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.main_menu.MainMenu;
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 public class LoginSplash extends Activity {
 

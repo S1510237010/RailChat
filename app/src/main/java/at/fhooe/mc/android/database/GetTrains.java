@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
+import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
  * Created by Anna on 21.06.2016.
@@ -26,7 +26,7 @@ public class GetTrains {
 
 
     public GetTrains(String keyFrom, String keyTo, String date){
-        myRef_RJ        = Railchat_Main_Menu.database.getDatabase().getReference("RailJets");
+        myRef_RJ        = MainMenu.database.getDatabase().getReference("RailJets");
         this.keyFrom    = keyFrom;
         this.keyTo      = keyTo;
         this.date       = date;

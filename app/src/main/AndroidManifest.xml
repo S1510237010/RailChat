@@ -18,7 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main_menu.Railchat_Main_Menu" />
         <activity
             android:name=".travel.Railchat_New_Travel"
             android:label="@string/title_activity_railchat__new__travel"
@@ -33,15 +32,15 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
+                android:value="at.fhooe.mc.android.main_menu.MainMenu" />
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".main_menu.Railchat_Main_Menu">
+            android:parentActivityName=".main_menu.MainMenu">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
+                android:value="at.fhooe.mc.android.main_menu.MainMenu" />
         </activity>
         <activity
             android:name=".main_menu.MainMenu"
