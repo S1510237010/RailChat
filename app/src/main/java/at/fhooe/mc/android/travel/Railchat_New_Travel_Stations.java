@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -96,7 +97,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
             @Override
             public void afterTextChanged(Editable s) {
-                stationsEntered();
+                stationsEntered(to);
             }
         });
 
@@ -117,7 +118,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
             @Override
             public void afterTextChanged(Editable s) {
-                stationsEntered();
+                stationsEntered(from);
             }
         });
     }
@@ -135,7 +136,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
             case R.id.new_travel_stations_button_next:{
 
-                if (stationsEntered() && from.getText().toString().trim().length() != 0 && to.getText().toString().trim().length() != 0){
+                if (stationsEntered(to) && stationsEntered(from) && from.getText().toString().trim().length() != 0 && to.getText().toString().trim().length() != 0){
 
                     String f = from.getText().toString();
                     String t = to.getText().toString();
@@ -166,30 +167,24 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
     }
 
 
-    private boolean stationsEntered(){
+    private boolean stationsEntered(AutoCompleteTextView textView){
 
         boolean right = true;
 
-        if(to.getText().length() != 0){
+        if(textView.getText().length() != 0) {
 
-            if (Railchat_New_Travel.stations.contains(to.getText().toString())){
-                to.setTextColor(getResources().getColor(R.color.right_black));
-            }
-            else {
-                to.setTextColor(getResources().getColor(R.color.false_red));
+            if (Railchat_New_Travel.stations.contains(textView.getText().toString())) {
+                textView.setTextColor(getResources().getColor(R.color.right_black));
+                InputMethodManager inputManager = (InputMethodManager)
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            } else {
+                textView.setTextColor(getResources().getColor(R.color.false_red));
                 right = false;
             }
 
-        }
-
-        if (from.getText().length() != 0){
-            if (Railchat_New_Travel.stations.contains(from.getText().toString())){
-                from.setTextColor(getResources().getColor(R.color.right_black));
-            }
-            else {
-                from.setTextColor(getResources().getColor(R.color.false_red));
-                right =  false;
-            }
         }
 
         return right;

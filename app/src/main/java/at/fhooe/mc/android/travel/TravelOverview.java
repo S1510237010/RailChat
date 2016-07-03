@@ -1,7 +1,8 @@
 package at.fhooe.mc.android.travel;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -9,15 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import at.fhooe.mc.android.R;
 
 
 public class TravelOverview extends Fragment {
 
 
-    private FloatingActionButton fab;
+    private FloatingActionButton fab, delete;
     TravelListItem item;
 
 
@@ -28,7 +27,8 @@ public class TravelOverview extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.fab = MyTravelsMenu.fab;
+        this.fab = MyTravelsMenu.fab_add;
+        this.delete = MyTravelsMenu.fab_delete;
         item = MyTravelsMenu_ListFragment.toDelete;
     }
 
@@ -51,6 +51,15 @@ public class TravelOverview extends Fragment {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.myTravels_frameLayout, new TravelEdit());
                 fragmentTransaction.commit();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DeleteTravel(item);
+                Intent i = new Intent(getContext(), MyTravelsMenu.class);
+                startActivity(i);
             }
         });
 

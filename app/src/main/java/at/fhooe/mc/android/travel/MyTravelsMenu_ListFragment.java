@@ -4,10 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -17,15 +16,11 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Date;
-import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
 
@@ -34,7 +29,7 @@ public class MyTravelsMenu_ListFragment extends Fragment {
 
     public TravelListArrayAdapter listAdapter;
     static TravelListItem toDelete;
-    public FloatingActionButton fabBut;
+    public FloatingActionButton fabBut, fabDelete;
     private boolean element = false;
 
 
@@ -55,7 +50,8 @@ public class MyTravelsMenu_ListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        fabBut = MyTravelsMenu.fab;
+        fabBut      = MyTravelsMenu.fab_add;
+        fabDelete   = MyTravelsMenu.fab_delete;
 
         listAdapter = new TravelListArrayAdapter(getActivity());
 
@@ -70,6 +66,31 @@ public class MyTravelsMenu_ListFragment extends Fragment {
             }
         });
         fabBut.setImageResource(R.drawable.ic_add_black_24dp);
+
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.travel_delete_title)
+                        .setMessage(R.string.travel_delete_all_message)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = listAdapter.getCount() - 1; i >= 0; i--){
+                                    new DeleteTravel(listAdapter.getItem(i));
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(R.drawable.ic_delete_black_24dp)
+                        .show();
+            }
+        });
 
         ListView listView = (ListView)getView().findViewById(R.id.travel_list);
         listView.setAdapter(listAdapter);
@@ -123,12 +144,10 @@ public class MyTravelsMenu_ListFragment extends Fragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 if (scrollUp(view, firstVisibleItem, visibleItemCount, totalItemCount)){
-                    fabBut.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+
                 }
                 else {
-                    CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fabBut.getLayoutParams();
-                    int fab_bottomMargin = layoutParams.bottomMargin;
-                    MyTravelsMenu.fab.animate().translationY(fabBut.getHeight() + fab_bottomMargin).setInterpolator(new LinearInterpolator()).start();
+
                 }
 
             }
@@ -201,7 +220,19 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                         int trainNumber = Integer.parseInt(train);
 
                         TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
-                        listAdapter.add(item);
+
+                        boolean contains = false;
+
+                        for (int i = 0; i < listAdapter.getCount(); i++){
+                            if (item.equals(listAdapter.getItem(i))){
+                                contains = true;
+                            }
+                        }
+
+                        if (!contains){
+                            listAdapter.add(item);
+                        }
+
                         element = true;
                     }
 
@@ -241,7 +272,17 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                         int trainNumber = Integer.parseInt(train);
 
                         TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
-                        listAdapter.add(item);
+                        boolean contains = false;
+
+                        for (int i = 0; i < listAdapter.getCount(); i++){
+                            if (item.equals(listAdapter.getItem(i))){
+                                contains = true;
+                            }
+                        }
+
+                        if (!contains){
+                            listAdapter.add(item);
+                        }
                         element = true;
                     }
 

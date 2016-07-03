@@ -3,7 +3,7 @@ package at.fhooe.mc.android.travel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -40,7 +40,7 @@ public class MyTravelsMenu extends AppCompatActivity implements NavigationView.O
     public static DatabaseReference myRef, trainRef;
     public static String userID;
     public static boolean deleteAction;
-    public static FloatingActionButton fab;
+    public static FloatingActionButton fab_add, fab_delete;
     public static String fragment;
 
     @Override
@@ -50,8 +50,8 @@ public class MyTravelsMenu extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_my_travels_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = (FloatingActionButton) findViewById(R.id.myTravels_FloatingButton);
-
+        fab_add = (FloatingActionButton) findViewById(R.id.myTravels_FloatingButton);
+        fab_delete = (FloatingActionButton) findViewById(R.id.myTravels_delete);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

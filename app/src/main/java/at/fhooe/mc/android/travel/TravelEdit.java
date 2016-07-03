@@ -1,11 +1,8 @@
 package at.fhooe.mc.android.travel;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -21,7 +18,7 @@ public class TravelEdit extends Fragment implements View.OnClickListener{
 
 
 
-    private FloatingActionButton fab;
+    private FloatingActionButton fab, ok;
     TravelListItem item;
 
     public TravelEdit() {
@@ -34,7 +31,8 @@ public class TravelEdit extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         item = MyTravelsMenu_ListFragment.toDelete;
-        fab = MyTravelsMenu.fab;
+        fab = MyTravelsMenu.fab_delete;
+        ok = MyTravelsMenu.fab_add;
 
     }
 
@@ -43,13 +41,20 @@ public class TravelEdit extends Fragment implements View.OnClickListener{
     public void onStart() {
         super.onStart();
 
-        fab.setImageResource(R.drawable.ic_delete_black_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DeleteTravel(item);
                 Intent i = new Intent(getContext(), MyTravelsMenu.class);
                 startActivity(i);
+            }
+        });
+
+        ok.setImageResource(R.drawable.checked);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
