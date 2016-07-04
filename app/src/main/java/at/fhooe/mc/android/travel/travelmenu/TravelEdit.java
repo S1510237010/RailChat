@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travelmenu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.travel.travellist.DeleteTravel;
+import at.fhooe.mc.android.travel.travellist.TravelListItem;
+import at.fhooe.mc.android.travel.newtravel.DateDialog;
 
-
+/**
+ * This class is a Fragment subclass of the Activity TravelMenu.
+ * Here, the user can edit his Travels.
+ * Then it is resaved in the database.
+ */
 public class TravelEdit extends Fragment implements View.OnClickListener{
-
-
 
     private FloatingActionButton fab, ok;
     TravelListItem item;
@@ -25,12 +30,11 @@ public class TravelEdit extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        item = MyTravelsMenu_ListFragment.toDelete;
+        item = MyTravelsMenuListFragment.toDelete;
         fab = MyTravelsMenu.fab_delete;
         ok = MyTravelsMenu.fab_add;
 

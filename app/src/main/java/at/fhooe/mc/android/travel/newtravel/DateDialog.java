@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;

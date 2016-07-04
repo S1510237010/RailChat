@@ -46,7 +46,7 @@
     <string name="Cancel">Cancel</string>
 
     <string name="message_no_date_picked">Please pick date</string>
-    <string name="message_no_station_picked">Please pick a station</string>
+    <string name="message_no_station_picked">Please pick two legit stations</string>
 
     <string name="facebook_application_id" translatable="false">920790128018530</string>
     <string name="title_activity_railchat__my__travels__menu__test">Railchat_My_Travels_Menu_Test

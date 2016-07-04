@@ -1,12 +1,8 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -19,22 +15,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
 
-
-public class Railchat_New_Travel_Stations extends Fragment implements View.OnClickListener {
+/**
+ * This class is a Fragment of NewTravel.
+ * The user can pick two stations in two AutocompleteTextViews.
+ */
+public class NewTravelStations extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Stations";
     private ArrayAdapter<String> adapter;
@@ -45,7 +34,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
 
 
 
-    public Railchat_New_Travel_Stations() {
+    public NewTravelStations() {
         // Required empty public constructor
     }
 
@@ -77,7 +66,7 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
         b.setOnClickListener(this);
 
         adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, Railchat_New_Travel.stations.stations);
+                android.R.layout.simple_dropdown_item_1line, NewTravel.stations.stations);
         adapter.setNotifyOnChange(true);
 
         to = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_from);
@@ -144,13 +133,13 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
                     arguments.putString("from", f);
                     arguments.putString("to", t);
 
-                    String keyFrom = Railchat_New_Travel.stations.getKey(f);
-                    String keyTo = Railchat_New_Travel.stations.getKey(t);
+                    String keyFrom = NewTravel.stations.getKey(f);
+                    String keyTo = NewTravel.stations.getKey(t);
 
                     arguments.putString("keyFrom", keyFrom);
                     arguments.putString("keyTo", keyTo);
 
-                    Fragment fragment = new Railchat_New_Travel_Train();
+                    Fragment fragment = new NewTravelTrain();
                     fragment.setArguments(arguments);
                     ft.replace(R.id.new_travel_frameLayout_fragment, fragment);
                     ft.commit();
@@ -166,14 +155,35 @@ public class Railchat_New_Travel_Stations extends Fragment implements View.OnCli
         }
     }
 
+    /**
+     * This method controls if there are two different stations entered.
+     * @return      true == different text, false == same text or one textview is empty
+     */
+    private boolean sameStation(){
 
+        if (to.getText().length() == 0 || from.getText().length() == 0){
+            return false;
+        }
+
+        if (to.getText().toString().equals(from.getText().toString())){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method controls if there are two legit stations entered.
+     * If it is legit, the text color will be black, in other case it will be red.
+     * @param textView  textview which text should be controlled
+     * @return          true == legit Input, false == false input
+     */
     private boolean stationsEntered(AutoCompleteTextView textView){
 
         boolean right = true;
 
         if(textView.getText().length() != 0) {
 
-            if (Railchat_New_Travel.stations.contains(textView.getText().toString())) {
+            if (!sameStation() && NewTravel.stations.contains(textView.getText().toString())) {
                 textView.setTextColor(getResources().getColor(R.color.right_black));
                 InputMethodManager inputManager = (InputMethodManager)
                         getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -1,16 +1,12 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travellist;
 
 import android.app.LauncherActivity;
-import android.util.Log;
-import android.util.StringBuilderPrinter;
-import android.view.MotionEvent;
-import android.view.View;
-
-import java.util.Comparator;
-import java.util.Date;
 
 /**
- * Created by Anna on 27.05.2016.
+ * This class is used for the TravelListAdapter.
+ * In this class all important informations of a Travel:
+ * - ID (every Travel has a own travelID)
+ * etc.
  */
 public class TravelListItem extends LauncherActivity.ListItem {
 

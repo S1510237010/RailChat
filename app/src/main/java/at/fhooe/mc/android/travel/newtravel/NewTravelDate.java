@@ -1,6 +1,5 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,18 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import at.fhooe.mc.android.R;
 
-
-public class Railchat_New_Travel_Date extends Fragment implements View.OnClickListener {
+/**
+ * This class is the first Fragment of the Activity NewTravel. In this Fragment the Date can be picked.
+ * By clicking on a EditText, a Datedialog is activated, where you can pick any date, but all dates until
+ * the current date are not activated.
+ */
+public class NewTravelDate extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Date";
 
 
-    public Railchat_New_Travel_Date() {
+    public NewTravelDate() {
         // Required empty public constructor
     }
 
@@ -54,8 +56,6 @@ public class Railchat_New_Travel_Date extends Fragment implements View.OnClickLi
                 EditText text = (EditText) view.findViewById(R.id.new_travel_textEdit_date);
                 DateDialog dialog = new DateDialog(text);
                 dialog.show(ft, "DatePicker");
-                Button b = (Button)getView().findViewById(R.id.new_travel_date_button_next);
-
             }break;
             case R.id.new_travel_date_button_next:{
 
@@ -66,7 +66,7 @@ public class Railchat_New_Travel_Date extends Fragment implements View.OnClickLi
                     Bundle bundle = new Bundle();
                     bundle.putString("date", et.getText().toString());
 
-                    Fragment fragment = new Railchat_New_Travel_Stations();
+                    Fragment fragment = new NewTravelStations();
                     fragment.setArguments(bundle);
                     ft.replace(R.id.new_travel_frameLayout_fragment, fragment);
                     ft.commit();

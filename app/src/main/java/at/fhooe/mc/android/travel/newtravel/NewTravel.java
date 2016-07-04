@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,11 +16,14 @@ import at.fhooe.mc.android.database.GetStations;
 /**
  * This class is an Activity. It is started, when in the MyTravelsMenu_Listfragment the FloatingButton
  * is clicked.
- * It consists of a Fragmentcontainer, which is filled of one of this Fragments:
- *  - Railchat_New_Travel_Date
- *  - Rail
+ * It consists of a Fragmentcontainer, which is filled of one of this Fragments in this order:
+ *  - NewTravelDate (start fragment)
+ *  - NewTravelStations
+ *  - NewTravelTrain
+ *  - NewTravelSave
+ *  The fragments are switched with a click on the Next Button.
  */
-public class Railchat_New_Travel extends AppCompatActivity {
+public class NewTravel extends AppCompatActivity {
 
     private static final String TAG = "new Travel";
 
@@ -38,7 +41,7 @@ public class Railchat_New_Travel extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new Railchat_New_Travel_Date();
+        fragment = new NewTravelDate();
         fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
         fragmentTransaction.commit();
         stations = new GetStations(this);

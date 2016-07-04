@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="at.fhooe.mc.android.travel.Railchat_New_Travel">
+    tools:context=".travel.newtravel.NewTravel">
 
 </menu>

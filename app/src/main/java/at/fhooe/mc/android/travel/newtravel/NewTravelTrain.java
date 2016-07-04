@@ -1,10 +1,9 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
 
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,23 +13,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.GetTrains;
-import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This class is a Fragment subclass of NewTravels.
+ * In this Fragment the User can select a Train, with which the user
+ * travel.
+ * As soon as we have the time table this Fragment will be replaced with
+ * the selection of a time instead of a train.
+ * The train can be selected in a Alertdialog.
  */
-public class Railchat_New_Travel_Train extends Fragment implements View.OnClickListener {
+public class NewTravelTrain extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "newTravel:Train";
     private ArrayList<String> railjets = new ArrayList<String>();
@@ -39,7 +38,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
     String keyTo, keyFrom;
     Bundle bundle;
 
-    public Railchat_New_Travel_Train() {
+    public NewTravelTrain() {
         // Required empty public constructor
     }
 
@@ -93,7 +92,7 @@ public class Railchat_New_Travel_Train extends Fragment implements View.OnClickL
                     bundle.putString("train", et.getText().toString());
                     bundle.putString("time", "00:00");
 
-                    Fragment fragment = new Railchat_New_Travel_Save();
+                    Fragment fragment = new NewTravelSave();
                     fragment.setArguments(bundle);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.new_travel_frameLayout_fragment, fragment);

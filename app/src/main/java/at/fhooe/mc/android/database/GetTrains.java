@@ -14,7 +14,9 @@ import java.util.Iterator;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
- * Created by Anna on 21.06.2016.
+ * This class gets all suitable trains from the database.
+ * And has a method, which returns an ArrayList of all Trains
+ * it also has a ArrayList persons to save all persons in a train.
  */
 public class GetTrains {
 
@@ -62,7 +64,10 @@ public class GetTrains {
         myRef_RJ.child(train).child("Traveler").child(date).child("Persons").setValue(edit);
     }
 
-
+    /**
+     * This class gets all Trains from the database in the background and saves them in the arraylist.
+     * It controlls if the train has both stations entered with the two stationIDs.
+     */
     private class DownloadTrains extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -403,130 +408,6 @@ public class GetTrains {
 
                 }
             });
-
-
-//            myRef_RJ.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    Iterable<DataSnapshot> snapshot_Train = dataSnapshot.getChildren();
-//                    Iterator<DataSnapshot> iterator = snapshot_Train.iterator();
-//
-//                    while (iterator.hasNext()) {
-//                        DataSnapshot child = iterator.next();
-//
-//                        if (child != null) {
-//
-//                            boolean hasStation = false;
-//                            int trainNumber = Integer.parseInt(child.getKey());
-//
-//                            if (finalEven > 0 && trainNumber % 2 == 0){
-//
-//                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-//                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-//
-//                                boolean to = false, from = false;
-//
-//                                while(iterator_station.hasNext()){
-//
-//                                    DataSnapshot trainstation = iterator_station.next();
-//
-//                                    if (trainstation != null){
-//                                        String stationNumber = trainstation.getValue().toString();
-//
-//                                        if (stationNumber.equals(finalIndex_from)){
-//                                            from = true;
-//                                        }
-//
-//                                        if (stationNumber.equals(finalIndex_to)){
-//                                            to = true;
-//                                        }
-//                                    }
-//
-//                                }
-//
-//                                if (from && to){
-//                                    hasStation = true;
-//                                }
-//
-//                            }
-//                            else if (finalEven < 0 && trainNumber % 2 == 1){
-//
-//                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-//                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-//
-//                                boolean to = false, from = false;
-//
-//                                while(iterator_station.hasNext()){
-//                                    DataSnapshot childTrain = iterator_station.next();
-//
-//                                    if (childTrain != null){
-//                                        String stationNumber = childTrain.getValue().toString();
-//
-//                                        if (stationNumber.equals(finalIndex_from)){
-//                                            from = true;
-//                                        }
-//
-//                                        if (stationNumber.equals(finalIndex_to)){
-//                                            to = true;
-//                                        }
-//                                    }
-//                                }
-//
-//                                if (from && to){
-//                                    hasStation = true;
-//                                }
-//                            }
-//                            else if (finalEven == 0){
-//
-//                                System.out.println(trainNumber);
-//
-//                                Iterable<DataSnapshot> stations = child.child("StationNumber").getChildren();
-//                                Iterator<DataSnapshot> iterator_station = stations.iterator();
-//
-//                                boolean to = false, from = false;
-//
-//                                if (finalIndex_from.equals("-1")){
-//                                    from = true;
-//                                }
-//                                if (finalIndex_to.equals("-1")){
-//                                    to = true;
-//                                }
-//
-//                                while(iterator_station.hasNext()){
-//                                    DataSnapshot childTrain = iterator_station.next();
-//
-//                                    if (childTrain != null){
-//                                        String stationNumber = childTrain.getValue().toString();
-//
-//                                        if (stationNumber.equals(finalIndex_from)){
-//                                            from = true;
-//                                        }
-//
-//                                        if (stationNumber.equals(finalIndex_to)){
-//                                            to = true;
-//                                        }
-//                                    }
-//                                }
-//
-//                                if (from && to){
-//                                    hasStation = true;
-//                                }
-//                            }
-//
-//                            if (hasStation) {
-//                                railjets.add(child.getKey());
-//                                persons.add(child.child("Traveler").child(date).child("Persons").getValue().toString());
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//
-//            });
 
             return null;
         }

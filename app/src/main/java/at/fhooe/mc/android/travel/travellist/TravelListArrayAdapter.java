@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travellist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 import at.fhooe.mc.android.R;
 
 /**
- * Created by Anna on 06.06.2016.
+ * This class is a subclass of an ArrayAdapter.
+ * It is used for the Travel List in the Activity MyTravelsMenu.
  */
 public class TravelListArrayAdapter extends ArrayAdapter<TravelListItem> {
 

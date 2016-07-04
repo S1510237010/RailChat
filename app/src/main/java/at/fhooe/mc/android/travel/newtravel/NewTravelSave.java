@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.newtravel;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,18 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.main_menu.MainMenu;
+import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
-
-public class Railchat_New_Travel_Save extends Fragment implements View.OnClickListener {
+/**
+ * This class gives a summary of the travel, which the user wants to save and the
+ * option to save the travel.
+ * When this option is activated, it sends the travel to the database and saved it there.
+ */
+public class NewTravelSave extends Fragment implements View.OnClickListener {
 
     Bundle data;
     String date, to, from, train, time, persons;
     public DatabaseReference myRef_Travel;
     String userID;
 
-    public Railchat_New_Travel_Save() {
+    public NewTravelSave() {
         // Required empty public constructor
     }
 
@@ -96,6 +100,18 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
     }
 
 
+    /**
+     * This class has all fields of a Travelitem:
+     * String:
+     * - to     : Station, to where the travel is
+     * - from   : Station, from where the travel starts
+     * - train  : Number of the Train, which will be taken
+     * - date   : Date of the Travel
+     * - time   : Time of the Travel ( at the moment not used, because we have no information about the time
+     *            of the trains )
+     * - persons: Persons in the Train, but this is not used yet, it will be delete maybe, at the moment
+     *            in every case it will be 0.
+     */
     private class Travel {
 
         public String to;
@@ -114,7 +130,11 @@ public class Railchat_New_Travel_Save extends Fragment implements View.OnClickLi
             this.persons = persons;
         }
 
-
+        /**
+         * Makes out of a Travel Object a Map with a String key and a Object.
+         * Object is only used in case that later a other Object must be added to the Travel class.
+         * @return  Map with a String key and a Object to which the key points, all Travel fields are put there.
+         */
         public Map<String, Object> toMap(){
 
             HashMap<String, Object> result = new HashMap<>();

@@ -4,7 +4,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Created by Anna on 22.06.2016.
+ * This class gets the current user and has a method, which returns
+ * the userID.
  */
 public class GetUser {
 

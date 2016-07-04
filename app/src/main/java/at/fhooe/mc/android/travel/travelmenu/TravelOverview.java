@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travelmenu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.travel.travellist.DeleteTravel;
+import at.fhooe.mc.android.travel.travellist.TravelListItem;
 
-
+/**
+ * This class is a Fragment subclass of the Activity MyTravelsMenu.
+ * It is called, when the user clicks on a ListItem.
+ * Here all informations of a certain Travel are shown.
+ */
 public class TravelOverview extends Fragment {
 
 
@@ -29,7 +35,7 @@ public class TravelOverview extends Fragment {
         super.onCreate(savedInstanceState);
         this.fab = MyTravelsMenu.fab_add;
         this.delete = MyTravelsMenu.fab_delete;
-        item = MyTravelsMenu_ListFragment.toDelete;
+        item = MyTravelsMenuListFragment.toDelete;
     }
 
     @Override

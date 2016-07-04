@@ -1,39 +1,52 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travelmenu;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.travel.travellist.DeleteTravel;
+import at.fhooe.mc.android.travel.travellist.TravelListArrayAdapter;
+import at.fhooe.mc.android.travel.travellist.TravelListItem;
+import at.fhooe.mc.android.travel.newtravel.NewTravel;
 
+/**
+ * This class is the first Fragment in the Activity "MyTravels".
+ * In this fragment all travels are shown as a list.
+ * The Floating Button has the options:
+ * - add
+ * - delete all
+ *
+ * with a long click on a List item, the list item can be deleted.
+ * with a short click on a list item, more details are shown of the travel:
+ * TravelOverview will take the place of MyTravelsMenuListFragment in this case.
+ */
+public class MyTravelsMenuListFragment extends Fragment {
 
-public class MyTravelsMenu_ListFragment extends Fragment {
-
-    public TravelListArrayAdapter listAdapter;
+    private TravelListArrayAdapter listAdapter;
     static TravelListItem toDelete;
-    public FloatingActionButton fabBut, fabDelete;
+    private FloatingActionsMenu fabMenu;
+    private FloatingActionButton fabBut, fabDelete;
     private boolean element = false;
 
 
-    public MyTravelsMenu_ListFragment(){
+    public MyTravelsMenuListFragment(){
 
     }
 
@@ -50,23 +63,30 @@ public class MyTravelsMenu_ListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        fabBut      = MyTravelsMenu.fab_add;
-        fabDelete   = MyTravelsMenu.fab_delete;
+        fabBut = MyTravelsMenu.fab_add;
+        fabDelete = MyTravelsMenu.fab_delete;
+        fabMenu = MyTravelsMenu.fab_menu;
 
         listAdapter = new TravelListArrayAdapter(getActivity());
 
 
         MyTravelsMenu.fragment = "List";
 
+        /**
+         * Floating - Button : add Travel
+         */
         fabBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), Railchat_New_Travel.class);
+                Intent i = new Intent(getContext(), NewTravel.class);
                 startActivity(i);
             }
         });
         fabBut.setImageResource(R.drawable.ic_add_black_24dp);
 
+        /**
+         * Floating Button : delete all with an AlertDialog to make sure it is wanted
+         */
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +96,7 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                         .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                for (int i = listAdapter.getCount() - 1; i >= 0; i--){
+                                for (int i = listAdapter.getCount() - 1; i >= 0; i--) {
                                     new DeleteTravel(listAdapter.getItem(i));
                                 }
                             }
@@ -92,19 +112,27 @@ public class MyTravelsMenu_ListFragment extends Fragment {
             }
         });
 
-        ListView listView = (ListView)getView().findViewById(R.id.travel_list);
+
+        /**
+         * setting the listAdapter and calling getTravel();
+         * and the onItemClickListener
+         */
+        ListView listView = (ListView) getView().findViewById(R.id.travel_list);
         listView.setAdapter(listAdapter);
-        databaseTravel();
+        getTravel();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toDelete = (TravelListItem)parent.getItemAtPosition(position);
+                toDelete = (TravelListItem) parent.getItemAtPosition(position);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.myTravels_frameLayout, new TravelOverview());
                 fragmentTransaction.commit();
             }
         });
 
+        /**
+         * Delete one Travel Item
+         */
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
@@ -129,67 +157,16 @@ public class MyTravelsMenu_ListFragment extends Fragment {
                 return true;
             }
         });
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            private int oldTop;
-            private int oldVisibleItem;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                if (scrollUp(view, firstVisibleItem, visibleItemCount, totalItemCount)){
-
-                }
-                else {
-
-                }
-
-            }
-
-
-            public boolean scrollUp(AbsListView absView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
-
-                View view = absView.getChildAt(0);
-                int top = (view == null) ? 0 : view.getTop();
-                boolean up = false;
-
-                if (firstVisibleItem == oldVisibleItem) {
-                    if (top > oldTop) {
-                        //UP
-                        up = true;
-                    } else if (top < oldTop) {
-                        //DOWN
-                        up = false;
-                    }
-                    else {
-                        up = true;
-                    }
-                } else {
-                    if (firstVisibleItem < oldVisibleItem) {
-                        //UP
-                        up = true;
-                    } else {
-                        //DOWN
-                        up = false;
-                    }
-                }
-
-                oldTop = top;
-                oldVisibleItem = firstVisibleItem;
-                return up;
-            }
-
-        });
-
     }
 
-    public void databaseTravel(){
+
+    /**
+     * This method adds all Travels from the database to the listadapter and clears it before the first
+     * element is added.
+     * When a travel is removed, the certain travel item is also removed from the listadapter.
+     * Then the listadapter is updated.
+     */
+    public void getTravel(){
 
 
         MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
@@ -329,6 +306,9 @@ public class MyTravelsMenu_ListFragment extends Fragment {
 
     }
 
+    /**
+     * This method updates the listadapter.
+     */
     protected void updateAdapter(){
         element = false;
         listAdapter.notifyDataSetChanged();

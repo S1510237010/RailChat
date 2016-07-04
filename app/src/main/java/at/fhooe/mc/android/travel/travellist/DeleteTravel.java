@@ -1,4 +1,4 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travellist;
 
 import android.os.AsyncTask;
 
@@ -6,9 +6,9 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import at.fhooe.mc.android.main_menu.MainMenu;
+import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 /**
  * This class deletes a certain Travel in the Database, which is set, when this class is created.
