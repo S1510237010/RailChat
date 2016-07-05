@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.board.Board;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
@@ -133,7 +134,8 @@ public class MainMenu extends AppCompatActivity
         switch(item.getItemId()){
 
             case R.id.nav_timeline:{
-
+                i = new Intent(getApplicationContext(), Board.class);
+                startActivity(i);
             }break;
             // Handle the camera action
             case R.id.nav_travels:{
