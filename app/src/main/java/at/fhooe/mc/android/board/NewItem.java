@@ -41,7 +41,7 @@ public class NewItem extends AppCompatActivity implements View.OnClickListener {
 
 
                 DatabaseReference newRef = MainMenu.database.getDatabase().getReference();
-                newRef = newRef.child("Boards").push();//.setValue(data);
+                newRef = newRef.child("Boards").child(String.valueOf(Board.rjID)).push();//.setValue(data);
                 data.setID(newRef.getKey());
                 newRef.setValue(data);
 
