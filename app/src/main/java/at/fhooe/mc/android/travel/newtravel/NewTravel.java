@@ -1,5 +1,6 @@
 package at.fhooe.mc.android.travel.newtravel;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -36,12 +37,26 @@ public class NewTravel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_railchat_new_travel);
+        Intent i = getIntent();
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new NewTravelDate();
-        fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
-        fragmentTransaction.commit();
+        if (i.getStringExtra("date") != null){
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragment = new NewTravelStations();
+            Bundle bundle = new Bundle();
+            bundle.putString("date", i.getStringExtra("date"));
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
+            fragmentTransaction.commit();
+        }
+        else {
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragment = new NewTravelDate();
+            fragmentTransaction.add(R.id.new_travel_frameLayout_fragment, fragment);
+            fragmentTransaction.commit();
+        }
+
         stations = new GetStations(this);
 
     }

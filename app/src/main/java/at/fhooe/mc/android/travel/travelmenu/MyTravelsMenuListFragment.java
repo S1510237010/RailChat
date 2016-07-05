@@ -82,7 +82,7 @@ public class MyTravelsMenuListFragment extends Fragment {
                 startActivity(i);
             }
         });
-        fabBut.setImageResource(R.drawable.ic_add_black_24dp);
+        fabBut.setIcon(R.drawable.ic_add);
 
         /**
          * Floating Button : delete all with an AlertDialog to make sure it is wanted

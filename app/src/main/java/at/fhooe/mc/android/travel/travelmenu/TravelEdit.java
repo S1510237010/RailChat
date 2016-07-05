@@ -66,7 +66,7 @@ public class TravelEdit extends Fragment implements View.OnClickListener{
             }
         });
 
-        ok.setImageResource(R.drawable.checked);
+        ok.setIcon(R.drawable.checked);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

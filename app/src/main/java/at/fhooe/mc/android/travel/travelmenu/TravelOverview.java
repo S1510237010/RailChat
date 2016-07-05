@@ -50,7 +50,7 @@ public class TravelOverview extends Fragment {
     public void onStart() {
         super.onStart();
 
-        fab.setImageResource(R.drawable.ic_create_black_24dp);
+        fab.setIcon(R.drawable.ic_create_black_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
