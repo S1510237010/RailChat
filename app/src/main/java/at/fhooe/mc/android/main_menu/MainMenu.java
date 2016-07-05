@@ -172,14 +172,8 @@ public class MainMenu extends AppCompatActivity
 
         Intent i;
 
-<<<<<<< HEAD
-        } else if (id == R.id.nav_chats) {
-            Intent i = new Intent(MainMenu.this, ChatActivity.class);
-            startActivity(i);
-            finish();
-=======
+
         switch (item.getItemId()) {
->>>>>>> refs/remotes/origin/master
 
             case R.id.nav_timeline:{
                 i = new Intent(getApplicationContext(), Board.class);
@@ -192,7 +186,8 @@ public class MainMenu extends AppCompatActivity
             }
             break;
             case R.id.nav_chats: {
-
+                i = new Intent(MainMenu.this, ChatActivity.class);
+                startActivity(i);
             }
             break;
             case R.id.nav_settings: {

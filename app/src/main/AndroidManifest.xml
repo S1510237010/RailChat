@@ -41,22 +41,21 @@
         <activity
             android:name=".main_menu.MainMenu"
             android:label="@string/title_activity_main_menu"
-<<<<<<< HEAD
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".chat.ChatActivity"
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-=======
-            android:theme="@style/AppTheme.NoActionBar">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".chat.ChatListActivity"></activity>
         <activity
             android:name=".board.Board"
             android:label="Board">
@@ -65,7 +64,7 @@
             android:name=".board.NewItem"
             android:label="New Item">
         </activity>
->>>>>>> refs/remotes/origin/master
+
     </application>
 
 </manifest>
