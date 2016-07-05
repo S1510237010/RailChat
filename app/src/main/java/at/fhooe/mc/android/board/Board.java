@@ -9,11 +9,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
 public class Board extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +25,7 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
     protected DatabaseReference myRef_Board;
     protected BoardAdapter adapter;
     protected ListView listView;
+    protected GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,37 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
         int month = date[0].get(Calendar.MONTH);
         int year = date[0].get(Calendar.YEAR);
         String s = day + "-" + (month + 1) + "-" + year;
+
+
+        travel = new GetTravels(this);
+        int rj  = travel.travelToday();
+        if (rj == 0) Toast.makeText(Board.this, "You are not logged in to a Railchat yet!", Toast.LENGTH_SHORT).show();
+        else {
+            myRef_Board.child("Boards").child(String.valueOf(rj)).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    //Gets called at beginning and at a change
+                    //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
+
+                    if (snapshot.getChildrenCount() > 0) {
+                        //Clear the view
+                        adapter.clear();
+                        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                            BoardData data = postSnapshot.getValue(BoardData.class);
+                            adapter.add(data);
+                        }
+                    }else {
+                        Toast.makeText(Board.this,"No posts on board! Post something yourself!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
 //        final DatabaseReference ref_RJ = myRef_Board.child("RailjetTraveler").child(s);
 //        ref_RJ.addValueEventListener(new ValueEventListener() {

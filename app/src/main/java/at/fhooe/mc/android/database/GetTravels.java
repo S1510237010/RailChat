@@ -35,7 +35,7 @@ public class GetTravels {
         return listAdapter;
     }
 
-    public boolean travelToday(){
+    public int travelToday(){
 
         StringBuffer date = new StringBuffer();
         Calendar calendar = Calendar.getInstance();
@@ -47,10 +47,10 @@ public class GetTravels {
 
         for (int i = 0; i < listAdapter.getCount(); i++){
             if (listAdapter.getItem(i).getDate().equals(date.toString())){
-                return true;
+                return listAdapter.getItem(i).getTrainNumber();
             }
         }
-        return false;
+        return 0;
     }
 
     /**
