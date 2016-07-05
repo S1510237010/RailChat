@@ -33,6 +33,7 @@ public class LoginSplash extends Activity {
 
             Intent i = new Intent(this, MainMenu.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(i);
             finish();
         } else {
@@ -57,7 +58,7 @@ public class LoginSplash extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(LoginSplash.this, "User Loggid In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginSplash.this, "User Logid In", Toast.LENGTH_SHORT).show();
 
                 // user is signed in!
                 Intent i = new Intent(this, MainMenu.class);

@@ -39,7 +39,11 @@ class BoardAdapter extends ArrayAdapter<BoardData> {
             tv = (TextView)_v.findViewById(R.id.board_title);
             tv.setText(data.getTitle());
             tv = (TextView)_v.findViewById(R.id.board_info);
-            tv.setText("submitted by " + data.getUser() + " on " + data.getHours() + ":" + data.getMinutes());
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("submitted by " + data.getUser() + " on " + data.getHours() + ":");
+            if (data.getMinutes() < 10) buffer.append("0");
+            buffer.append(data.getMinutes());
+            tv.setText(buffer.toString());
 
             tv = (TextView)_v.findViewById(R.id.board_link);
             if (data.getLink() != null) tv.setText(data.getLink());
@@ -48,12 +52,13 @@ class BoardAdapter extends ArrayAdapter<BoardData> {
             tv = (TextView)_v.findViewById(R.id.board_number);
             tv.setText(String.valueOf(data.upvote-data.downvote));
 
+            final int rjID = Board.rjID;
             Button b;
             b = (Button)_v.findViewById(R.id.board_upvote);
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DatabaseReference ref = MainMenu.database.getDatabase().getReference().child("Boards").child(data.getID());
+                    DatabaseReference ref = MainMenu.database.getDatabase().getReference().child("Boards").child(String.valueOf(rjID)).child(data.getID());
                     Map<String,Object> newUpvote = new HashMap<String,Object>();
                     newUpvote.put("upvote",data.getUpvote()+1);
                     ref.updateChildren(newUpvote);
@@ -63,7 +68,7 @@ class BoardAdapter extends ArrayAdapter<BoardData> {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DatabaseReference ref = MainMenu.database.getDatabase().getReference().child("Boards").child(data.getID());
+                    DatabaseReference ref = MainMenu.database.getDatabase().getReference().child("Boards").child(String.valueOf(rjID)).child(data.getID());
                     Map<String,Object> newDownvote= new HashMap<String,Object>();
                     newDownvote.put("downvote",data.getDownvote()+1);
                     ref.updateChildren(newDownvote);

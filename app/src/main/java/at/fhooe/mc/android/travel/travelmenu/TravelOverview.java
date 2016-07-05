@@ -51,6 +51,7 @@ public class TravelOverview extends Fragment {
         super.onStart();
 
         fab.setIcon(R.drawable.ic_create_black_24dp);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

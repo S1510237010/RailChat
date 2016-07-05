@@ -6,14 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
 public class Board extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +26,8 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
     protected DatabaseReference myRef_Board;
     protected BoardAdapter adapter;
     protected ListView listView;
+    protected static int rjID;
+    //protected GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,7 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
 //        adapter.add(new BoardData("ÖBB is voll super",null,"Basti"));
 //        setListAdapter(adapter);
 
+        //travel = new GetTravels(this);
 
         adapter = new BoardAdapter(this);
         myRef_Board = MainMenu.database.getDatabase().getReference();
@@ -40,23 +48,57 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
         if (listView != null) listView.setAdapter(adapter);
         else Toast.makeText(this,"Adapter ist null",Toast.LENGTH_SHORT).show();
 
+        TextView view = (TextView)findViewById(R.id.board_list_title);
+        if (rjID != 0) view.setText("Welcome to the board of RJ " + rjID);
+        else {
+            view.setText("Log in to a RJ now!");
+        }
+
         Button b;
         b = (Button)findViewById(R.id.board_button_add);
-        b.setOnClickListener(this);
+        if (rjID != 0) b.setOnClickListener(this);
+        else b.setVisibility(View.INVISIBLE);
 
     }
 
     private void buildBoard() {
-        FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
-        final String userID = user.getUid();
-        final boolean[] inTrain = {false};
-        final String[] rjID = new String[]{""};
 
         final Calendar[] date = {Calendar.getInstance()};
         int day = date[0].get(Calendar.DAY_OF_MONTH);
         int month = date[0].get(Calendar.MONTH);
         int year = date[0].get(Calendar.YEAR);
         String s = day + "-" + (month + 1) + "-" + year;
+
+
+        int rj  = MainMenu.travel.travelToday();
+        if (rj == 0) Toast.makeText(Board.this, "You are not logged in to a Railchat yet!", Toast.LENGTH_SHORT).show();
+        else {
+            rjID = rj;
+            myRef_Board.child("Boards").child(String.valueOf(rj)).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    //Gets called at beginning and at a change
+                    //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
+
+                    if (snapshot.getChildrenCount() > 0) {
+                        //Clear the view
+                        adapter.clear();
+                        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                            BoardData data = postSnapshot.getValue(BoardData.class);
+                            adapter.add(data);
+                        }
+                    }else {
+                        Toast.makeText(Board.this,"No posts on board! Post something yourself!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
 //        final DatabaseReference ref_RJ = myRef_Board.child("RailjetTraveler").child(s);
 //        ref_RJ.addValueEventListener(new ValueEventListener() {

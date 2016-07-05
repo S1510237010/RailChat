@@ -82,6 +82,7 @@ public class MyTravelsMenuListFragment extends Fragment {
                 startActivity(i);
             }
         });
+
         fabBut.setIcon(R.drawable.ic_add);
 
         /**
@@ -107,7 +108,7 @@ public class MyTravelsMenuListFragment extends Fragment {
 
                             }
                         })
-                        .setIcon(R.drawable.ic_delete_black_24dp)
+                        .setIcon(R.drawable.ic_delete)
                         .show();
             }
         });
@@ -151,7 +152,7 @@ public class MyTravelsMenuListFragment extends Fragment {
 
                             }
                         })
-                        .setIcon(R.drawable.ic_delete_black_24dp)
+                        .setIcon(R.drawable.ic_delete)
                         .show();
 
                 return true;

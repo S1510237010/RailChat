@@ -35,6 +35,7 @@ import java.nio.charset.MalformedInputException;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.board.Board;
+import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.login.LoginSplash;
@@ -47,6 +48,7 @@ public class MainMenu extends AppCompatActivity
     private static FirebaseAuth mInstance;
     private int RC_SIGN_IN = 69;
     public static InitializeDatabase database = new InitializeDatabase();
+    public static GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,10 @@ public class MainMenu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        travel = new GetTravels(this);
+
         mInstance = FirebaseAuth.getInstance();
-        Log.i("LOGIN", "got auth Object");
+        Log.i("LOGIN", "onCreate(): got auth Object");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +80,8 @@ public class MainMenu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (mInstance.getCurrentUser() != null) {
-            Toast.makeText(MainMenu.this, "User != null", Toast.LENGTH_SHORT).show();
-            Log.i("LOGIN", "User != null, no need to launch Longin UI");
+
+            Log.i("LOGIN", "onCreate(): User != null");
 
             //insert user Data to Drawer Header
             View drawerTop = navigationView.getHeaderView(0);
@@ -89,7 +92,7 @@ public class MainMenu extends AppCompatActivity
             FirebaseUser user = mInstance.getCurrentUser();
             if (user != null) {
                 userName.setText(user.getDisplayName());
-                userEmail.setText("Hallo!");
+                userEmail.setText("Hello");
                 if (user.getPhotoUrl() != null) {
                     Glide.with(this).load(user.getPhotoUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPhoto) {
                         @Override
@@ -101,11 +104,13 @@ public class MainMenu extends AppCompatActivity
                         }
                     });
                 }
-            }
-        } else {
-            launchSignIn();
 
-        }
+                //Upload User data to separate Database-Object to allow communication
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Name").setValue(user.getDisplayName());
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Photo").setValue(user.getPhotoUrl());
+
+            }
+          
 
 
     }
@@ -194,8 +199,8 @@ public class MainMenu extends AppCompatActivity
                             public void onComplete(@NonNull Task<Void> task) {
                                 // user is now signed out
                                 //refresh Activity
-                                launchSignIn();
                                 finish();
+                                launchSignIn();
                             }
                         });
             }
