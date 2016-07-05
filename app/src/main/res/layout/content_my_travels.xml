@@ -47,7 +47,7 @@
             android:id="@+id/myTravels_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_delete_black_24dp"
+            app:fab_icon="@drawable/ic_delete"
             app:fab_colorNormal="@color/ColorPrimary"
             app:fab_addButtonColorPressed="@color/ColorPrimaryDark"
             app:fab_colorPressed="@color/ColorPrimaryDark"/>
@@ -56,7 +56,7 @@
             android:id="@+id/myTravels_FloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black_24dp"
+            app:fab_icon="@drawable/ic_add"
             android:visibility="visible"
             app:fab_colorNormal="@color/ColorPrimary"
             app:fab_addButtonColorPressed="@color/ColorPrimaryDark"
