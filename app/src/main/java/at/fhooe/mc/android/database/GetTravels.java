@@ -15,7 +15,10 @@ import at.fhooe.mc.android.travel.travellist.TravelListItem;
 import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 /**
- * Created by Anna on 05.07.2016.
+ * This class gets all Travels of a user and has some other methods to control some fields of the
+ * Travels:
+ * - travelToday:
+ *          controls if the user has today a travel
  */
 public class GetTravels {
 
@@ -50,6 +53,12 @@ public class GetTravels {
         return false;
     }
 
+    /**
+     * This method adds all Travels from the database to the listadapter and clears it before the first
+     * element is added.
+     * When a travel is removed, the certain travel item is also removed from the listadapter.
+     * Then the listadapter is updated.
+     */
     private void getTravel(){
 
         MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {

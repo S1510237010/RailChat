@@ -30,7 +30,6 @@ public class MyTravelsMenu extends AppCompatActivity {
     private static final String TAG = "Railchat:myTravels";
     public static DatabaseReference myRef, trainRef;
     public static String userID;
-    public static boolean deleteAction;
     public static FloatingActionsMenu fab_menu;
     public static FloatingActionButton fab_add, fab_delete;
     public static String fragment;
@@ -42,6 +41,7 @@ public class MyTravelsMenu extends AppCompatActivity {
         setContentView(R.layout.activity_my_travels_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         fab_menu = (FloatingActionsMenu) findViewById(R.id.myTravels_fabMenu);
         fab_add = (FloatingActionButton) findViewById(R.id.myTravels_FloatingButton);
         fab_delete = (FloatingActionButton) findViewById(R.id.myTravels_delete);
