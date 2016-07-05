@@ -38,6 +38,7 @@ import at.fhooe.mc.android.board.Board;
 import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.chat.ChatActivity;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
 import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
@@ -171,6 +172,7 @@ public class MainMenu extends AppCompatActivity
 
         Intent i;
 
+
         switch (item.getItemId()) {
 
             case R.id.nav_timeline:{
@@ -184,7 +186,8 @@ public class MainMenu extends AppCompatActivity
             }
             break;
             case R.id.nav_chats: {
-
+                i = new Intent(MainMenu.this, ChatActivity.class);
+                startActivity(i);
             }
             break;
             case R.id.nav_settings: {
