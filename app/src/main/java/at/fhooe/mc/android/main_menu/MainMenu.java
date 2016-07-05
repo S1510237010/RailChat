@@ -35,6 +35,7 @@ import java.nio.charset.MalformedInputException;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.board.Board;
+import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.login.LoginSplash;
@@ -47,6 +48,7 @@ public class MainMenu extends AppCompatActivity
     private static FirebaseAuth mInstance;
     private int RC_SIGN_IN = 69;
     public static InitializeDatabase database = new InitializeDatabase();
+    public static GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class MainMenu extends AppCompatActivity
         setContentView(R.layout.activity_main_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        travel = new GetTravels(this);
 
         mInstance = FirebaseAuth.getInstance();
         Log.i("LOGIN", "got auth Object");

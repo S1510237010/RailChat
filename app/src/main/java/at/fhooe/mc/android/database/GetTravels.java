@@ -1,7 +1,9 @@
 package at.fhooe.mc.android.database;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,12 +28,13 @@ public class GetTravels {
 
     private TravelListArrayAdapter listAdapter;
     boolean element;
-    public static DatabaseReference myRef;
+    public static DatabaseReference myRef, trainRef;
 
     public GetTravels(Activity activity){
         listAdapter = new TravelListArrayAdapter(activity);
         element = false;
         myRef = MainMenu.database.getDatabase().getReference("Users");
+        trainRef = MainMenu.database.getDatabase().getReference("Travels");
         getTravel();
     }
 
@@ -43,13 +46,15 @@ public class GetTravels {
 
         StringBuffer date = new StringBuffer();
         Calendar calendar = Calendar.getInstance();
-        date.append(calendar.get(Calendar.DAY_OF_YEAR));
+        date.append(calendar.get(Calendar.DAY_OF_MONTH));
         date.append("-");
         date.append((calendar.get(Calendar.MONTH) + 1));
         date.append("-");
         date.append(calendar.get(Calendar.YEAR));
+        Log.e("Dating Dates", date.toString() + " ListAdapterCount: " + listAdapter.getCount());
 
         for (int i = 0; i < listAdapter.getCount(); i++){
+            Log.e("Dating Dates", listAdapter.getItem(i).getDate());
             if (listAdapter.getItem(i).getDate().equals(date.toString())){
                 return listAdapter.getItem(i).getTrainNumber();
             }
@@ -65,7 +70,7 @@ public class GetTravels {
      */
     private void getTravel(){
 
-        myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
+        myRef.child(new GetUser().getUserID()).child("Travels").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final String travelID = dataSnapshot.getValue().toString();
@@ -76,7 +81,8 @@ public class GetTravels {
                     listAdapter.clear();
                 }
 
-                MyTravelsMenu.trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
