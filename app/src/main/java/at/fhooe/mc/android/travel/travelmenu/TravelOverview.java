@@ -1,7 +1,8 @@
-package at.fhooe.mc.android.travel;
+package at.fhooe.mc.android.travel.travelmenu;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -9,15 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.travel.travellist.DeleteTravel;
+import at.fhooe.mc.android.travel.travellist.TravelListItem;
 
-
+/**
+ * This class is a Fragment subclass of the Activity MyTravelsMenu.
+ * It is called, when the user clicks on a ListItem.
+ * Here all informations of a certain Travel are shown.
+ */
 public class TravelOverview extends Fragment {
 
 
-    private FloatingActionButton fab;
+    private FloatingActionButton fab, delete;
     TravelListItem item;
 
 
@@ -28,8 +33,9 @@ public class TravelOverview extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.fab = MyTravelsMenu.fab;
-        item = MyTravelsMenu_ListFragment.toDelete;
+        this.fab = MyTravelsMenu.fab_add;
+        this.delete = MyTravelsMenu.fab_delete;
+        item = MyTravelsMenuListFragment.toDelete;
     }
 
     @Override
@@ -51,6 +57,15 @@ public class TravelOverview extends Fragment {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.myTravels_frameLayout, new TravelEdit());
                 fragmentTransaction.commit();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DeleteTravel(item);
+                Intent i = new Intent(getContext(), MyTravelsMenu.class);
+                startActivity(i);
             }
         });
 

@@ -22,12 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.settings.SettingsActivity;
-import at.fhooe.mc.android.travel.MyTravelsMenu;
+import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="5dp"
@@ -43,15 +43,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:gravity="right"
                 android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/station_to"
-                    android:id="@+id/textView6" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -59,6 +51,13 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="To"
                     android:id="@+id/travel_list_item_to" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/station_to"
+                    android:id="@+id/textView6" />
 
             </LinearLayout>
         </LinearLayout>
