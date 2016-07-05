@@ -30,6 +30,18 @@ public class ChatItemModel {
 
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public void setTimestamp() {
+        this.timestamp = System.currentTimeMillis();
+    }
+
     public String getTitle() {
         return title;
     }

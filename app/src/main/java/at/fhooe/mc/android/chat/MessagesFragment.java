@@ -4,62 +4,208 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.adapter.FirebaseRecyclerAdapter;
+import at.fhooe.mc.android.models.ChatItemModel;
+import at.fhooe.mc.android.models.FirebaseArray;
+import at.fhooe.mc.android.models.FriendItemHolder;
+import at.fhooe.mc.android.models.FriendItemModel;
+import at.fhooe.mc.android.models.MessageHolder;
+import at.fhooe.mc.android.models.MessageModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MessagesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MessagesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MessagesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public static final String TAG = "MessageFragment";
+    private FirebaseAuth mAuth;
+    private Button mSendButton;
+    private EditText mEditText;
+    private DatabaseReference mRef;
+    private FirebaseUser myUser;
+    private DatabaseReference mMemberRef;
+    private DatabaseReference mMessageRef;
+    private DatabaseReference mChatRef;
+    private Query mMembersQuery;
+    private Query mMessageQuery;
+    private RecyclerView mMessages;
+    private LinearLayoutManager mManager;
+    private FirebaseArray mMembersArray;
+    RelativeLayout myLayout;
+    private FirebaseRecyclerAdapter<MessageModel, MessageHolder> mRecyclerViewAdapter;
+    String chatId;
+    String title;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public MessagesFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MessagesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MessagesFragment newInstance(String param1, String param2) {
-        MessagesFragment fragment = new MessagesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+
+
+
+       // Toast.makeText(getActivity(), chatId, Toast.LENGTH_LONG ).show();
+        //Toast.makeText(getActivity(), title, Toast.LENGTH_LONG ).show();
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        if(!isSignedIn()){
+            //TODO: Return to Login
+        }else{
+
+            attachRecyclerViewAdapter();
+        }
+
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        if(mRecyclerViewAdapter != null){
+            mRecyclerViewAdapter.cleanup();
         }
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        initObjects(view);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mEditText.getText().length()>0){
+                    addNewMessage(mEditText.getText().toString(),myUser.getUid());
+                    mEditText.setText("");
+                    mEditText.clearAnimation();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(myLayout.getWindowToken(), 0);
+                    notifyMembers();
+
+
+                }
+
+            }
+        });
+    }
+    private void initObjects(View view){
+        mRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        myUser = mAuth.getCurrentUser();
+        //mChatsRef = mRef.child("Chats").child(myUser.getUid());
+        mChatRef = mRef.child("Chats");
+
+        Bundle args = getArguments();
+        if(args.getBoolean("newChat")){
+            addNewChat(args.getString("uid"),args.getString("title"));
+
+        }else{
+            chatId = args.getString("chatId");
+            title = args.getString("title");
+            getActivity().setTitle(title);
+        }
+        Log.d(TAG,chatId);
+        mMembersQuery = mRef.child("Members").child(chatId);
+
+
+        mMembersArray = new FirebaseArray(mMembersQuery);
+
+        //mMemberRef = mRef.child("Members");
+        mMessageRef = mRef.child("Messages");
+        mMessageQuery = mRef.child("Messages").child(chatId);
+        mMessages = (RecyclerView) view.findViewById(R.id.messagesList);
+        myLayout = (RelativeLayout) view.findViewById(R.id.message_fragment);
+
+        mManager = new LinearLayoutManager(getActivity());
+        mManager.setReverseLayout(false);
+
+        mMessages.setHasFixedSize(false);
+        mMessages.setLayoutManager(mManager);
+        mEditText = (EditText) view.findViewById(R.id.messageEdit);
+        mSendButton = (Button) view.findViewById(R.id.sendButton);
+    }
+    public void notifyMembers(){
+        //mMembersArray = new FirebaseArray(mMembersQuery);
+
+    }
+
+    private void addNewChat(String uid, String name){
+        ChatItemModel chatItemModel = new ChatItemModel(name,"New Chat");
+        chatId = mChatRef.push().getKey();
+        mChatRef.child(myUser.getUid()).child(chatId).setValue(chatItemModel);
+        chatItemModel.setTitle(myUser.getUid());
+        chatItemModel.setTimestamp();
+        mChatRef.child(uid).child(chatId).setValue(chatItemModel);
+        FriendItemModel friendItemModel = new FriendItemModel(name,uid);
+        mRef.child("Members").child(chatId).push().setValue(friendItemModel);
+        friendItemModel.setName(myUser.getDisplayName());
+        friendItemModel.setUid(myUser.getUid());
+        mRef.child("Members").child(chatId).push().setValue(friendItemModel);
+    }
+    private void addNewMessage(String message, String uid){
+        MessageModel newMessage = new MessageModel();
+        newMessage.setMessage(message);
+        newMessage.setName(uid);
+        mMessageRef.child(chatId).push().setValue(newMessage);
+        updateChat(message, uid);
+
+    }
+    private void updateChat(String message, String uid){
+        ArrayList <FriendItemModel> members = getMembers();
+        for(int i = 0; i < members.size(); i++){
+            if(myUser.getUid().equals(members.get(i).getUid())) {
+                members.get(i).getUid();
+            }
+
+        }
+
+
+    }
+
+    private ArrayList<FriendItemModel> getMembers(){
+        ArrayList<FriendItemModel> members = new ArrayList<>();
+        for(int i = 0; i < mMembersArray.getCount(); i++){
+            members.add(mMembersArray.getItem(i).getValue(FriendItemModel.class));
+        }
+        return members;
+
+    }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,42 +214,39 @@ public class MessagesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_messages, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void attachRecyclerViewAdapter(){
+        mRecyclerViewAdapter = new FirebaseRecyclerAdapter<MessageModel, MessageHolder>(
+                MessageModel.class, R.layout.message_item, MessageHolder.class, mMessageQuery) {
+            @Override
+            protected void populateViewHolder(MessageHolder viewHolder, MessageModel model, int position) {
+                //if(myUser.getUid().equals(model.getName())){
+
+                    viewHolder.setName(model.getName());
+                    viewHolder.setMessage(model.getMessage());
+
+                //}
+
+
+
+            }
+        };
+        mRecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                mManager.smoothScrollToPosition(mMessages, null, mRecyclerViewAdapter.getItemCount());
+            }
+        });
+
+        mMessages.setAdapter(mRecyclerViewAdapter);
+
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
+
+    public boolean isSignedIn() {
+        return (mAuth.getCurrentUser() != null);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

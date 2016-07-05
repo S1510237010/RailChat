@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import at.fhooe.mc.android.R;
-import at.fhooe.mc.android.chat.ChatListActivity;
+import at.fhooe.mc.android.chat.ChatActivity;
 import at.fhooe.mc.android.login.LoginSplash;
 
 public class MainMenu extends AppCompatActivity
@@ -132,7 +132,7 @@ public class MainMenu extends AppCompatActivity
         } else if (id == R.id.nav_timeline) {
 
         } else if (id == R.id.nav_chats) {
-            Intent i = new Intent(MainMenu.this, ChatListActivity.class);
+            Intent i = new Intent(MainMenu.this, ChatActivity.class);
             startActivity(i);
             finish();
 
