@@ -30,9 +30,7 @@ public class NewTravel extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
-    protected static GetStations stations;
-
-
+    public static GetStations stations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

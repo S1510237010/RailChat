@@ -18,8 +18,6 @@ public class TravelListItem extends LauncherActivity.ListItem {
     private String to, from;
     private String time;
     private int persons;
-    float historicX = Float.NaN, historicY = Float.NaN;
-    static final int DELTA = 50;
 
     public TravelListItem(String id){
         this.ID = id;

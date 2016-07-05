@@ -27,16 +27,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/station_from"
-                    android:id="@+id/textView9" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/overview_station_from"
+                    android:textSize="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/overview_station_from"
-                    android:textSize="30dp" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/station_from"
+                    android:id="@+id/textView9" />
             </LinearLayout>
 
             <LinearLayout
@@ -49,16 +49,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/station_to"
-                    android:id="@+id/textView7" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/overview_station_to"
+                    android:textSize="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/overview_station_to"
-                    android:textSize="30dp" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/station_to"
+                    android:id="@+id/textView7" />
             </LinearLayout>
         </LinearLayout>
 
@@ -85,18 +85,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/date_text"
-                        android:id="@+id/textView10" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:id="@+id/overview_date"
                         android:textSize="25dp"
                         android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/date_text"
+                        android:id="@+id/textView10" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -119,6 +119,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/train_text"
                         android:id="@+id/textView15" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -140,18 +141,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/time_text"
-                        android:id="@+id/textView11" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text2"
                         android:id="@+id/overview_time"
                         android:textSize="25dp"
                         android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/time_text"
+                        android:id="@+id/textView11" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -174,6 +175,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/new_travel_listitem_persons_text"
                         android:id="@+id/textView8" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
