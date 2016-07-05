@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -30,12 +31,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.nio.charset.MalformedInputException;
+
+import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.board.Board;
+import at.fhooe.mc.android.database.GetTravels;
+import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.chat.ChatActivity;
 import at.fhooe.mc.android.login.LoginSplash;
+import at.fhooe.mc.android.settings.SettingsActivity;
+import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static FirebaseAuth mInstance;
+    private int RC_SIGN_IN = 69;
+    public static InitializeDatabase database = new InitializeDatabase();
+    public static GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,11 @@ public class MainMenu extends AppCompatActivity
         setContentView(R.layout.activity_main_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        travel = new GetTravels(this);
+
+        mInstance = FirebaseAuth.getInstance();
+        Log.i("LOGIN", "onCreate(): got auth Object");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,29 +81,56 @@ public class MainMenu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //insert user Data to Drawer Header
-        View drawerTop = navigationView.getHeaderView(0);
-        TextView userName = (TextView) drawerTop.findViewById(R.id.nav_header_username);
-        TextView userEmail = (TextView) drawerTop.findViewById(R.id.nav_header_email);
-        final ImageView userPhoto = (ImageView) drawerTop.findViewById(R.id.nav_header_userphoto);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            userName.setText(user.getDisplayName());
-            userEmail.setText("Hallo!");
-            if (user.getPhotoUrl() != null) {
-                Glide.with(this).load(user.getPhotoUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPhoto) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(MainMenu.this.getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        userPhoto.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+            Log.i("LOGIN", "onCreate(): User != null");
+
+            //insert user Data to Drawer Header
+            View drawerTop = navigationView.getHeaderView(0);
+            TextView userName = (TextView) drawerTop.findViewById(R.id.nav_header_username);
+            TextView userEmail = (TextView) drawerTop.findViewById(R.id.nav_header_email);
+            final ImageView userPhoto = (ImageView) drawerTop.findViewById(R.id.nav_header_userphoto);
+
+            FirebaseUser user = mInstance.getCurrentUser();
+            if (user != null) {
+                userName.setText(user.getDisplayName());
+                userEmail.setText("Hello");
+                if (user.getPhotoUrl() != null) {
+                    Glide.with(this).load(user.getPhotoUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPhoto) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularBitmapDrawable =
+                                    RoundedBitmapDrawableFactory.create(MainMenu.this.getResources(), resource);
+                            circularBitmapDrawable.setCircular(true);
+                            userPhoto.setImageDrawable(circularBitmapDrawable);
+                        }
+                    });
+                }
+
+                //Upload User data to separate Database-Object to allow communication
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Name").setValue(user.getDisplayName());
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Photo").setValue(user.getPhotoUrl());
+
             }
-        }
+          
 
+
+    }
+
+    private void launchSignIn() {
+        Toast.makeText(MainMenu.this, "User == null", Toast.LENGTH_SHORT).show();
+        Log.i("LOGIN", "User == null, launching Firebase UI");
+
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setProviders(
+                                AuthUI.EMAIL_PROVIDER,
+                                AuthUI.FACEBOOK_PROVIDER
+                        )
+                        .setTheme(R.style.CustomFirebaseUITheme)
+                        .setLogo(R.drawable.logo2_cropped)
+                        .build(),
+                RC_SIGN_IN);
     }
 
     @Override
@@ -123,36 +169,68 @@ public class MainMenu extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_timeline) {
-            // Handle the camera action
-        } else if (id == R.id.nav_travels) {
+        Intent i;
 
-        } else if (id == R.id.nav_timeline) {
-
+<<<<<<< HEAD
         } else if (id == R.id.nav_chats) {
             Intent i = new Intent(MainMenu.this, ChatActivity.class);
             startActivity(i);
             finish();
+=======
+        switch (item.getItemId()) {
+>>>>>>> refs/remotes/origin/master
 
-        } else if (id == R.id.nav_settings) {
+            case R.id.nav_timeline:{
+                i = new Intent(getApplicationContext(), Board.class);
+                startActivity(i);
+            }break;
+            // Handle the camera action
+            case R.id.nav_travels:{
+                i = new Intent(getApplicationContext(), MyTravelsMenu.class);
+                startActivity(i);
+            }
+            break;
+            case R.id.nav_chats: {
 
-        } else if (id == R.id.nav_signout) {
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // user is now signed out
-                            Intent i = new Intent(MainMenu.this, LoginSplash.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    });
+            }
+            break;
+            case R.id.nav_settings: {
+                i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+            }
+            break;
+            case R.id.nav_signout: {
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // user is now signed out
+                                //refresh Activity
+                                finish();
+                                launchSignIn();
+                            }
+                        });
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                // user is signed in!
+                Log.i("LOGIN result", "Login complete onActivityResult()");
+
+            } else {
+                //Sign in failed, cancelled
+                Toast.makeText(MainMenu.this, "Not Logged In", Toast.LENGTH_SHORT).show();
+                Log.i("LOGIN result", "Login cancelled");
+            }
+        }
     }
 }

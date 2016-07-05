@@ -12,38 +12,43 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.main_menu.MainMenu;
-import at.fhooe.mc.android.main_menu.Railchat_Main_Menu;
 
 public class LoginSplash extends Activity {
 
     private int RC_SIGN_IN = 69;
+    private static FirebaseAuth mInstance;
+    private final String TAG = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_splash);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        Log.i("Login", "got auth Object");
+        mInstance = FirebaseAuth.getInstance();
+        Log.i(TAG, "got auth Object");
 
-        if (auth.getCurrentUser() != null) {
+        if (mInstance.getCurrentUser() != null) {
             Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User != null, launching main menu");
+            Log.i(TAG, "User != null, launching main menu");
 
             Intent i = new Intent(this, MainMenu.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(i);
             finish();
         } else {
             Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User == null, launching Firebase UI");
+            Log.i(TAG, "User == null, launching Firebase UI");
 
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setProviders(
                                     AuthUI.EMAIL_PROVIDER,
-                                    AuthUI.FACEBOOK_PROVIDER)
+                                    AuthUI.FACEBOOK_PROVIDER
+                            )
+                            .setTheme(R.style.CustomFirebaseUITheme)
+                            .setLogo(R.drawable.logo2_cropped)
                             .build(),
                     RC_SIGN_IN);
         }
@@ -53,22 +58,21 @@ public class LoginSplash extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(LoginSplash.this, "User Loggid In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginSplash.this, "User Logid In", Toast.LENGTH_SHORT).show();
 
                 // user is signed in!
                 Intent i = new Intent(this, MainMenu.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
-                Log.i("Login", "Login complete onActivityResult()");
+                Log.i(TAG, "Login complete onActivityResult()");
 
 
             } else {
                 //Sign in failed, cancelled
                 Toast.makeText(LoginSplash.this, "Not Logged In", Toast.LENGTH_SHORT).show();
-                Log.i("Login", "Login cancelled");
+                Log.i(TAG, "Login cancelled");
             }
         }
     }
-
 }

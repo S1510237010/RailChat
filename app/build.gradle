@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "at.fhooe.mc.android"
         minSdkVersion 21
@@ -27,6 +27,10 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.google.firebase:firebase-database:9.0.1'
     compile 'com.android.support:support-v4:23.4.0'
@@ -35,5 +39,9 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.firebaseui:firebase-ui-auth:0.4.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+<<<<<<< HEAD
+=======
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+>>>>>>> refs/remotes/origin/master
 }
 apply plugin: 'com.google.gms.google-services'

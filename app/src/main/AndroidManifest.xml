@@ -12,45 +12,60 @@
         <activity
             android:name=".login.LoginSplash"
             android:theme="@android:style/Theme.NoTitleBar">
+
+        </activity>
+        <activity
+            android:name=".travel.newtravel.NewTravel"
+            android:label="@string/title_activity_railchat__new__travel"
+            android:parentActivityName=".travel.travelmenu.MyTravelsMenu">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".travel.travelmenu.MyTravelsMenu" />
+        </activity>
+        <activity
+            android:name=".travel.travelmenu.MyTravelsMenu"
+            android:label="@string/title_activity_my_travels_menu"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.fhooe.mc.android.main_menu.MainMenu" />
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".main_menu.MainMenu">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.fhooe.mc.android.main_menu.MainMenu" />
+        </activity>
+        <activity
+            android:name=".main_menu.MainMenu"
+            android:label="@string/title_activity_main_menu"
+<<<<<<< HEAD
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".chat.ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+=======
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main_menu.Railchat_Main_Menu" />
+        <activity android:name=".chat.ChatListActivity"></activity>
         <activity
-            android:name=".travel.Railchat_New_Travel"
-            android:label="@string/title_activity_railchat__new__travel"
-            android:parentActivityName=".travel.MyTravelsMenu">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="at.fhooe.mc.android.travel.MyTravelsMenu" />
+            android:name=".board.Board"
+            android:label="Board">
         </activity>
         <activity
-            android:name=".travel.MyTravelsMenu"
-            android:label="@string/title_activity_my_travels_menu"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
+            android:name=".board.NewItem"
+            android:label="New Item">
         </activity>
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".main_menu.Railchat_Main_Menu">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="at.fhooe.mc.android.main_menu.Railchat_Main_Menu" />
-        </activity>
-        <activity
-            android:name=".main_menu.MainMenu"
-            android:label="@string/title_activity_main_menu"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".chat.ChatActivity"
-            android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> refs/remotes/origin/master
     </application>
 
 </manifest>
