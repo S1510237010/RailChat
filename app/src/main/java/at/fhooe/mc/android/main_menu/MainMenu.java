@@ -33,16 +33,18 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.nio.charset.MalformedInputException;
 
+import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
-import at.fhooe.mc.android.travel.MyTravelsMenu;
+import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static FirebaseAuth mInstance;
     private int RC_SIGN_IN = 69;
+    public static InitializeDatabase database = new InitializeDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
