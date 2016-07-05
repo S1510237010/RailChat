@@ -19,5 +19,10 @@ public class GetUser {
         return user.getUid();
     }
 
+    public String getUserName(){
+        return user.getDisplayName();
+    }
+
+
 
 }

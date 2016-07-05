@@ -69,7 +69,7 @@ public class NewTravelStations extends Fragment implements View.OnClickListener 
                 android.R.layout.simple_dropdown_item_1line, NewTravel.stations.stations);
         adapter.setNotifyOnChange(true);
 
-        to = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_from);
+        to = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_to);
         to.setOnClickListener(this);
         to.setThreshold(2);
         to.setAdapter(adapter);
@@ -90,7 +90,7 @@ public class NewTravelStations extends Fragment implements View.OnClickListener 
             }
         });
 
-        from = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_to);
+        from = (AutoCompleteTextView) getView().findViewById(R.id.new_travel_auto_textview_from);
         from.setOnClickListener(this);
         from.setThreshold(2);
         from.setAdapter(adapter);

@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/my_travels_menu_content"
+        layout="@layout/content_my_travels"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

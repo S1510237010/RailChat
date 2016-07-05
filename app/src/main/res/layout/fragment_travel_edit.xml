@@ -29,11 +29,10 @@
                     android:text="@string/station_from"
                     android:id="@+id/textView12" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/travel_edit_from"
-                    android:clickable="true" />
+                    android:id="@+id/travel_edit_from" />
 
             </LinearLayout>
 
@@ -44,17 +43,17 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center" >
 
+                <AutoCompleteTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/travel_edit_to" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/station_to"
                     android:id="@+id/textView14" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/travel_edit_to" />
 
             </LinearLayout>
         </LinearLayout>
