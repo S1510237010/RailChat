@@ -50,6 +50,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".chat.ChatListActivity"></activity>
+        <activity
+            android:name=".board.Board"
+            android:label="Board">
+        </activity>
+        <activity
+            android:name=".board.NewItem"
+            android:label="New Item">
+        </activity>
     </application>
 
 </manifest>

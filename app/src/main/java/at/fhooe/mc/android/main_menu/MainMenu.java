@@ -33,6 +33,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.nio.charset.MalformedInputException;
 
+import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.board.Board;
 import at.fhooe.mc.android.database.InitializeDatabase;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.login.LoginSplash;
@@ -166,11 +168,12 @@ public class MainMenu extends AppCompatActivity
 
         switch (item.getItemId()) {
 
-            case R.id.nav_timeline: {
-
-            }
-            break;
-            case R.id.nav_travels: {
+            case R.id.nav_timeline:{
+                i = new Intent(getApplicationContext(), Board.class);
+                startActivity(i);
+            }break;
+            // Handle the camera action
+            case R.id.nav_travels:{
                 i = new Intent(getApplicationContext(), MyTravelsMenu.class);
                 startActivity(i);
             }
