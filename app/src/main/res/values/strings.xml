@@ -57,6 +57,13 @@
     <string name="title_activity_my_travels_menu">MyTravelsMenu</string>
     <string name="title_activity_settings">Settings</string>
 
+    <string name="board_title">Title</string>
+    <string name="board_link">Link</string>
+    <string name="board_new_add">Add</string>
+    <string name="board_new_start">Add a new post</string>
+    <string name="board_new_back">Back</string>
+
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
