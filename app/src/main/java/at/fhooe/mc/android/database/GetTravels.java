@@ -6,10 +6,12 @@ import android.widget.ListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
+import at.fhooe.mc.android.main_menu.MainMenu;
 import at.fhooe.mc.android.travel.travellist.TravelListArrayAdapter;
 import at.fhooe.mc.android.travel.travellist.TravelListItem;
 import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
@@ -24,10 +26,12 @@ public class GetTravels {
 
     private TravelListArrayAdapter listAdapter;
     boolean element;
+    public static DatabaseReference myRef;
 
     public GetTravels(Activity activity){
         listAdapter = new TravelListArrayAdapter(activity);
         element = false;
+        myRef = MainMenu.database.getDatabase().getReference("Users");
         getTravel();
     }
 
@@ -61,7 +65,7 @@ public class GetTravels {
      */
     private void getTravel(){
 
-        MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
+        myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final String travelID = dataSnapshot.getValue().toString();

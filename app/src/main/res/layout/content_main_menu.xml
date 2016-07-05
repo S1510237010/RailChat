@@ -10,6 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="at.fhooe.mc.android.main_menu.MainMenu"
-    tools:showIn="@layout/app_bar_main_menu">
+    tools:showIn="@layout/app_bar_main_menu"
+    android:background="@drawable/background_image_railtracks_m">
+
 
 </RelativeLayout>

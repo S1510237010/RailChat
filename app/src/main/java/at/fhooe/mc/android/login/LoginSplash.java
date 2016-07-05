@@ -16,12 +16,41 @@ import at.fhooe.mc.android.main_menu.MainMenu;
 public class LoginSplash extends Activity {
 
     private int RC_SIGN_IN = 69;
+    private static FirebaseAuth mInstance;
+    private final String TAG = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_splash);
 
+        mInstance = FirebaseAuth.getInstance();
+        Log.i(TAG, "got auth Object");
+
+        if (mInstance.getCurrentUser() != null) {
+            Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "User != null, launching main menu");
+
+            Intent i = new Intent(this, MainMenu.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        } else {
+            Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "User == null, launching Firebase UI");
+
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setProviders(
+                                    AuthUI.EMAIL_PROVIDER,
+                                    AuthUI.FACEBOOK_PROVIDER
+                            )
+                            .setTheme(R.style.CustomFirebaseUITheme)
+                            .setLogo(R.drawable.logo2_cropped)
+                            .build(),
+                    RC_SIGN_IN);
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -35,54 +64,14 @@ public class LoginSplash extends Activity {
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
-                Log.i("Login", "Login complete onActivityResult()");
+                Log.i(TAG, "Login complete onActivityResult()");
 
 
             } else {
                 //Sign in failed, cancelled
                 Toast.makeText(LoginSplash.this, "Not Logged In", Toast.LENGTH_SHORT).show();
-                Log.i("Login", "Login cancelled");
+                Log.i(TAG, "Login cancelled");
             }
         }
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        Log.i("Login", "got auth Object");
-        synchronized (this){
-            try {
-                wait(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        if (auth.getCurrentUser() != null) {
-            Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User != null, launching main menu");
-
-            Intent i = new Intent(this, MainMenu.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
-            finish();
-        } else {
-            Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
-            Log.i("Login", "User == null, launching Firebase UI");
-
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setProviders(
-                                    AuthUI.EMAIL_PROVIDER,
-                                    AuthUI.FACEBOOK_PROVIDER)
-                            .build(),
-                    RC_SIGN_IN);
-        }
-
     }
 }
