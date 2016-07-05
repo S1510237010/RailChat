@@ -126,7 +126,6 @@ public class MessagesFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         myUser = mAuth.getCurrentUser();
         //mChatsRef = mRef.child("Chats").child(myUser.getUid());
-        mChatRef = mRef.child("Chats");
 
         Bundle args = getArguments();
         if(args.getBoolean("newChat")){
@@ -135,7 +134,6 @@ public class MessagesFragment extends Fragment {
         }else{
             chatId = args.getString("chatId");
             title = args.getString("title");
-            getActivity().setTitle(title);
         }
         Log.d(TAG,chatId);
         mMembersQuery = mRef.child("Members").child(chatId);
@@ -164,11 +162,14 @@ public class MessagesFragment extends Fragment {
 
     private void addNewChat(String uid, String name){
         ChatItemModel chatItemModel = new ChatItemModel(name,"New Chat");
-        chatId = mChatRef.push().getKey();
-        mChatRef.child(myUser.getUid()).child(chatId).setValue(chatItemModel);
+        chatId = mRef.child("Chats").child(myUser.getUid()).push().getKey();
+        chatItemModel.setTimestamp();
+        mRef.child("Chats").child(myUser.getUid()).child(chatId).setValue(chatItemModel);
         chatItemModel.setTitle(myUser.getUid());
         chatItemModel.setTimestamp();
-        mChatRef.child(uid).child(chatId).setValue(chatItemModel);
+        Log.d(TAG,"MyUserUid: "+ myUser.getUid());
+        Log.d(TAG,"Other User Uid: "+uid);
+        mRef.child("Chats").child(uid).child(chatId).setValue(chatItemModel);
         FriendItemModel friendItemModel = new FriendItemModel(name,uid);
         mRef.child("Members").child(chatId).push().setValue(friendItemModel);
         friendItemModel.setName(myUser.getDisplayName());
@@ -185,11 +186,13 @@ public class MessagesFragment extends Fragment {
     }
     private void updateChat(String message, String uid){
         ArrayList <FriendItemModel> members = getMembers();
-        for(int i = 0; i < members.size(); i++){
-            if(myUser.getUid().equals(members.get(i).getUid())) {
-                members.get(i).getUid();
-            }
+        ChatItemModel myChatItem = new ChatItemModel();
+        myChatItem.setLastMessage(message);
+        myChatItem.setTitle(uid);
+        myChatItem.setTimestamp();
 
+        for(int i = 0; i < members.size(); i++){
+            mRef.child("Chats").child(members.get(i).getUid()).child(chatId).setValue(myChatItem);
         }
 
 
