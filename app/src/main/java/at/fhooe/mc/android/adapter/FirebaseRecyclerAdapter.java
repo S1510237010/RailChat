@@ -109,6 +109,11 @@ public abstract class FirebaseRecyclerAdapter<T, VH extends RecyclerView.ViewHol
     public void onBindViewHolder(VH viewHolder, int position) {
         T model = getItem(position);
         populateViewHolder(viewHolder, model, position);
+
+    }
+
+    public String getKeyForPos(int position){
+        return mSnapshots.getItem(position).getKey();
     }
 
 
