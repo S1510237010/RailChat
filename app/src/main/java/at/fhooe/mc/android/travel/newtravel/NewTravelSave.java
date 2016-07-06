@@ -11,12 +11,13 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetUser;
 import at.fhooe.mc.android.main_menu.MainMenu;
-import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
 /**
  * This class gives a summary of the travel, which the user wants to save and the
@@ -38,7 +39,7 @@ public class NewTravelSave extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        userID = MyTravelsMenu.userID;
+        userID = new GetUser().getUserID();
         data = getArguments();
         myRef_Travel = MainMenu.database.getDatabase().getReference();
 

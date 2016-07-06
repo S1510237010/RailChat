@@ -20,6 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Comparator;
+import java.util.Date;
+
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.travel.travellist.DeleteTravel;
 import at.fhooe.mc.android.travel.travellist.TravelListArrayAdapter;
@@ -68,7 +71,6 @@ public class MyTravelsMenuListFragment extends Fragment {
         fabMenu = MyTravelsMenu.fab_menu;
 
         listAdapter = new TravelListArrayAdapter(getActivity());
-
 
         MyTravelsMenu.fragment = "List";
 
