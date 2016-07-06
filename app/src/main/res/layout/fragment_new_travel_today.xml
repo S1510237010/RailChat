@@ -30,7 +30,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/com_facebook_loginview_log_in_button"
+                android:text="@string/login"
                 android:id="@+id/new_travel_today_logIn"
                 android:background="#00ffffff" />
         </LinearLayout>

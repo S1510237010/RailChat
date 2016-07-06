@@ -24,7 +24,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="travel_today">Log in a travel today?</string>
+    <string name="travel_today">Travel today?</string>
+    <string name="login">Login</string>
 
     <string name="next_button">Next</string>
     <string name="back_button">Back</string>
