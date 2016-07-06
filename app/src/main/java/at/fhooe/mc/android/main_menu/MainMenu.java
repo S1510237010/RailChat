@@ -37,11 +37,14 @@ import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
 import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
 
+/**
+ * This class is the center of everything. It provides the
+ * Navigation Drawer to Navigate to other features of the app.
+ */
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static FirebaseAuth mInstance;
-    private int RC_SIGN_IN = 69;
     public static InitializeDatabase database = new InitializeDatabase();
     public static GetTravels travel;
 
@@ -65,9 +68,6 @@ public class MainMenu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-            Log.i("MainMenu", "onCreate(): User != null");
 
             //insert user Data to Drawer Header
             View drawerTop = navigationView.getHeaderView(0);

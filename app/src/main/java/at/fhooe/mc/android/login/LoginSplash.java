@@ -13,6 +13,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
+/**
+ * This class basically checks whether a User Object is found.
+ * If a User Object exists, it means that a user is already signed
+ * in and the MainMenu Activity is immediately launched.
+ * If there's no User Object, the FirebaseUI Login Activity is launched.
+ */
 public class LoginSplash extends Activity {
 
     private int RC_SIGN_IN = 69;
