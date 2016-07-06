@@ -2,7 +2,7 @@
     <string name="app_name">Railchat</string>
     <string name="action_settings">Settings</string>
     <string name="title_travel_Settings">Your Travels</string>
-    <string name="title_activity_main_menue">main_menu</string>
+    <string name="title_activity_main_menue">Main Menu</string>
 
     <string name="myTravels">My Travels</string>
     <string name="settings">Settings</string>
@@ -24,7 +24,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="travel_today">Travel today?</string>
+    <string name="travel_today">Where are you heading today?</string>
     <string name="login">Login</string>
 
     <string name="next_button">Next</string>
@@ -34,21 +34,21 @@
     <string name="station_from">From</string>
     <string name="time_text">Time</string>
     <string name="date_hint">Pick date</string>
-    <string name="station_to_hint">to which station</string>
-    <string name="station_from_hint">from which station</string>
+    <string name="station_to_hint">Destination</string>
+    <string name="station_from_hint">Origin</string>
     <string name="train_hint">pick train</string>
     <string name="train_text">Train</string>
     <string name="new_travel_save">Save</string>
-    <string name="new_travel_date_title">When will you do your trip?</string>
+    <string name="new_travel_date_title">When will you get going?</string>
     <string name="new_travel_train_title">Which train do you want to take?</string>
     <string name="new_travel_stations_title">Where do you want to go?</string>
     <string name="new_travel_save_title">Do you want to save this travel?</string>
     <string name="new_travel_listitem_persons_text">Persons</string>
-    <string name="travel_menue_message_no_travels">You dont have any travels saved. :(</string>
+    <string name="travel_menue_message_no_travels">You dont have any Travels saved. :(</string>
 
     <string name="travel_delete_title">Delete Travel</string>
-    <string name="travel_delete_message">Do you want to delete this Travel?</string>
-    <string name="travel_delete_all_message">Do you want to delete all travels?</string>
+    <string name="travel_delete_message">Are you sure you want to delete this Travel?</string>
+    <string name="travel_delete_all_message">Are you sure you want to clear all Travels?</string>
 
     <string name="Yes">Yes</string>
     <string name="Cancel">Cancel</string>
@@ -59,10 +59,10 @@
     <string name="facebook_application_id" translatable="false">920790128018530</string>
     <string name="title_activity_railchat__my__travels__menu__test">Railchat_My_Travels_Menu_Test
     </string>
-    <string name="title_activity_railchat__new__travel">Railchat_New_Travel</string>
-    <string name="title_activity_my__travels">My_Travels</string>
+    <string name="title_activity_railchat__new__travel">Add New Travel</string>
+    <string name="title_activity_my__travels">My Travels</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_my_travels_menu">MyTravelsMenu</string>
+    <string name="title_activity_my_travels_menu">My Travels</string>
     <string name="title_activity_settings">Settings</string>
 
     <string name="board_title">Title</string>
@@ -129,7 +129,7 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_main_menu">Main Menu</string>
     <string name="title_activity_chat">Chat</string>
 
 

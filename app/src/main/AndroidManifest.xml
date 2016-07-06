@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".travel.newtravel.NewTravel"
-            android:label="@string/title_activity_railchat__new__travel"
+            android:label="Add New Travel"
             android:parentActivityName=".travel.travelmenu.MyTravelsMenu">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".board.NewItem"
-            android:label="New Item">
+            android:label="New Post">
         </activity>
 
     </application>
