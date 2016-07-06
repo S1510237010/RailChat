@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">RailChat</string>
+    <string name="app_name">Railchat</string>
     <string name="action_settings">Settings</string>
     <string name="title_travel_Settings">Your Travels</string>
-    <string name="title_activity_main_menue">main_menue</string>
+    <string name="title_activity_main_menue">main_menu</string>
 
     <string name="myTravels">My Travels</string>
     <string name="settings">Settings</string>

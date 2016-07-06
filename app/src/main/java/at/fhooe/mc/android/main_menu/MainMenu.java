@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -25,19 +23,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ui.email.SignInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.nio.charset.MalformedInputException;
-
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.board.Board;
 import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.database.InitializeDatabase;
-import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.chat.ChatActivity;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
@@ -63,15 +57,6 @@ public class MainMenu extends AppCompatActivity
         mInstance = FirebaseAuth.getInstance();
         Log.i("LOGIN", "onCreate(): got auth Object");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -82,18 +67,18 @@ public class MainMenu extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-            Log.i("LOGIN", "onCreate(): User != null");
+            Log.i("MainMenu", "onCreate(): User != null");
 
             //insert user Data to Drawer Header
             View drawerTop = navigationView.getHeaderView(0);
             TextView userName = (TextView) drawerTop.findViewById(R.id.nav_header_username);
-            TextView userEmail = (TextView) drawerTop.findViewById(R.id.nav_header_email);
+            TextView userGreeting = (TextView) drawerTop.findViewById(R.id.nav_header_greeting);
             final ImageView userPhoto = (ImageView) drawerTop.findViewById(R.id.nav_header_userphoto);
 
             FirebaseUser user = mInstance.getCurrentUser();
             if (user != null) {
                 userName.setText(user.getDisplayName());
-                userEmail.setText("Hello");
+                userGreeting.setText("Hello");
                 if (user.getPhotoUrl() != null) {
                     Glide.with(this).load(user.getPhotoUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPhoto) {
                         @Override
@@ -116,26 +101,6 @@ public class MainMenu extends AppCompatActivity
 
     }
 
-    /**
-     *     Launches Firebase UI Sign-in Activity with Facebook and E-Mail Sign-in options.
-     */
-    private void launchSignIn() {
-        Toast.makeText(MainMenu.this, "User == null", Toast.LENGTH_SHORT).show();
-        Log.i("LOGIN", "User == null, launching Firebase UI");
-
-        //start FirebaseUI Library Activity for Login
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setProviders(
-                                AuthUI.EMAIL_PROVIDER,
-                                AuthUI.FACEBOOK_PROVIDER
-                        )
-                        .setTheme(R.style.CustomFirebaseUITheme)
-                        .setLogo(R.drawable.logo2_cropped)
-                        .build(),
-                RC_SIGN_IN);
-    }
 
     @Override
     public void onBackPressed() {
@@ -170,7 +135,7 @@ public class MainMenu extends AppCompatActivity
     }
 
     /**
-     * Method for handling selected drawer item and launching respective Activiyty
+     * Method for handling selected drawer item and launching respective Activity
      * @param item Selected Drawer Item user clicked on
      * @return
      */
@@ -178,12 +143,12 @@ public class MainMenu extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
-        Intent i;
+        final Intent i;
 
 
         switch (item.getItemId()) {
 
-            case R.id.nav_timeline:{
+            case R.id.nav_board:{
                 i = new Intent(getApplicationContext(), Board.class);
                 startActivity(i);
             }break;
@@ -203,15 +168,15 @@ public class MainMenu extends AppCompatActivity
             }
             break;
             case R.id.nav_signout: {
+                i = new Intent(MainMenu.this, LoginSplash.class);
                 AuthUI.getInstance()
                         .signOut(this)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
-                                // user is now signed out
-                                //refresh Activity
-                                //TODO: BUG: App doesn't sign-in properly after signing out!
+                                // user is now signed out, start Login again
+                                Toast.makeText(MainMenu.this, "You're now signed out", Toast.LENGTH_SHORT).show();
+                                startActivity(i);
                                 finish();
-                                launchSignIn();
                             }
                         });
             }
@@ -222,18 +187,4 @@ public class MainMenu extends AppCompatActivity
         return true;
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                // user is signed in!
-                Log.i("LOGIN result", "onActivityResult(): Login succeeded");
-
-            } else {
-                //Sign in failed, cancelled
-                Toast.makeText(MainMenu.this, "Log In Failed... Please Try Again", Toast.LENGTH_SHORT).show();
-                Log.i("LOGIN result", "onActivityResult(): Login cancelled");
-            }
-        }
-    }
 }
