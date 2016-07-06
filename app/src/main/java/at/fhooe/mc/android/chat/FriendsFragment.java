@@ -4,8 +4,11 @@ package at.fhooe.mc.android.chat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +67,7 @@ public class FriendsFragment extends Fragment {
         newFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendItemModel nFriend = new FriendItemModel();
+                /*FriendItemModel nFriend = new FriendItemModel();
                 nFriend.setName("Martin S.");
                 nFriend.setUid("745R6u7FcpNHHpSKKXQVVa7UTqJ2");
                 mFriendsRef.child(mUser.getUid()).push().setValue(nFriend);
@@ -72,7 +75,11 @@ public class FriendsFragment extends Fragment {
                 Log.d(TAG,"asfasfasfas");
                 nFriend.setName(mUser.getDisplayName());
                 nFriend.setUid(mUser.getUid());
-                mFriendsRef.child("745R6u7FcpNHHpSKKXQVVa7UTqJ2").push().setValue(nFriend);
+                mFriendsRef.child("745R6u7FcpNHHpSKKXQVVa7UTqJ2").push().setValue(nFriend);*/
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new AddNewFriendFragment();
+                ft.replace(R.id.chat_container,fragment);
+                ft.commit();
             }
         });
 
@@ -112,7 +119,7 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Friends");
         if(!isSignedIn()){
             //TODO: Return to Login
         }else{

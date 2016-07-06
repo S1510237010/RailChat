@@ -129,7 +129,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_chat">Chat</string>
 
 
 </resources>

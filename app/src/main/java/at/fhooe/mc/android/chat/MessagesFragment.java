@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -43,9 +45,7 @@ public class MessagesFragment extends Fragment {
     private EditText mEditText;
     private DatabaseReference mRef;
     private FirebaseUser myUser;
-    private DatabaseReference mMemberRef;
     private DatabaseReference mMessageRef;
-    private DatabaseReference mChatRef;
     private Query mMembersQuery;
     private Query mMessageQuery;
     private RecyclerView mMessages;
@@ -64,31 +64,12 @@ public class MessagesFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-
-
-       // Toast.makeText(getActivity(), chatId, Toast.LENGTH_LONG ).show();
-        //Toast.makeText(getActivity(), title, Toast.LENGTH_LONG ).show();
-
-
-
-
-
-
-
-    }
-
-    @Override
     public void onStart(){
         super.onStart();
 
         if(!isSignedIn()){
             //TODO: Return to Login
         }else{
-
             attachRecyclerViewAdapter();
         }
 
@@ -104,6 +85,7 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initObjects(view);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Messages"); //// TODO: 06.07.2016 setName of Chatpartner/Chatname
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,31 +107,22 @@ public class MessagesFragment extends Fragment {
         mRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         myUser = mAuth.getCurrentUser();
-        //mChatsRef = mRef.child("Chats").child(myUser.getUid());
-
         Bundle args = getArguments();
         if(args.getBoolean("newChat")){
             addNewChat(args.getString("uid"),args.getString("title"));
 
-        }else{
+        }else {
             chatId = args.getString("chatId");
             title = args.getString("title");
         }
-        Log.d(TAG,chatId);
         mMembersQuery = mRef.child("Members").child(chatId);
-
-
         mMembersArray = new FirebaseArray(mMembersQuery);
-
-        //mMemberRef = mRef.child("Members");
         mMessageRef = mRef.child("Messages");
         mMessageQuery = mRef.child("Messages").child(chatId);
         mMessages = (RecyclerView) view.findViewById(R.id.messagesList);
         myLayout = (RelativeLayout) view.findViewById(R.id.message_fragment);
-
         mManager = new LinearLayoutManager(getActivity());
         mManager.setReverseLayout(false);
-
         mMessages.setHasFixedSize(false);
         mMessages.setLayoutManager(mManager);
         mEditText = (EditText) view.findViewById(R.id.messageEdit);
@@ -190,7 +163,6 @@ public class MessagesFragment extends Fragment {
         myChatItem.setLastMessage(message);
         myChatItem.setTitle(uid);
         myChatItem.setTimestamp();
-
         for(int i = 0; i < members.size(); i++){
             mRef.child("Chats").child(members.get(i).getUid()).child(chatId).setValue(myChatItem);
         }
@@ -204,7 +176,6 @@ public class MessagesFragment extends Fragment {
             members.add(mMembersArray.getItem(i).getValue(FriendItemModel.class));
         }
         return members;
-
     }
 
 
@@ -217,20 +188,20 @@ public class MessagesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_messages, container, false);
     }
 
+
     private void attachRecyclerViewAdapter(){
         mRecyclerViewAdapter = new FirebaseRecyclerAdapter<MessageModel, MessageHolder>(
                 MessageModel.class, R.layout.message_item, MessageHolder.class, mMessageQuery) {
             @Override
             protected void populateViewHolder(MessageHolder viewHolder, MessageModel model, int position) {
-                //if(myUser.getUid().equals(model.getName())){
-
-                    viewHolder.setName(model.getName());
-                    viewHolder.setMessage(model.getMessage());
-
-                //}
-
-
-
+                if(myUser.getUid().equals(model.getName())){
+                    viewHolder.setIsSender(true);
+                }
+                else{
+                    viewHolder.setIsSender(false);
+                }
+                viewHolder.setName(model.getName());
+                viewHolder.setMessage(model.getMessage());
             }
         };
         mRecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -243,13 +214,7 @@ public class MessagesFragment extends Fragment {
         mMessages.setAdapter(mRecyclerViewAdapter);
 
     }
-
-
-
     public boolean isSignedIn() {
         return (mAuth.getCurrentUser() != null);
     }
-
-
-
 }

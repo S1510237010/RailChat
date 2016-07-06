@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -92,6 +93,8 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chats");
+
 
         if(!isSignedIn()){
             //TODO: Return to Login

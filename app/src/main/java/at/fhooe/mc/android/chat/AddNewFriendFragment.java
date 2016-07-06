@@ -77,9 +77,8 @@ public class AddNewFriendFragment extends Fragment {
                     if(mRecyclerViewAdapter != null){
                         mRecyclerViewAdapter.cleanup();
                     }
-                    mQuerySearchList = mRef.child("Users")
-                            .orderByChild("Name")
-                            .equalTo(searchStr.getText().toString());
+                    mQuerySearchList = mRef.child("Users") ;
+                    //equalTo(searchStr.getText().toString());
 
                 }
             }
@@ -124,6 +123,7 @@ public class AddNewFriendFragment extends Fragment {
         mUsers.setAdapter(mRecyclerViewAdapter);
 
     }
+
 
     public boolean isSignedIn() {
         return (mAuth.getCurrentUser() != null);
