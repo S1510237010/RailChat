@@ -171,7 +171,6 @@ public class MyTravelsMenuListFragment extends Fragment {
      */
     public void getTravel(){
 
-
         MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
