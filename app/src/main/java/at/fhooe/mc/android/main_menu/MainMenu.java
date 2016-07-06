@@ -115,10 +115,14 @@ public class MainMenu extends AppCompatActivity
 
     }
 
+    /**
+     *     Launches Firebase UI Sign-in Activity with Facebook and E-Mail Sign-in options.
+     */
     private void launchSignIn() {
         Toast.makeText(MainMenu.this, "User == null", Toast.LENGTH_SHORT).show();
         Log.i("LOGIN", "User == null, launching Firebase UI");
 
+        //start FirebaseUI Library Activity for Login
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -164,7 +168,11 @@ public class MainMenu extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * Method for handling selected drawer item and launching respective Activiyty
+     * @param item Selected Drawer Item user clicked on
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -177,7 +185,6 @@ public class MainMenu extends AppCompatActivity
                 i = new Intent(getApplicationContext(), Board.class);
                 startActivity(i);
             }break;
-            // Handle the camera action
             case R.id.nav_travels:{
                 i = new Intent(getApplicationContext(), MyTravelsMenu.class);
                 startActivity(i);
@@ -199,6 +206,7 @@ public class MainMenu extends AppCompatActivity
                             public void onComplete(@NonNull Task<Void> task) {
                                 // user is now signed out
                                 //refresh Activity
+                                //TODO: BUG: App doesn't sign-in properly after signing out!
                                 finish();
                                 launchSignIn();
                             }
@@ -216,12 +224,12 @@ public class MainMenu extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 // user is signed in!
-                Log.i("LOGIN result", "Login complete onActivityResult()");
+                Log.i("LOGIN result", "onActivityResult(): Login succeeded");
 
             } else {
                 //Sign in failed, cancelled
-                Toast.makeText(MainMenu.this, "Not Logged In", Toast.LENGTH_SHORT).show();
-                Log.i("LOGIN result", "Login cancelled");
+                Toast.makeText(MainMenu.this, "Log In Failed... Please Try Again", Toast.LENGTH_SHORT).show();
+                Log.i("LOGIN result", "onActivityResult(): Login cancelled");
             }
         }
     }
