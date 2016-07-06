@@ -13,6 +13,7 @@ import at.fhooe.mc.android.R;
 
 /**
  * Created by Martin on 24.06.2016.
+ *Holder for Messages
  */
 public class MessageHolder extends RecyclerView.ViewHolder {
     View mView;
@@ -28,6 +29,11 @@ public class MessageHolder extends RecyclerView.ViewHolder {
         TextView messageField = (TextView) mView.findViewById(R.id.message_text);
         messageField.setText(message);
     }
+
+    /**
+     * When User is sender than represent message right and in other color
+     * @param isSender ture when user is sender
+     */
     public void setIsSender(boolean isSender){
         RelativeLayout mMessageContainer = (RelativeLayout) mView.findViewById(R.id.message_container);
         LinearLayout mMessageItem = (LinearLayout) mView.findViewById(R.id.message_item);

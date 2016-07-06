@@ -20,6 +20,7 @@ import at.fhooe.mc.android.chat.MessagesFragment;
 
 /**
  * Created by Martin on 01.07.2016.
+ * Holder for FriendItemModels
  */
 public class FriendItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     View mView;

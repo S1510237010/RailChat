@@ -19,6 +19,7 @@ import at.fhooe.mc.android.chat.MessagesFragment;
 
 /**
  * Created by Martin on 24.06.2016.
+ * Holder for ChatItemModel
  */
 public class ChatItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     View mView;
@@ -47,6 +48,10 @@ public class ChatItemHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.chatId=id;
     }
 
+    /**
+     * On Click Listener, opens a ned MessageFragment with the wished chatpartner
+     * @param v view
+     */
     @Override
     public void onClick(View v) {
         FragmentTransaction ft = myActivity.getSupportFragmentManager().beginTransaction();

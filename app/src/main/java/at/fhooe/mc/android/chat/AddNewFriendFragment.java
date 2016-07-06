@@ -27,7 +27,9 @@ import at.fhooe.mc.android.models.FirebaseArray;
 import at.fhooe.mc.android.models.FriendItemHolder;
 import at.fhooe.mc.android.models.FriendItemModel;
 
-
+/**
+ * Fragment for Adding new Friends
+ */
 public class AddNewFriendFragment extends Fragment {
     private EditText searchStr;
     public static final String TAG = "AddNewFriendFragment";
@@ -69,12 +71,6 @@ public class AddNewFriendFragment extends Fragment {
         adapter = new NewFriendsAdapter(getContext());
         adapter.setActivity(getActivity());
         mUsers.setAdapter(adapter);
-
-
-
-
-
-
         mRef.child("Users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
