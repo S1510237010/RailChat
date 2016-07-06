@@ -28,15 +28,16 @@ public class LoginSplash extends Activity {
         Log.i(TAG, "got auth Object");
 
         if (mInstance.getCurrentUser() != null) {
-            Toast.makeText(LoginSplash.this, "User != null", Toast.LENGTH_SHORT).show();
+            //User is found, launch MainMenu
             Log.i(TAG, "User != null, launching main menu");
 
             Intent i = new Intent(this, MainMenu.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(i);
             finish();
-        } else {
-            Toast.makeText(LoginSplash.this, "User == null", Toast.LENGTH_SHORT).show();
+        } else if (mInstance.getCurrentUser() == null) {
+            //No User is logged in, start FirebaseUI Login Activity
             Log.i(TAG, "User == null, launching Firebase UI");
 
             startActivityForResult(
@@ -57,7 +58,7 @@ public class LoginSplash extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(LoginSplash.this, "User Loggid In", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginSplash.this, "User Logid In", Toast.LENGTH_SHORT).show();
 
                 // user is signed in!
                 Intent i = new Intent(this, MainMenu.class);

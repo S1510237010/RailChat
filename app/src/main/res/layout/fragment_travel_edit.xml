@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustNothing"
     tools:context=".travel.travelmenu.TravelEdit">
 
     <LinearLayout
@@ -30,9 +31,10 @@
                     android:id="@+id/textView12" />
 
                 <AutoCompleteTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/travel_edit_from" />
+                    android:id="@+id/travel_edit_from"
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -44,9 +46,10 @@
                 android:gravity="center_vertical|center" >
 
                 <AutoCompleteTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/travel_edit_to" />
+                    android:id="@+id/travel_edit_to"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"

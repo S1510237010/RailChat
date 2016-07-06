@@ -20,6 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Comparator;
+import java.util.Date;
+
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.travel.travellist.DeleteTravel;
 import at.fhooe.mc.android.travel.travellist.TravelListArrayAdapter;
@@ -69,7 +72,6 @@ public class MyTravelsMenuListFragment extends Fragment {
 
         listAdapter = new TravelListArrayAdapter(getActivity());
 
-
         MyTravelsMenu.fragment = "List";
 
         /**
@@ -82,7 +84,8 @@ public class MyTravelsMenuListFragment extends Fragment {
                 startActivity(i);
             }
         });
-        fabBut.setImageResource(R.drawable.ic_add);
+
+        fabBut.setIcon(R.drawable.ic_add);
 
         /**
          * Floating Button : delete all with an AlertDialog to make sure it is wanted
@@ -167,7 +170,6 @@ public class MyTravelsMenuListFragment extends Fragment {
      * Then the listadapter is updated.
      */
     public void getTravel(){
-
 
         MyTravelsMenu.myRef.child(MyTravelsMenu.userID).child("Travels").addChildEventListener(new ChildEventListener() {
             @Override

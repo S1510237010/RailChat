@@ -43,8 +43,6 @@ public class NewTravelStations extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
-
         arguments = getArguments();
 
         return inflater.inflate(R.layout.fragment_railchat_new_travel_stations, container, false);

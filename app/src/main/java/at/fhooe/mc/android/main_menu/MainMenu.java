@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -25,19 +23,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ui.email.SignInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.nio.charset.MalformedInputException;
-
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.board.Board;
 import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.database.InitializeDatabase;
-import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.chat.ChatActivity;
 import at.fhooe.mc.android.login.LoginSplash;
 import at.fhooe.mc.android.settings.SettingsActivity;
 import at.fhooe.mc.android.travel.travelmenu.MyTravelsMenu;
@@ -60,16 +55,7 @@ public class MainMenu extends AppCompatActivity
         travel = new GetTravels(this);
 
         mInstance = FirebaseAuth.getInstance();
-        Log.i("LOGIN", "got auth Object");
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        Log.i("LOGIN", "onCreate(): got auth Object");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,20 +66,19 @@ public class MainMenu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (mInstance.getCurrentUser() != null) {
-            Toast.makeText(MainMenu.this, "User != null", Toast.LENGTH_SHORT).show();
-            Log.i("LOGIN", "User != null, no need to launch Longin UI");
+
+            Log.i("MainMenu", "onCreate(): User != null");
 
             //insert user Data to Drawer Header
             View drawerTop = navigationView.getHeaderView(0);
             TextView userName = (TextView) drawerTop.findViewById(R.id.nav_header_username);
-            TextView userEmail = (TextView) drawerTop.findViewById(R.id.nav_header_email);
+            TextView userGreeting = (TextView) drawerTop.findViewById(R.id.nav_header_greeting);
             final ImageView userPhoto = (ImageView) drawerTop.findViewById(R.id.nav_header_userphoto);
 
             FirebaseUser user = mInstance.getCurrentUser();
             if (user != null) {
                 userName.setText(user.getDisplayName());
-                userEmail.setText("Hallo!");
+                userGreeting.setText("Hello");
                 if (user.getPhotoUrl() != null) {
                     Glide.with(this).load(user.getPhotoUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPhoto) {
                         @Override
@@ -105,31 +90,17 @@ public class MainMenu extends AppCompatActivity
                         }
                     });
                 }
+
+                //Upload User data to separate Database-Object to allow communication
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Name").setValue(user.getDisplayName());
+                database.getDatabase().getReference("Users").child(user.getUid()).child("Photo").setValue(user.getPhotoUrl());
+
             }
-        } else {
-            launchSignIn();
-
-        }
+          
 
 
     }
 
-    private void launchSignIn() {
-        Toast.makeText(MainMenu.this, "User == null", Toast.LENGTH_SHORT).show();
-        Log.i("LOGIN", "User == null, launching Firebase UI");
-
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setProviders(
-                                AuthUI.EMAIL_PROVIDER,
-                                AuthUI.FACEBOOK_PROVIDER
-                        )
-                        .setTheme(R.style.CustomFirebaseUITheme)
-                        .setLogo(R.drawable.logo2_cropped)
-                        .build(),
-                RC_SIGN_IN);
-    }
 
     @Override
     public void onBackPressed() {
@@ -163,27 +134,32 @@ public class MainMenu extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * Method for handling selected drawer item and launching respective Activity
+     * @param item Selected Drawer Item user clicked on
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
-        Intent i;
+        final Intent i;
+
 
         switch (item.getItemId()) {
 
-            case R.id.nav_timeline:{
+            case R.id.nav_board:{
                 i = new Intent(getApplicationContext(), Board.class);
                 startActivity(i);
             }break;
-            // Handle the camera action
             case R.id.nav_travels:{
                 i = new Intent(getApplicationContext(), MyTravelsMenu.class);
                 startActivity(i);
             }
             break;
             case R.id.nav_chats: {
-
+                i = new Intent(MainMenu.this, ChatActivity.class);
+                startActivity(i);
             }
             break;
             case R.id.nav_settings: {
@@ -192,13 +168,14 @@ public class MainMenu extends AppCompatActivity
             }
             break;
             case R.id.nav_signout: {
+                i = new Intent(MainMenu.this, LoginSplash.class);
                 AuthUI.getInstance()
                         .signOut(this)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
-                                // user is now signed out
-                                //refresh Activity
-                                launchSignIn();
+                                // user is now signed out, start Login again
+                                Toast.makeText(MainMenu.this, "You're now signed out", Toast.LENGTH_SHORT).show();
+                                startActivity(i);
                                 finish();
                             }
                         });
@@ -210,18 +187,4 @@ public class MainMenu extends AppCompatActivity
         return true;
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                // user is signed in!
-                Log.i("LOGIN result", "Login complete onActivityResult()");
-
-            } else {
-                //Sign in failed, cancelled
-                Toast.makeText(MainMenu.this, "Not Logged In", Toast.LENGTH_SHORT).show();
-                Log.i("LOGIN result", "Login cancelled");
-            }
-        }
-    }
 }

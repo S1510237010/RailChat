@@ -1,6 +1,7 @@
 package at.fhooe.mc.android.database;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class GetTravels {
         element = false;
         myRef = MainMenu.database.getDatabase().getReference("Users");
         trainRef = MainMenu.database.getDatabase().getReference("Travels");
-        getTravel();
+        new TravelAsyn().execute();
     }
 
     public TravelListArrayAdapter getListAdapter(){
@@ -62,151 +63,154 @@ public class GetTravels {
         return 0;
     }
 
+
     /**
-     * This method adds all Travels from the database to the listadapter and clears it before the first
+     * This class adds all Travels from the database to the listadapter and clears it before the first
      * element is added.
      * When a travel is removed, the certain travel item is also removed from the listadapter.
      * Then the listadapter is updated.
      */
-    private void getTravel(){
+    private class TravelAsyn extends AsyncTask<Void, Void, Void>{
 
-        myRef.child(new GetUser().getUserID()).child("Travels").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                final String travelID = dataSnapshot.getValue().toString();
+        @Override
+        protected Void doInBackground(Void... params) {
+            myRef.child(new GetUser().getUserID()).child("Travels").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    final String travelID = dataSnapshot.getValue().toString();
 
-                System.out.println("OnChildAdded");
+                    System.out.println("OnChildAdded");
 
-                if (!element){
-                    listAdapter.clear();
-                }
+                    if (!element){
+                        listAdapter.clear();
+                    }
 
 
-                trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if (!dataSnapshot.exists()) {
-                            return;
-                        }
-
-                        String to       = dataSnapshot.child("To").getValue().toString();
-                        String from     = dataSnapshot.child("From").getValue().toString();
-                        String train    = dataSnapshot.child("Train").getValue().toString();
-                        String date     = dataSnapshot.child("Date").getValue().toString();
-                        String time     = dataSnapshot.child("Time").getValue().toString();
-//                            int persons     = Integer.parseInt(dataSnapshot.child("Persons").getValue().toString());
-                        int trainNumber = Integer.parseInt(train);
-
-                        TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
-
-                        boolean contains = false;
-
-                        for (int i = 0; i < listAdapter.getCount(); i++){
-                            if (item.equals(listAdapter.getItem(i))){
-                                contains = true;
+                            if (!dataSnapshot.exists()) {
+                                return;
                             }
-                        }
 
-                        if (!contains){
-                            listAdapter.add(item);
-                        }
-
-                        element = true;
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                updateAdapter();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                final String travelID = dataSnapshot.getValue().toString();
-
-                System.out.println("OnChildChanged");
-
-                if (!element){
-                    listAdapter.clear();
-
-                }
-
-                MyTravelsMenu.trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        if (!dataSnapshot.exists()) {
-                            return;
-                        }
-
-                        String to       = dataSnapshot.child("To").getValue().toString();
-                        String from     = dataSnapshot.child("From").getValue().toString();
-                        String train    = dataSnapshot.child("Train").getValue().toString();
-                        String date     = dataSnapshot.child("Date").getValue().toString();
-                        String time     = dataSnapshot.child("Time").getValue().toString();
+                            String to       = dataSnapshot.child("To").getValue().toString();
+                            String from     = dataSnapshot.child("From").getValue().toString();
+                            String train    = dataSnapshot.child("Train").getValue().toString();
+                            String date     = dataSnapshot.child("Date").getValue().toString();
+                            String time     = dataSnapshot.child("Time").getValue().toString();
 //                            int persons     = Integer.parseInt(dataSnapshot.child("Persons").getValue().toString());
-                        int trainNumber = Integer.parseInt(train);
+                            int trainNumber = Integer.parseInt(train);
 
-                        TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
-                        boolean contains = false;
+                            TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
 
-                        for (int i = 0; i < listAdapter.getCount(); i++){
-                            if (item.equals(listAdapter.getItem(i))){
-                                contains = true;
+                            boolean contains = false;
+
+                            for (int i = 0; i < listAdapter.getCount(); i++){
+                                if (item.equals(listAdapter.getItem(i))){
+                                    contains = true;
+                                }
                             }
+
+                            if (!contains){
+                                listAdapter.add(item);
+                            }
+
+                            element = true;
                         }
 
-                        if (!contains){
-                            listAdapter.add(item);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
                         }
-                        element = true;
+                    });
+
+                    updateAdapter();
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    final String travelID = dataSnapshot.getValue().toString();
+
+                    System.out.println("OnChildChanged");
+
+                    if (!element){
+                        listAdapter.clear();
+
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    MyTravelsMenu.trainRef.child(travelID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (!dataSnapshot.exists()) {
+                                return;
+                            }
+
+                            String to       = dataSnapshot.child("To").getValue().toString();
+                            String from     = dataSnapshot.child("From").getValue().toString();
+                            String train    = dataSnapshot.child("Train").getValue().toString();
+                            String date     = dataSnapshot.child("Date").getValue().toString();
+                            String time     = dataSnapshot.child("Time").getValue().toString();
+//                            int persons     = Integer.parseInt(dataSnapshot.child("Persons").getValue().toString());
+                            int trainNumber = Integer.parseInt(train);
+
+                            TravelListItem item = new TravelListItem(travelID, to, from, trainNumber, 0, date, time);
+                            boolean contains = false;
+
+                            for (int i = 0; i < listAdapter.getCount(); i++){
+                                if (item.equals(listAdapter.getItem(i))){
+                                    contains = true;
+                                }
+                            }
+
+                            if (!contains){
+                                listAdapter.add(item);
+                            }
+                            element = true;
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    updateAdapter();
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    final String travelID = dataSnapshot.getValue().toString();
+
+
+                    for (int i = 0; i < listAdapter.getCount(); i++){
+
+                        TravelListItem item = listAdapter.getItem(i);
+                        if(item.equals(new TravelListItem(travelID))){
+                            listAdapter.remove(item);
+                        }
 
                     }
-                });
 
-                updateAdapter();
-            }
+                    listAdapter.remove(new TravelListItem(travelID));
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final String travelID = dataSnapshot.getValue().toString();
+                    updateAdapter();
+                }
 
-
-                for (int i = 0; i < listAdapter.getCount(); i++){
-
-                    TravelListItem item = listAdapter.getItem(i);
-                    if(item.equals(new TravelListItem(travelID))){
-                        listAdapter.remove(item);
-                    }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
                 }
 
-                listAdapter.remove(new TravelListItem(travelID));
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                updateAdapter();
-            }
+                }
+            });
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
+            return null;
+        }
     }
 
 

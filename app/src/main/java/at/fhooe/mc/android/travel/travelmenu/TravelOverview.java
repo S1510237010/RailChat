@@ -50,7 +50,8 @@ public class TravelOverview extends Fragment {
     public void onStart() {
         super.onStart();
 
-        fab.setImageResource(R.drawable.ic_pencil);
+        fab.setIcon(R.drawable.ic_pencil);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

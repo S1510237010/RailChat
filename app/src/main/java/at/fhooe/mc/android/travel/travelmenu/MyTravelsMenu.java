@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.firebase.database.DatabaseReference;
 import at.fhooe.mc.android.R;
+import at.fhooe.mc.android.database.GetStations;
 import at.fhooe.mc.android.database.GetUser;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
@@ -30,6 +31,7 @@ public class MyTravelsMenu extends AppCompatActivity {
     private static final String TAG = "Railchat:myTravels";
     public static DatabaseReference myRef, trainRef;
     public static String userID;
+    public static GetStations stations;
     public static FloatingActionsMenu fab_menu;
     public static FloatingActionButton fab_add, fab_delete;
     public static String fragment;
@@ -53,7 +55,7 @@ public class MyTravelsMenu extends AppCompatActivity {
         fragmentTransaction.add(R.id.myTravels_frameLayout, new MyTravelsMenuListFragment());
         fragmentTransaction.commit();
 
-
+        stations = new GetStations(this);
     }
 
     @Override
