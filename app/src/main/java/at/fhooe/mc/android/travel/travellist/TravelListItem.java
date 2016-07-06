@@ -2,6 +2,8 @@ package at.fhooe.mc.android.travel.travellist;
 
 import android.app.LauncherActivity;
 
+import java.util.Date;
+
 /**
  * This class is used for the TravelListAdapter.
  * In this class all important informations of a Travel:
