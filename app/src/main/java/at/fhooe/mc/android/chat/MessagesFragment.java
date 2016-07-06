@@ -135,8 +135,8 @@ public class MessagesFragment extends Fragment {
 
     /**
      * Adds new chats in database for both users
-     * @param uid
-     * @param name
+     * @param uid uid of the new chat partner
+     * @param name name of the new chat partner
      */
     private void addNewChat(String uid, String name){
         ChatItemModel chatItemModel = new ChatItemModel(name,"New Chat");
@@ -157,7 +157,7 @@ public class MessagesFragment extends Fragment {
 
     /**
      * Adds a new message to the database
-     * @param message
+     * @param message message which should be added to messages
      */
     private void addNewMessage(String message){
         MessageModel newMessage = new MessageModel();
@@ -170,7 +170,7 @@ public class MessagesFragment extends Fragment {
 
     /**
      * updates the chat database with the new lastMessage and a new timestamp
-     * @param message
+     * @param message message that should represent the last sent message in the chat
      */
     private void updateChat(String message){
         ArrayList <FriendItemModel> members = getMembers();
@@ -189,8 +189,7 @@ public class MessagesFragment extends Fragment {
     }
 
     /**
-     * returns all members of the current chat
-     * @return
+     * @return returns all members of the current chat
      */
     private ArrayList<FriendItemModel> getMembers(){
         ArrayList<FriendItemModel> members = new ArrayList<>();
@@ -199,26 +198,6 @@ public class MessagesFragment extends Fragment {
         }
         return members;
     }
-    private ArrayList<ChatItemModel> getChats(Query chatQuery){
-        FirebaseArray mFirebaseArray = new FirebaseArray(chatQuery);
-        ArrayList<ChatItemModel> chats = new ArrayList<>();
-        for(int i = 0; i < mFirebaseArray.getCount(); i++){
-            chats.add(mFirebaseArray.getItem(i).getValue(ChatItemModel.class));
-        }
-        return chats;
-    }
-    private boolean chatAlreadyExists(String uid){
-        Query chatQuery = mRef.child("Chats").child(myUser.getUid());
-        ArrayList<ChatItemModel> chats = getChats(chatQuery);
-        for(int i = 0; i<chats.size(); i++){
-            if(chats.get(i).getTitle().equals(uid)){
-                return true;
-            }
-        }
-        return false;
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

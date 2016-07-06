@@ -27,7 +27,7 @@ import at.fhooe.mc.android.models.FriendItemHolder;
 import at.fhooe.mc.android.models.FriendItemModel;
 
 /**
- * A simple {@link Fragment} subclass.
+ *Fragment for Representing all Friends in a RecyclerView
  */
 public class FriendsFragment extends Fragment {
     public final static String TAG = "FriendsFragment";

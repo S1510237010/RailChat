@@ -29,6 +29,7 @@ import at.fhooe.mc.android.models.FriendItemModel;
 
 /**
  * Created by Martin on 06.07.2016.
+ * Adapter for ListView to show all Users in Database
  */
 public class NewFriendsAdapter extends ArrayAdapter<FriendItemModel>{
     Context context;
@@ -66,6 +67,10 @@ public class NewFriendsAdapter extends ArrayAdapter<FriendItemModel>{
         return v;
     }
 
+    /**
+     * Adds User to Friendlist and vice versa
+     * @param friend Friend Object which should be added
+     */
     public void addUserToFriendsList(FriendItemModel friend){
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
         FirebaseUser myUser = FirebaseAuth.getInstance().getCurrentUser();

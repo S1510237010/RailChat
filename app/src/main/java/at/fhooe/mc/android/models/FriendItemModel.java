@@ -2,6 +2,7 @@ package at.fhooe.mc.android.models;
 
 /**
  * Created by Martin on 01.07.2016.
+ * Model for Friends
  */
 public class FriendItemModel {
     String name;

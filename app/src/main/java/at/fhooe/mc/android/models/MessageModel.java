@@ -2,6 +2,7 @@ package at.fhooe.mc.android.models;
 
 /**
  * Created by Martin on 24.06.2016.
+ * Model for Messages
  */
 public class MessageModel {
     String name;

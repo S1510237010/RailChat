@@ -10,6 +10,7 @@ import com.google.firebase.database.ServerValue;
 
 /**
  * Created by Martin on 24.06.2016.
+ * Model for representing the ChatItems in Database
  */
 public class ChatItemModel {
     private String title;

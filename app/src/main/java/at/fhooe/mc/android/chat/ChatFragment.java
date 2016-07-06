@@ -28,7 +28,7 @@ import at.fhooe.mc.android.models.ChatItemModel;
 import at.fhooe.mc.android.models.FirebaseArray;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment used to represent all Chats in a RecyclerView
  */
 public class ChatFragment extends Fragment {
     public static final String TAG = "ChatFragment";

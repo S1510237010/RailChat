@@ -12,6 +12,9 @@ import android.view.View;
 
 import at.fhooe.mc.android.R;
 
+/**
+ * Holder Acitivity for its Fragments
+ */
 public class ChatActivity extends AppCompatActivity {
     Context context;
 
