@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.adapter.FirebaseRecyclerAdapter;
 import at.fhooe.mc.android.models.ChatItemHolder;
 import at.fhooe.mc.android.models.ChatItemModel;
+import at.fhooe.mc.android.models.FirebaseArray;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,12 +75,14 @@ public class ChatFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new FriendsFragment();
+                ft.addToBackStack(TAG);
                 ft.replace(R.id.chat_container,fragment);
                 ft.commit();
             }
         });
 
         mChats = (RecyclerView) getView().findViewById(R.id.chatsRecyclerView);
+
 
 
 

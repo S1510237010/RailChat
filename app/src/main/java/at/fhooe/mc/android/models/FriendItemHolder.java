@@ -5,8 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.chat.ChatActivity;
@@ -53,4 +59,5 @@ public class FriendItemHolder extends RecyclerView.ViewHolder implements View.On
         ft.commit();
 
     }
+
 }

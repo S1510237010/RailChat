@@ -22,9 +22,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,11 +44,13 @@ import at.fhooe.mc.android.models.MessageModel;
 public class MessagesFragment extends Fragment {
     public static final String TAG = "MessageFragment";
     private FirebaseAuth mAuth;
+    private String name;
     private Button mSendButton;
     private EditText mEditText;
     private DatabaseReference mRef;
     private FirebaseUser myUser;
     private DatabaseReference mMessageRef;
+    private Query mUserQuery;
     private Query mMembersQuery;
     private Query mMessageQuery;
     private RecyclerView mMessages;
@@ -90,14 +95,11 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(mEditText.getText().length()>0){
-                    addNewMessage(mEditText.getText().toString(),myUser.getUid());
+                    addNewMessage(mEditText.getText().toString());
                     mEditText.setText("");
                     mEditText.clearAnimation();
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(myLayout.getWindowToken(), 0);
-                    notifyMembers();
-
-
                 }
 
             }
@@ -109,8 +111,10 @@ public class MessagesFragment extends Fragment {
         myUser = mAuth.getCurrentUser();
         Bundle args = getArguments();
         if(args.getBoolean("newChat")){
-            addNewChat(args.getString("uid"),args.getString("title"));
-
+            //if(!chatAlreadyExists(args.getString("uid"))){
+                addNewChat(args.getString("uid"),args.getString("title"));
+            title = args.getString("title");
+            //}
         }else {
             chatId = args.getString("chatId");
             title = args.getString("title");
@@ -128,17 +132,18 @@ public class MessagesFragment extends Fragment {
         mEditText = (EditText) view.findViewById(R.id.messageEdit);
         mSendButton = (Button) view.findViewById(R.id.sendButton);
     }
-    public void notifyMembers(){
-        //mMembersArray = new FirebaseArray(mMembersQuery);
 
-    }
-
+    /**
+     * Adds new chats in database for both users
+     * @param uid
+     * @param name
+     */
     private void addNewChat(String uid, String name){
         ChatItemModel chatItemModel = new ChatItemModel(name,"New Chat");
         chatId = mRef.child("Chats").child(myUser.getUid()).push().getKey();
         chatItemModel.setTimestamp();
         mRef.child("Chats").child(myUser.getUid()).child(chatId).setValue(chatItemModel);
-        chatItemModel.setTitle(myUser.getUid());
+        chatItemModel.setTitle(myUser.getDisplayName());
         chatItemModel.setTimestamp();
         Log.d(TAG,"MyUserUid: "+ myUser.getUid());
         Log.d(TAG,"Other User Uid: "+uid);
@@ -149,27 +154,44 @@ public class MessagesFragment extends Fragment {
         friendItemModel.setUid(myUser.getUid());
         mRef.child("Members").child(chatId).push().setValue(friendItemModel);
     }
-    private void addNewMessage(String message, String uid){
+
+    /**
+     * Adds a new message to the database
+     * @param message
+     */
+    private void addNewMessage(String message){
         MessageModel newMessage = new MessageModel();
         newMessage.setMessage(message);
-        newMessage.setName(uid);
+        newMessage.setName(myUser.getDisplayName());
         mMessageRef.child(chatId).push().setValue(newMessage);
-        updateChat(message, uid);
+        updateChat(message);
 
     }
-    private void updateChat(String message, String uid){
+
+    /**
+     * updates the chat database with the new lastMessage and a new timestamp
+     * @param message
+     */
+    private void updateChat(String message){
         ArrayList <FriendItemModel> members = getMembers();
         ChatItemModel myChatItem = new ChatItemModel();
         myChatItem.setLastMessage(message);
-        myChatItem.setTitle(uid);
         myChatItem.setTimestamp();
-        for(int i = 0; i < members.size(); i++){
-            mRef.child("Chats").child(members.get(i).getUid()).child(chatId).setValue(myChatItem);
+        for(int i = 0; i< members.size(); i++){
+            if(members.get(i).getUid().equals(myUser.getUid())){
+                myChatItem.setTitle(title);
+                mRef.child("Chats").child(members.get(i).getUid()).child(chatId).setValue(myChatItem);
+            }else{
+                myChatItem.setTitle(myUser.getDisplayName());
+                mRef.child("Chats").child(members.get(i).getUid()).child(chatId).setValue(myChatItem);
+            }
         }
-
-
     }
 
+    /**
+     * returns all members of the current chat
+     * @return
+     */
     private ArrayList<FriendItemModel> getMembers(){
         ArrayList<FriendItemModel> members = new ArrayList<>();
         for(int i = 0; i < mMembersArray.getCount(); i++){
@@ -177,9 +199,25 @@ public class MessagesFragment extends Fragment {
         }
         return members;
     }
+    private ArrayList<ChatItemModel> getChats(Query chatQuery){
+        FirebaseArray mFirebaseArray = new FirebaseArray(chatQuery);
+        ArrayList<ChatItemModel> chats = new ArrayList<>();
+        for(int i = 0; i < mFirebaseArray.getCount(); i++){
+            chats.add(mFirebaseArray.getItem(i).getValue(ChatItemModel.class));
+        }
+        return chats;
+    }
+    private boolean chatAlreadyExists(String uid){
+        Query chatQuery = mRef.child("Chats").child(myUser.getUid());
+        ArrayList<ChatItemModel> chats = getChats(chatQuery);
+        for(int i = 0; i<chats.size(); i++){
+            if(chats.get(i).getTitle().equals(uid)){
+                return true;
+            }
+        }
+        return false;
 
-
-
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -189,12 +227,15 @@ public class MessagesFragment extends Fragment {
     }
 
 
+    /**
+     * Attaches the RecyclerViewAdapter to display the messages
+     */
     private void attachRecyclerViewAdapter(){
         mRecyclerViewAdapter = new FirebaseRecyclerAdapter<MessageModel, MessageHolder>(
                 MessageModel.class, R.layout.message_item, MessageHolder.class, mMessageQuery) {
             @Override
             protected void populateViewHolder(MessageHolder viewHolder, MessageModel model, int position) {
-                if(myUser.getUid().equals(model.getName())){
+                if(myUser.getDisplayName().equals(model.getName())){
                     viewHolder.setIsSender(true);
                 }
                 else{

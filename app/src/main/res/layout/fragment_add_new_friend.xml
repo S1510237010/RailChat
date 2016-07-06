@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".chat.AddNewFriendFragment">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/new_Friends"
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footerNF"
-        android:clipToPadding="false"
-        android:padding="16dp"
-        tools:listitem="@layout/friend_item" />
+        android:id="@+id/new_friends_list"
+        android:layout_gravity="center_horizontal" />
+
 
     <LinearLayout
         android:id="@+id/footerNF"
