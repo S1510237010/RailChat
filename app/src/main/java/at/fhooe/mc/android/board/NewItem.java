@@ -13,7 +13,10 @@ import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
 /**
- * Created by Bastian on 05.07.2016.
+ * NewItem gets called when the user presses the button in the Board Class to create a new post.
+ * The user can enter a title and maybe a link. When he presses the Add Button, the post will be
+ * created and will be uploaded to the Database. This will also trigger the onDataChange() method
+ * in the Board class.
  */
 public class NewItem extends AppCompatActivity implements View.OnClickListener {
     @Override
@@ -35,8 +38,6 @@ public class NewItem extends AppCompatActivity implements View.OnClickListener {
             case R.id.board_new_button_add : {
                 EditText title = (EditText)findViewById(R.id.board_new_user_title);
                 String s = title.getText().toString();
-//                FirebaseAuth auth = FirebaseAuth.getInstance();
-//                String user = auth.getCurrentUser().getDisplayName();
                 BoardData data = new BoardData(s, com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser());
 
 

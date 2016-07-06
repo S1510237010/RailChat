@@ -9,22 +9,43 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top">
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/board_list_title" />
+            android:background="@color/ColorPrimary">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Item"
-            android:id="@+id/board_button_add" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/board_list_title" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Item"
+                android:visibility="gone"
+                android:id="@+id/board_button_add" />
+        </LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/board_list"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/board_button_new"
+        android:background="@drawable/button_round"
+        android:layout_gravity="bottom|right"
+        android:text="+"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"/>
 </FrameLayout>

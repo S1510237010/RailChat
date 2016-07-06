@@ -7,7 +7,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Calendar;
 
 /**
- * Created by Bastian on 07.06.2016.
+ * BoardData is the container for the post-Items. It also got Getter- and Setter-Methods
+ * The empty constructor is used from Firebase, else it cant get the items from the Database.
  */
 class BoardData {
     protected String title, link;
@@ -54,15 +55,4 @@ class BoardData {
     public void setID(String _s) {id = _s;}
     public String getID() {return id;}
 
-
-//    public Map<String,Object> toMap() {
-//
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("Title: ", getTitle());
-//        result.put("Link: ", getLink());
-//        result.put("User", getUserName());
-//        result.put("Date", date);
-//
-//        return result;
-//    }
 }

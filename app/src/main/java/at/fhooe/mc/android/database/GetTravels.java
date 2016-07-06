@@ -51,10 +51,10 @@ public class GetTravels {
         date.append((calendar.get(Calendar.MONTH) + 1));
         date.append("-");
         date.append(calendar.get(Calendar.YEAR));
-        Log.e("Dating Dates", date.toString() + " ListAdapterCount: " + listAdapter.getCount());
+//        Log.e("Dating Dates", date.toString() + " ListAdapterCount: " + listAdapter.getCount());
 
         for (int i = 0; i < listAdapter.getCount(); i++){
-            Log.e("Dating Dates", listAdapter.getItem(i).getDate());
+//            Log.e("Dating Dates", listAdapter.getItem(i).getDate());
             if (listAdapter.getItem(i).getDate().equals(date.toString())){
                 return listAdapter.getItem(i).getTrainNumber();
             }

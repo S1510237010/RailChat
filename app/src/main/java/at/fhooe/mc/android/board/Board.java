@@ -3,6 +3,7 @@ package at.fhooe.mc.android.board;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,24 +22,26 @@ import at.fhooe.mc.android.R;
 import at.fhooe.mc.android.database.GetTravels;
 import at.fhooe.mc.android.main_menu.MainMenu;
 
+/**
+ * This class is the MainClass for the Board, which is called, when the option
+ * "Timeline" is clicked in the NavigationDrawer of the MainMenu.
+ * It creates the board for the train that the user has selected in his travel.
+ * If there is no travel on that date for that user, there will not be a board.
+ * If there are no posts on the board, the user will be told that.
+ *
+ * The items will be created in a listView with an Adapter.
+ */
 public class Board extends AppCompatActivity implements View.OnClickListener {
 
     protected DatabaseReference myRef_Board;
     protected BoardAdapter adapter;
     protected ListView listView;
     protected static int rjID;
-    //protected GetTravels travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-
-//        BoardAdapter adapter = new BoardAdapter(this);
-//        adapter.add(new BoardData("ÖBB is voll super",null,"Basti"));
-//        setListAdapter(adapter);
-
-        //travel = new GetTravels(this);
 
         adapter = new BoardAdapter(this);
         myRef_Board = MainMenu.database.getDatabase().getReference();
@@ -49,18 +52,27 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
         else Toast.makeText(this,"Adapter ist null",Toast.LENGTH_SHORT).show();
 
         TextView view = (TextView)findViewById(R.id.board_list_title);
-        if (rjID != 0) view.setText("Welcome to the board of RJ " + rjID);
+        if (rjID != 0) {
+            setTitle("Board - Railjet " + rjID);
+            view.setText("Welcome to the board of RJ " + rjID + "!");
+        }
         else {
             view.setText("Log in to a RJ now!");
         }
 
         Button b;
-        b = (Button)findViewById(R.id.board_button_add);
+        b = (Button)findViewById(R.id.board_button_new);
         if (rjID != 0) b.setOnClickListener(this);
         else b.setVisibility(View.INVISIBLE);
 
     }
 
+    /**
+     * buildBoard will get the items from the Database.
+     * It also checks first, if the user has a travel on that day before.
+     * If he has, it will call the database and put the items in the adpater, where they will be built.
+     * If there are no posts on the board, it will tell that the user.
+     */
     private void buildBoard() {
 
         final Calendar[] date = {Calendar.getInstance()};
@@ -78,10 +90,9 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     //Gets called at beginning and at a change
-                    //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
-
+                    //System.out.println("There are " + snapshot.getChildrenCount() + "  posts");
                     if (snapshot.getChildrenCount() > 0) {
-                        //Clear the view
+                        //Clear the view first, so items wont be on twice
                         adapter.clear();
                         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                             BoardData data = postSnapshot.getValue(BoardData.class);
@@ -94,90 +105,16 @@ public class Board extends AppCompatActivity implements View.OnClickListener {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    System.out.println(databaseError.getMessage());
                 }
             });
         }
-
-
-//        final DatabaseReference ref_RJ = myRef_Board.child("RailjetTraveler").child(s);
-//        ref_RJ.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (!dataSnapshot.exists()) Toast.makeText(Board.this,"You are not logged in to a travel so far! Please log in to a Railjet!",Toast.LENGTH_SHORT).show();
-//                else {
-//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-////                        BoardData data = postSnapshot.getValue(BoardData.class);
-////                        adapter.add(data);
-//                        String train = postSnapshot.getKey();
-//                        DatabaseReference ref_Users = ref_RJ.child(train);
-//                        ref_Users.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                if (!dataSnapshot.exists())
-//                                    Toast.makeText(Board.this, "No users in Railchat found!", Toast.LENGTH_SHORT).show();
-//                                else {
-//                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                                        if (userID.equals(postSnapshot.getValue())) {
-//                                            inTrain[0] = true;
-//                                            break;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//                                System.out.println(databaseError.getMessage());
-//                            }
-//                        });
-//                        if (inTrain[0]) {
-//                            rjID[0] = train;
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println(databaseError.getMessage());
-//            }
-//        });
-//
-//        if (inTrain[0]) {
-//            myRef_Board.child("Boards").child(rjID[0]).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot snapshot) {
-//
-//                    //Gets called at beginning and at a change
-//                    //System.out.println("There are " + snapshot.getChildrenCount() + " blog posts");
-//
-//                    if (snapshot.getChildrenCount() > 0) {
-//                        //Clear the view
-//                        adapter.clear();
-//                        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                            BoardData data = postSnapshot.getValue(BoardData.class);
-//                            adapter.add(data);
-//                        }
-//                    }else {
-//                        Toast.makeText(Board.this,"No posts on board! Post something yourself!",Toast.LENGTH_SHORT).show();
-//                    }
-//
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//                    System.out.println("The read failed: " + databaseError.getMessage());
-//                }
-//            });
-//        }
-
     }
 
     @Override
     public void onClick(View _v) {
         switch (_v.getId()){
-            case R.id.board_button_add : {
+            case R.id.board_button_new : {
                 Intent i = new Intent(this,NewItem.class);
                 startActivity(i);
             }break;
