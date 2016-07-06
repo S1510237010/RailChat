@@ -51,6 +51,7 @@ public class ChatItemHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void onClick(View v) {
         FragmentTransaction ft = myActivity.getSupportFragmentManager().beginTransaction();
         Fragment fragment = new MessagesFragment();
+        ft.addToBackStack(ChatFragment.TAG);
         Bundle args = new Bundle();
         args.putBoolean("newChat",false);
         args.putString("chatId",chatId);

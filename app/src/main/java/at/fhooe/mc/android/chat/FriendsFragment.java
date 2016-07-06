@@ -4,8 +4,11 @@ package at.fhooe.mc.android.chat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +33,6 @@ public class FriendsFragment extends Fragment {
     public final static String TAG = "FriendsFragment";
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
-    private DatabaseReference mFriendsRef;
     private Query mFriendsQuery;
     private FirebaseUser mUser;
     private RecyclerView mFriends;
@@ -58,21 +60,15 @@ public class FriendsFragment extends Fragment {
         //mFriendsRef = mRef.child("Users");
         //mFriendsQuery = mRef.child("Users");
         mFriendsQuery = mRef.child("Friends").child(mUser.getUid());
-        mFriendsRef = mRef.child("Friends");
         mFriends = (RecyclerView) view.findViewById(R.id.friends_list);
         FloatingActionButton newFriend = (FloatingActionButton) view.findViewById(R.id.new_friend);
         newFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendItemModel nFriend = new FriendItemModel();
-                nFriend.setName("Martin S.");
-                nFriend.setUid("745R6u7FcpNHHpSKKXQVVa7UTqJ2");
-                mFriendsRef.child(mUser.getUid()).push().setValue(nFriend);
-                Log.d(TAG,mUser.getDisplayName());
-                Log.d(TAG,"asfasfasfas");
-                nFriend.setName(mUser.getDisplayName());
-                nFriend.setUid(mUser.getUid());
-                mFriendsRef.child("745R6u7FcpNHHpSKKXQVVa7UTqJ2").push().setValue(nFriend);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new AddNewFriendFragment();
+                ft.replace(R.id.chat_container,fragment);
+                ft.commit();
             }
         });
 
@@ -92,7 +88,6 @@ public class FriendsFragment extends Fragment {
                 FriendItemModel.class, R.layout.friend_item, FriendItemHolder.class, mFriendsQuery) {
             @Override
             protected void populateViewHolder(FriendItemHolder viewHolder, FriendItemModel model, int position) {
-                Toast.makeText(getContext(),model.getName(),Toast.LENGTH_LONG).show();
                 viewHolder.setMyActivity(getActivity());
                 viewHolder.setFriendName(model.getName());
                 viewHolder.setUid(model.getUid());
@@ -112,7 +107,7 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Friends");
         if(!isSignedIn()){
             //TODO: Return to Login
         }else{
